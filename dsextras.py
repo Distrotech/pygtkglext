@@ -102,10 +102,6 @@ class InstallLib(install_lib):
         self.includedir = os.path.join(self.prefix, 'include')
         self.libdir = os.path.join(self.prefix, 'lib')
         self.datadir = os.path.join(self.prefix, 'share')
-        if os.name == "nt":
-            self.pkgconfigdir = os.path.join(self.prefix, 'pkgconfig')
-        else:
-            self.pkgconfigdir = os.path.join(self.libdir, 'pkgconfig')
         
         self.add_template_option('prefix', self.prefix)        
         self.add_template_option('exec_prefix', self.exec_prefix)        
