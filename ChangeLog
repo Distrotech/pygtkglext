@@ -1,6 +1,10 @@
-2003-04-13 Alif Wahid	<awah005@users.sourceforge.net>
+2003-04-13  Alif Wahid	<awah005@users.sourceforge.net>
 
-	* setup.py.in: Win32 build fix to take account of GCC version
+	Win32 build fix to take account of GCC version to
+	provide proper MSVC compatible struct packing.
+
+	* setup.py.in
+	* setup.py
 
 2003-04-12  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
