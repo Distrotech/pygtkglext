@@ -48,183 +48,183 @@ was using editors that were not sensitive to Python.
 # Implement the GLScene interface
 # to have the NeHe6Multi scene rendered.
 
-class NeHe6Multi (GLScene):
-	def __init__ (self, width=300, height=300):
-		self.rot = 0.0
-		self.deg_rad = pi/180.0
-		self.width = width
-		self.height = height
-		self.has_printed_note = gtk.FALSE
+class NeHe6Multi(GLScene):
+    def __init__(self, width=300, height=300):
+        self.rot = 0.0
+        self.deg_rad = pi/180.0
+        self.width = width
+        self.height = height
+        self.has_printed_note = gtk.FALSE
 
-	def __loadTexture (self, fileName):
-		# We use gtk.gdk.Pixbuf instead of
-		# the Python Imaging Library (PIL)
-		# to load up the image required
-		# for the texturemaps.
-		image = gtk.gdk.pixbuf_new_from_file(fileName)
-		pixels = image.get_pixels()
-		ix = image.get_width()
-		iy = image.get_height()
+    def __loadTexture(self, fileName):
+        # We use gtk.gdk.Pixbuf instead of
+        # the Python Imaging Library (PIL)
+        # to load up the image required
+        # for the texturemaps.
+        image = gtk.gdk.pixbuf_new_from_file(fileName)
+        pixels = image.get_pixels()
+        ix = image.get_width()
+        iy = image.get_height()
 
-		if not self.has_printed_note:
-			self.has_printed_note = ~self.has_printed_note
-			print '''
-			Line 72
+        if not self.has_printed_note:
+            self.has_printed_note = ~self.has_printed_note
+            print '''
+            Line 72
 
-			*** FIXME NOTE ***
-			*
-			* The image loaded with gdk.Pixbuf
-			* seems to produce a texturemap
-			* that's inverted. I don't think
-			* the internal structure of gdk.Pixbuf
-			* is quite what OpenGL expected when
-			* we got hold of the image data in
-			* memory as a string through the
-			* method get_pixels() of a gdk.Pixbuf.
-			*
-			*** FIXME NOTE ***
-			'''
-		id = glGenTextures(1)
-		glBindTexture(GL_TEXTURE_2D, id)   # 2d texture (x and y size)
+            *** FIXME NOTE ***
+            *
+            * The image loaded with gdk.Pixbuf
+            * seems to produce a texturemap
+            * that's inverted. I don't think
+            * the internal structure of gdk.Pixbuf
+            * is quite what OpenGL expected when
+            * we got hold of the image data in
+            * memory as a string through the
+            * method get_pixels() of a gdk.Pixbuf.
+            *
+            *** FIXME NOTE ***
+            '''
+        id = glGenTextures(1)
+        glBindTexture(GL_TEXTURE_2D, id)   # 2d texture (x and y size)
 
-		glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, ix, iy, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels)
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+        glPixelStorei(GL_UNPACK_ALIGNMENT,1)
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, ix, iy, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
-	def init (self):
-		# Check the extension availability.
-		if not glInitMultitextureARB():
-			print "Help!  No GL_ARB_multitexture"
-			sys.exit(1)
+    def init(self):
+        # Check the extension availability.
+        if not glInitMultitextureARB():
+            print "Help!  No GL_ARB_multitexture"
+            sys.exit(1)
 
-		glActiveTextureARB(GL_TEXTURE0_ARB)
-		self.__loadTexture('Wall.png')
-		glEnable(GL_TEXTURE_2D)
+        glActiveTextureARB(GL_TEXTURE0_ARB)
+        self.__loadTexture('Wall.png')
+        glEnable(GL_TEXTURE_2D)
 
-		glActiveTextureARB(GL_TEXTURE1_ARB)
-		self.__loadTexture('NeHe.png')
-		glEnable(GL_TEXTURE_2D)
+        glActiveTextureARB(GL_TEXTURE1_ARB)
+        self.__loadTexture('NeHe.png')
+        glEnable(GL_TEXTURE_2D)
 
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND)
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND)
 
-		glClearColor(0.0, 0.0, 0.0, 0.0)
-		glClearDepth(1.0)
-		glDepthFunc(GL_LESS)
-		glEnable(GL_DEPTH_TEST)
-		glShadeModel(GL_SMOOTH)
+        glClearColor(0.0, 0.0, 0.0, 0.0)
+        glClearDepth(1.0)
+        glDepthFunc(GL_LESS)
+        glEnable(GL_DEPTH_TEST)
+        glShadeModel(GL_SMOOTH)
 
-		glMatrixMode(GL_PROJECTION)
-		glLoadIdentity()
-		gluPerspective(45.0, float(self.width)/float(self.height), 0.1, 100.0)
-		glMatrixMode(GL_MODELVIEW)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        gluPerspective(45.0, float(self.width)/float(self.height), 0.1, 100.0)
+        glMatrixMode(GL_MODELVIEW)
 
-	def display (self, width, height):
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-		glLoadIdentity()
-		glTranslatef(0.0,0.0,-5.0)
+    def display(self, width, height):
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glLoadIdentity()
+        glTranslatef(0.0,0.0,-5.0)
 
-		glRotatef(self.rot,1.0,0.0,0.0)
-		glRotatef(self.rot,0.0,1.0,0.0)
-		glRotatef(self.rot,0.0,0.0,1.0)
+        glRotatef(self.rot,1.0,0.0,0.0)
+        glRotatef(self.rot,0.0,1.0,0.0)
+        glRotatef(self.rot,0.0,0.0,1.0)
 
-		# Note there does not seem to be support for this call.
-		# glBindTexture(GL_TEXTURE_2D,texture)	# Rotate The Pyramid On It's Y Axis
+        # Note there does not seem to be support for this call.
+        # glBindTexture(GL_TEXTURE_2D,texture)    # Rotate The Pyramid On It's Y Axis
 
-		p = cos(self.rot*self.deg_rad)**2
-		glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, (p, p, p, 1))
+        p = cos(self.rot*self.deg_rad)**2
+        glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, (p, p, p, 1))
 
-		glBegin(GL_QUADS)
+        glBegin(GL_QUADS)
 
-		# Front Face (note that the texture's corners have to match the quad's corners)
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)	# Bottom Left Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)	# Bottom Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0,  1.0)	# Top Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0,  1.0)	# Top Left Of The Texture and Quad
+        # Front Face (note that the texture's corners have to match the quad's corners)
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0,  1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0,  1.0)    # Top Left Of The Texture and Quad
 
-		# Back Face
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0, -1.0)	# Bottom Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)	# Top Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)	# Top Left Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0, -1.0)	# Bottom Left Of The Texture and Quad
+        # Back Face
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0, -1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0, -1.0)    # Bottom Left Of The Texture and Quad
 
-		# Top Face
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)	# Top Left Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0,  1.0,  1.0)	# Bottom Left Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0,  1.0,  1.0)	# Bottom Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)	# Top Right Of The Texture and Quad
+        # Top Face
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0,  1.0,  1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0,  1.0,  1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
 
-		# Bottom Face
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0, -1.0, -1.0)	# Top Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0, -1.0, -1.0)	# Top Left Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)	# Bottom Left Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)	# Bottom Right Of The Texture and Quad
+        # Bottom Face
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0, -1.0, -1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0, -1.0, -1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
 
-		# Right face
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0, -1.0, -1.0)	# Bottom Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)	# Top Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0,  1.0,  1.0)	# Top Left Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)	# Bottom Left Of The Texture and Quad
+        # Right face
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0, -1.0, -1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0,  1.0,  1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
 
-		# Left Face
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0, -1.0, -1.0)	# Bottom Left Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)	# Bottom Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0,  1.0,  1.0)	# Top Right Of The Texture and Quad
-		glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)	# Top Left Of The Texture and Quad
+        # Left Face
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0, -1.0, -1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0,  1.0,  1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
 
-		glEnd();
+        glEnd();
 
-	def reshape (self, width, height):
-		self.width = width
-		self.height = height
+    def reshape(self, width, height):
+        self.width = width
+        self.height = height
 
-		glViewport(0, 0, width, height)
-		glMatrixMode(GL_PROJECTION)
-		glLoadIdentity()
-		gluPerspective(45.0, float(width)/float(height), 0.1, 100.0)
-		glMatrixMode(GL_MODELVIEW)
+        glViewport(0, 0, width, height)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        gluPerspective(45.0, float(width)/float(height), 0.1, 100.0)
+        glMatrixMode(GL_MODELVIEW)
 
-	def key_press (self, width, height, event):
-		if event.keyval == gtk.keysyms.i:
-			self.toggle_idle()
-		elif event.keyval == gtk.keysyms.Escape:
-			gtk.main_quit()
+    def key_press(self, width, height, event):
+        if event.keyval == gtk.keysyms.i:
+            self.toggle_idle()
+        elif event.keyval == gtk.keysyms.Escape:
+            gtk.main_quit()
 
-	def key_release (self, width, height, event):
-		pass
-		
-	def button_press (self, width, height, event):
-		pass
+    def key_release(self, width, height, event):
+        pass
+        
+    def button_press(self, width, height, event):
+        pass
 
-	def button_release (self, width, height, event):
-		pass
+    def button_release(self, width, height, event):
+        pass
 
-	def motion (self, width, height, event):
-		pass
+    def motion(self, width, height, event):
+        pass
 
-	def idle (self, width, height):
-		self.rot = (self.rot + 0.2) % 360
-		self.queue_draw()
+    def idle(self, width, height):
+        self.rot = (self.rot + 0.2) % 360
+        self.queue_draw()
 
 
 if __name__ == '__main__':
-	# add MODE_DEPTH to the default display mode
-	GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
+    # add MODE_DEPTH to the default display mode
+    GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
     
-	glscene = NeHe6Multi()
+    glscene = NeHe6Multi()
 
-	glapp = GLApplication(glscene)
-	glapp.set_title('NeHe6Multi')
+    glapp = GLApplication(glscene)
+    glapp.set_title('NeHe6Multi')
 
-	glapp.enable_key_events()
-	#glapp.enable_button_events()
-	#glapp.enable_button_motion_events()
-	#glapp.enable_pointer_motion_events()
-	glapp.enable_idle()
+    glapp.enable_key_events()
+    #glapp.enable_button_events()
+    #glapp.enable_button_motion_events()
+    #glapp.enable_pointer_motion_events()
+    glapp.enable_idle()
 
-	glapp.run()
+    glapp.run()

@@ -65,85 +65,85 @@ from gtk.gtkgl.apputils import *
 # Implement the GLScene interface
 # to have the MoveLight scene rendered.
 
-class MoveLight (GLScene):
-	def __init__ (self):
-		GLScene.__init__(self)
-		self.spin = 0
-
-	def init (self):
-		glClearColor (0.0, 0.0, 0.0, 0.0)
-		glClearDepth(1.0)
-		glShadeModel (GL_SMOOTH)
-		glEnable(GL_LIGHTING)
-		glEnable(GL_LIGHT0)
-		glEnable(GL_DEPTH_TEST)
-
-	def display (self, width, height):
-		position =  [0.0, 0.0, 1.5, 1.0]
-
-		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-		glPushMatrix ()
-		gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-
-		glPushMatrix ()
-		glRotated (self.spin, 1.0, 0.0, 0.0)
-		glLightfv (GL_LIGHT0, GL_POSITION, position)
-
-		glTranslated (0.0, 0.0, 1.5)
-		glDisable (GL_LIGHTING)
-		glColor3f (0.0, 1.0, 1.0)
-		gtk.gdkgl.draw_cube (gtk.FALSE, 0.1)
-		glEnable (GL_LIGHTING)
-		glPopMatrix ()
-
-		gtk.gdkgl.draw_torus (gtk.TRUE, 0.275, 0.85, 8, 15)
-		glPopMatrix ()
-
-	def reshape (self, width, height):
-		glViewport (0, 0, width, height)
-		glMatrixMode (GL_PROJECTION)
-		glLoadIdentity()
-		gluPerspective(40.0, width/height, 1.0, 20.0)
-		glMatrixMode(GL_MODELVIEW)
-		glLoadIdentity()
-
-	def key_press (self, width, height, event):
-		pass
-
-	def key_release (self, width, height, event):
-		pass
-
-	def button_press (self, width, height, event):
-		if event.button == 1:
-			self.spin = (self.spin + 30) % 360
-		elif event.button == 3:
-			self.spin = (self.spin - 30) % 360
-		
-		self.queue_draw()
-
-	def button_release (self, width, height, event):
-		pass
-
-	def motion (self, width, height, event):
-		pass
-
-	def idle (self, width, height):
-		pass
+class MoveLight(GLScene):
+    def __init__(self):
+        GLScene.__init__(self)
+        self.spin = 0
+    
+    def init(self):
+        glClearColor(0.0, 0.0, 0.0, 0.0)
+        glClearDepth(1.0)
+        glShadeModel(GL_SMOOTH)
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_DEPTH_TEST)
+    
+    def display(self, width, height):
+        position =  [0.0, 0.0, 1.5, 1.0]
+        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glPushMatrix()
+        gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        
+        glPushMatrix()
+        glRotated(self.spin, 1.0, 0.0, 0.0)
+        glLightfv(GL_LIGHT0, GL_POSITION, position)
+        
+        glTranslated(0.0, 0.0, 1.5)
+        glDisable(GL_LIGHTING)
+        glColor3f(0.0, 1.0, 1.0)
+        gtk.gdkgl.draw_cube(gtk.FALSE, 0.1)
+        glEnable(GL_LIGHTING)
+        glPopMatrix()
+        
+        gtk.gdkgl.draw_torus(gtk.TRUE, 0.275, 0.85, 8, 15)
+        glPopMatrix()
+    
+    def reshape(self, width, height):
+        glViewport(0, 0, width, height)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        gluPerspective(40.0, width/height, 1.0, 20.0)
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+    
+    def key_press(self, width, height, event):
+        pass
+    
+    def key_release(self, width, height, event):
+        pass
+    
+    def button_press(self, width, height, event):
+        if event.button == 1:
+            self.spin = (self.spin + 30) % 360
+        elif event.button == 3:
+            self.spin = (self.spin - 30) % 360
+        
+        self.queue_draw()
+    
+    def button_release(self, width, height, event):
+        pass
+    
+    def motion(self, width, height, event):
+        pass
+    
+    def idle(self, width, height):
+        pass
 
 
 if __name__ == '__main__':
-	# add MODE_DEPTH to the default display mode
-	GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
+    # add MODE_DEPTH to the default display mode
+    GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
     
-	glscene = MoveLight()
-
-	glapp = GLApplication(glscene)
-	glapp.set_title('MoveLight')
-
-	#glapp.enable_key_events()
-	glapp.enable_button_events()
-	#glapp.enable_button_motion_events()
-	#glapp.enable_pointer_motion_events()
-	#glapp.enable_idle()
-
-	glapp.run()
+    glscene = MoveLight()
+    
+    glapp = GLApplication(glscene)
+    glapp.set_title('MoveLight')
+    
+    #glapp.enable_key_events()
+    glapp.enable_button_events()
+    #glapp.enable_button_motion_events()
+    #glapp.enable_pointer_motion_events()
+    #glapp.enable_idle()
+    
+    glapp.run()

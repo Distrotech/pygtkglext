@@ -58,95 +58,95 @@ from gtk.gtkgl.apputils import *
 # Implement the GLScene interface
 # to have the Simple scene rendered.
 
-class Simple (GLScene):
-	def __init__ (self):
-		self.light_ambient =  [0.0, 0.0, 0.0, 1.0]
-		self.light_diffuse =  [1.0, 1.0, 1.0, 1.0]
-		self.light_specular =  [1.0, 1.0, 1.0, 1.0]
-		# light_position is NOT default value
-		self.light_position =  [1.0, 1.0, 1.0, 0.0]
-
-	#  Initialize material property, light source,
-	# lighting model, and depth buffer.
-	def init (self):
-		glLightfv(GL_LIGHT0, GL_AMBIENT, self.light_ambient)
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, self.light_diffuse)
-		glLightfv(GL_LIGHT0, GL_SPECULAR, self.light_specular)
-		glLightfv(GL_LIGHT0, GL_POSITION, self.light_position)
-
-		glEnable(GL_LIGHTING)
-		glEnable(GL_LIGHT0)
-		glEnable(GL_DEPTH_TEST)
-
-	#  Here is where the light position is reset after the modeling
-	#  transformation (glRotated) is called.  This places the
-	#  light at a new position in world coordinates.  The cube
-	#  represents the position of the light.
-	def display (self, width, height):
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-		glPushMatrix()
-		glRotatef(20.0, 1.0, 0.0, 0.0)
-		glPushMatrix()
-		glTranslatef(-0.75, 0.5, 0.0);
-		glRotatef(90.0, 1.0, 0.0, 0.0)
-		gtk.gdkgl.draw_torus(gtk.TRUE, 0.275, 0.85, 15, 15)
-		glPopMatrix()
-
-		glPushMatrix()
-		glTranslatef(-0.75, -0.5, 0.0);
-		glRotatef (270.0, 1.0, 0.0, 0.0)
-		gtk.gdkgl.draw_cone(gtk.TRUE, 1.0, 2.0, 15, 15)
-		glPopMatrix()
-
-		glPushMatrix()
-		glTranslatef(0.75, 0.0, -1.0)
-		gtk.gdkgl.draw_sphere(gtk.TRUE, 1.0, 15, 15)
-		glPopMatrix()
-		glPopMatrix()
-
-	def reshape (self, width, height):
-		glViewport(0, 0, width, height)
-		glMatrixMode (GL_PROJECTION)
-		glLoadIdentity()
-		if width <= height:
-			glOrtho(-2.5, 2.5, -2.5*height/width,2.5*height/width, -10.0, 10.0)
-		else:
-			glOrtho(-2.5*width/height,2.5*width/height, -2.5, 2.5, -10.0, 10.0)
-		glMatrixMode(GL_MODELVIEW)
-		glLoadIdentity()
-
-	def key_press (self, width, height, event):
-		pass
-
-	def key_release (self, width, height, event):
-		pass
-
-	def button_press (self, width, height, event):
-		pass
-
-	def button_release (self, width, height, event):
-		pass
-
-	def motion (self, width, height, event):
-		pass
-
-	def idle (self, width, height):
-		pass
+class Simple(GLScene):
+    def __init__(self):
+        self.light_ambient =  [0.0, 0.0, 0.0, 1.0]
+        self.light_diffuse =  [1.0, 1.0, 1.0, 1.0]
+        self.light_specular =  [1.0, 1.0, 1.0, 1.0]
+        # light_position is NOT default value
+        self.light_position =  [1.0, 1.0, 1.0, 0.0]
+    
+    #  Initialize material property, light source,
+    # lighting model, and depth buffer.
+    def init(self):
+        glLightfv(GL_LIGHT0, GL_AMBIENT, self.light_ambient)
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, self.light_diffuse)
+        glLightfv(GL_LIGHT0, GL_SPECULAR, self.light_specular)
+        glLightfv(GL_LIGHT0, GL_POSITION, self.light_position)
+        
+        glEnable(GL_LIGHTING)
+        glEnable(GL_LIGHT0)
+        glEnable(GL_DEPTH_TEST)
+    
+    #  Here is where the light position is reset after the modeling
+    #  transformation (glRotated) is called.  This places the
+    #  light at a new position in world coordinates.  The cube
+    #  represents the position of the light.
+    def display(self, width, height):
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glPushMatrix()
+        glRotatef(20.0, 1.0, 0.0, 0.0)
+        glPushMatrix()
+        glTranslatef(-0.75, 0.5, 0.0);
+        glRotatef(90.0, 1.0, 0.0, 0.0)
+        gtk.gdkgl.draw_torus(gtk.TRUE, 0.275, 0.85, 15, 15)
+        glPopMatrix()
+        
+        glPushMatrix()
+        glTranslatef(-0.75, -0.5, 0.0);
+        glRotatef(270.0, 1.0, 0.0, 0.0)
+        gtk.gdkgl.draw_cone(gtk.TRUE, 1.0, 2.0, 15, 15)
+        glPopMatrix()
+        
+        glPushMatrix()
+        glTranslatef(0.75, 0.0, -1.0)
+        gtk.gdkgl.draw_sphere(gtk.TRUE, 1.0, 15, 15)
+        glPopMatrix()
+        glPopMatrix()
+    
+    def reshape(self, width, height):
+        glViewport(0, 0, width, height)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        if width <= height:
+            glOrtho(-2.5, 2.5, -2.5*height/width,2.5*height/width, -10.0, 10.0)
+        else:
+            glOrtho(-2.5*width/height,2.5*width/height, -2.5, 2.5, -10.0, 10.0)
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+    
+    def key_press(self, width, height, event):
+        pass
+    
+    def key_release(self, width, height, event):
+        pass
+    
+    def button_press(self, width, height, event):
+        pass
+    
+    def button_release(self, width, height, event):
+        pass
+    
+    def motion(self, width, height, event):
+        pass
+    
+    def idle(self, width, height):
+        pass
 
 
 if __name__ == '__main__':
-	# add MODE_DEPTH to the default display mode
-	GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
+    # add MODE_DEPTH to the default display mode
+    GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
     
-	glscene = Simple()
-
-	glapp = GLApplication(glscene)
-	glapp.set_title('SimpleScene')
-
-	#glapp.enable_key_events()
-	glapp.enable_button_events()
-	glapp.enable_button_motion_events()
-	#glapp.enable_pointer_motion_events()
-	#glapp.enable_idle()
-
-	glapp.run()
+    glscene = Simple()
+    
+    glapp = GLApplication(glscene)
+    glapp.set_title('SimpleScene')
+    
+    #glapp.enable_key_events()
+    glapp.enable_button_events()
+    glapp.enable_button_motion_events()
+    #glapp.enable_pointer_motion_events()
+    #glapp.enable_idle()
+    
+    glapp.run()
