@@ -54,7 +54,7 @@ setup.py script or GNU auto-tools based configure script.
 
   * Python Distutils
 
-    $ python setup.py install (--prefix /foo/bar)
+    $ python setup.py install (--prefix=/foo/bar)
 
   * configure script
 
@@ -87,13 +87,14 @@ for generating configure script and Makefiles.
   $ make
   $ make install
 
-ACLOCAL_FLAGS is for AM_PATH_{GLIB_2_0, GTK_2_0, GTKGLEXT_1_0} macros
-in configure.in.
-I use the following versions of the GNU auto-tools.
+You may have to set ACLOCAL_FLAGS environment variable for some m4
+macros used in configure.in.
 
-  autoconf 2.52 (libtool's AC_LIBTOOL_WIN32_DLL macro has a problem with 2.53)
-  automake 1.6.3
-  libtool  1.4.3
+I use the following versions of the GNU autotools.
+
+  autoconf 2.57
+  automake 1.7.4
+  libtool  1.5
 
 
 Contact

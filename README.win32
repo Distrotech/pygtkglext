@@ -78,8 +78,8 @@ PyGtkGLExt.
     $ cd pygtk
     $ python setup.py build --compiler=mingw32
     $ python setup.py install --prefix='c:\pygtk'
-    $ export PYTHONPATH="c:\pygtk\Lib\site-packages\gtk-2.0;${PYTHONPATH}"
-    $ export PKG_CONFIG_PATH="c:\pygtk\Lib\pkgconfig;${PKG_CONFIG_PATH}"
+    $ export PYTHONPATH="c:\pygtk\Lib\site-packages;c:\pygtk\Lib\site-packages\gtk-2.0;${PYTHONPATH}"
+    $ export PKG_CONFIG_PATH="c:/pygtk/Lib/pkgconfig;${PKG_CONFIG_PATH}"
 
   2) Build and install PyGtkGLExt.
 
