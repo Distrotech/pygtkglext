@@ -40,7 +40,7 @@ class PixmapMixedDemo (object):
 
 		# Create the window for the app.
 		self.win = gtk.Window()
-		self.win.set_title('pixmap')
+		self.win.set_title('pixmap-mixed')
 		self.win.set_colormap(self.glconfig.get_colormap())
 		self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 		self.win.set_reallocate_redraws(gtk.TRUE)
