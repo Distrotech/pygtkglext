@@ -1,8 +1,6 @@
 ## -*- Makefile -*-
 ## Makefile.am for pygtkglext
 
-AUTOMAKE_OPTIONS = 1.6 dist-bzip2 dist-zip
-
 SUBDIRS = gtk
 DIST_SUBDIRS = $(SUBDIRS) examples
 

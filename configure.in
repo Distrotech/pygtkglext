@@ -1,14 +1,37 @@
 # Required autoconf version
-AC_PREREQ([2.52])
+AC_PREREQ([2.54])
 
 # PyGtkGLExt version number
-m4_define(pygtkglext_major_version, 0)
-m4_define(pygtkglext_minor_version, 0)
-m4_define(pygtkglext_micro_version, 2)
-m4_define(pygtkglext_version, pygtkglext_major_version.pygtkglext_minor_version.pygtkglext_micro_version)
-m4_define(pygtkglext_api_major_version, 1)
-m4_define(pygtkglext_api_minor_version, 0)
-m4_define(pygtkglext_api_version, pygtkglext_api_major_version.pygtkglext_api_minor_version)
+m4_define([pygtkglext_major_version], [0])
+m4_define([pygtkglext_minor_version], [0])
+m4_define([pygtkglext_micro_version], [2])
+m4_define([pygtkglext_version],
+          [pygtkglext_major_version.pygtkglext_minor_version.pygtkglext_micro_version])
+
+m4_define([pygtkglext_api_major_version], [1])
+m4_define([pygtkglext_api_minor_version], [0])
+m4_define([pygtkglext_api_version],
+          [pygtkglext_api_major_version.pygtkglext_api_minor_version])
+
+# Versions of dependencies
+
+# PyGTK
+m4_define([pygtk_pkg], [pygtk-2.0])
+m4_define([pygtk_required_version], [1.99.16])
+m4_define([pygtk_codegen], [pygtk-codegen-2.0])
+
+# GLib
+m4_define([glib_pkg], [glib-2.0])
+m4_define([glib_required_version], [2.0.0])
+
+# GTK+
+m4_define([gtk_pkg], [gtk+-2.0])
+m4_define([gtk_required_version], [2.0.0])
+
+# GtkGLExt
+m4_define([gtkglext_pkg], [gtkglext-1.0])
+m4_define([gtkglext_required_version], [0.7.0])
+
 
 # Process this file with autoconf to produce a configure script.
 AC_INIT([pygtkglext], [pygtkglext_version],
@@ -16,27 +39,19 @@ AC_INIT([pygtkglext], [pygtkglext_version],
 
 AC_CONFIG_SRCDIR([gtk/gdkgl/gdkglext-types.defs])
 
-# Versions of dependencies
+# Save this value here, since automake will set cflags later
+cflags_set=${CFLAGS+set}
 
-PYGTK_PKG=pygtk-2.0
-PYGTK_REQUIRED_VERSION=1.99.15
-AC_SUBST(PYGTK_PKG)
-AC_SUBST(PYGTK_REQUIRED_VERSION)
+# Initialize automake stuff
+AM_INIT_AUTOMAKE([1.7 no-define dist-bzip2 dist-zip])
 
-GLIB_PKG=glib-2.0
-GLIB_REQUIRED_VERSION=2.0.0
-AC_SUBST(GLIB_PKG)
-AC_SUBST(GLIB_REQUIRED_VERSION)
+# Specify a configuration file
+AM_CONFIG_HEADER([config.h])
 
-GTK_PKG=gtk+-2.0
-GTK_REQUIRED_VERSION=2.0.0
-AC_SUBST(GTK_PKG)
-AC_SUBST(GTK_REQUIRED_VERSION)
+dnl Initialize maintainer mode
+AM_MAINTAINER_MODE
 
-GTKGLEXT_PKG=gtkglext-1.0
-GTKGLEXT_REQUIRED_VERSION=0.7.0
-AC_SUBST(GTKGLEXT_PKG)
-AC_SUBST(GTKGLEXT_REQUIRED_VERSION)
+AC_CANONICAL_HOST
 
 # Substitute version number in output files
 PYGTKGLEXT_MAJOR_VERSION=pygtkglext_major_version
@@ -46,28 +61,36 @@ PYGTKGLEXT_VERSION=pygtkglext_version
 PYGTKGLEXT_API_MAJOR_VERSION=pygtkglext_api_major_version
 PYGTKGLEXT_API_MINOR_VERSION=pygtkglext_api_minor_version
 PYGTKGLEXT_API_VERSION=pygtkglext_api_version
-AC_SUBST(PYGTKGLEXT_MAJOR_VERSION)
-AC_SUBST(PYGTKGLEXT_MINOR_VERSION)
-AC_SUBST(PYGTKGLEXT_MICRO_VERSION)
-AC_SUBST(PYGTKGLEXT_VERSION)
-AC_SUBST(PYGTKGLEXT_API_MAJOR_VERSION)
-AC_SUBST(PYGTKGLEXT_API_MINOR_VERSION)
-AC_SUBST(PYGTKGLEXT_API_VERSION)
+AC_SUBST([PYGTKGLEXT_MAJOR_VERSION])
+AC_SUBST([PYGTKGLEXT_MINOR_VERSION])
+AC_SUBST([PYGTKGLEXT_MICRO_VERSION])
+AC_SUBST([PYGTKGLEXT_VERSION])
+AC_SUBST([PYGTKGLEXT_API_MAJOR_VERSION])
+AC_SUBST([PYGTKGLEXT_API_MINOR_VERSION])
+AC_SUBST([PYGTKGLEXT_API_VERSION])
 
 # Define version numbers in config.h
-AC_DEFINE(PYGTKGLEXT_MAJOR_VERSION, pygtkglext_major_version, [PyGtkGLExt major version])
-AC_DEFINE(PYGTKGLEXT_MINOR_VERSION, pygtkglext_minor_version, [PyGtkGLExt minor version])
-AC_DEFINE(PYGTKGLEXT_MICRO_VERSION, pygtkglext_micro_version, [PyGtkGLExt macro version])
+AC_DEFINE([PYGTKGLEXT_MAJOR_VERSION], [pygtkglext_major_version],
+          [PyGtkGLExt major version])
+AC_DEFINE([PYGTKGLEXT_MINOR_VERSION], [pygtkglext_minor_version],
+          [PyGtkGLExt minor version])
+AC_DEFINE([PYGTKGLEXT_MICRO_VERSION], [pygtkglext_micro_version],
+          [PyGtkGLExt macro version])
 
-AM_CONFIG_HEADER([config.h])
+# PyGTK
+PYGTK_PKG=pygtk_pkg
+PYGTK_REQUIRED_VERSION=pygtk_required_version
+AC_SUBST([PYGTK_PKG])
+AC_SUBST([PYGTK_REQUIRED_VERSION])
 
-AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+# GtkGLExt
+GTKGLEXT_PKG=gtkglext_pkg
+GTKGLEXT_REQUIRED_VERSION=gtkglext_required_version
+AC_SUBST([GTKGLEXT_PKG])
+AC_SUBST([GTKGLEXT_REQUIRED_VERSION])
 
 # Put the ACLOCAL flags in the makefile
 ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
-
-AC_CANONICAL_BUILD
-AC_CANONICAL_HOST
 
 AC_MSG_CHECKING([for some Win32 platform])
 case "$host" in
@@ -79,7 +102,7 @@ case "$host" in
     ;;
 esac
 AC_MSG_RESULT([$platform_win32])
-AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
+AM_CONDITIONAL([PLATFORM_WIN32], [test "$platform_win32" = "yes"])
 
 AC_MSG_CHECKING([for native Win32])
 case "$host" in
@@ -91,16 +114,16 @@ case "$host" in
     ;;
 esac
 AC_MSG_RESULT([$os_win32])
-AM_CONDITIONAL(OS_WIN32, test "$os_win32" = "yes")
+AM_CONDITIONAL([OS_WIN32], [test "$os_win32" = "yes"])
 
 AC_DISABLE_STATIC
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 
 # Check for python
-#AM_PATH_PYTHON(2.2)
+#AM_PATH_PYTHON([2.2])
 AM_PATH_PYTHON
-AC_MSG_CHECKING(for python >= 2.2)
+AC_MSG_CHECKING([for python >= 2.2])
 prog="
 import sys, string
 minver = (2,2,0,'final',0)
@@ -109,71 +132,66 @@ if sys.version_info < minver:
 sys.exit(0)"
 if $PYTHON -c "$prog" 1>&AC_FD_CC 2>&AC_FD_CC
 then
-  AC_MSG_RESULT(okay)
+  AC_MSG_RESULT([okay])
 else
-  AC_MSG_ERROR(too old)
+  AC_MSG_ERROR([too old])
 fi
-AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
+AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR([could not find Python headers])])
 
 # Check for PyGTK
-PKG_CHECK_MODULES(PYGTK, $PYGTK_PKG >= $PYGTK_REQUIRED_VERSION)
+PKG_CHECK_MODULES([PYGTK], [pygtk_pkg >= pygtk_required_version])
 AC_SUBST(PYGTK_CFLAGS)
-AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
+AC_PATH_PROG([PYGTK_CODEGEN], [pygtk_codegen], [no])
 if test "x$PYGTK_CODEGEN" = xno; then
-  AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
+  AC_MSG_ERROR([could not find pygtk_codegen script])
 fi
 
-AC_MSG_CHECKING(for pygtk defs)
-PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir $PYGTK_PKG`
-AC_SUBST(PYGTK_DEFSDIR)
-AC_MSG_RESULT($PYGTK_DEFSDIR)
+AC_MSG_CHECKING([for pygtk defs])
+PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygtk_pkg`
+AC_SUBST([PYGTK_DEFSDIR])
+AC_MSG_RESULT([$PYGTK_DEFSDIR])
 
 # Get rid of the -export-dynamic stuff from the configure flags ...
 export_dynamic=`(./libtool --config; echo eval echo \\$export_dynamic_flag_spec) | sh`
 
 # Check for GLib
-AM_PATH_GLIB_2_0($GLIB_REQUIRED_VERSION, ,
-                 [AC_MSG_ERROR(GLib 2.0 not found)],
-                 $extra_mods)
+AM_PATH_GLIB_2_0([glib_required_version], ,
+                 [AC_MSG_ERROR([GLib 2.0 not found])],
+                 [$extra_mods])
 if test -n "$export_dynamic"; then
   GLIB_LIBS=`echo $GLIB_LIBS | sed -e "s/$export_dynamic//"`
 fi
 
 # Check for GTK+
-AM_PATH_GTK_2_0($GTK_REQUIRED_VERSION, ,
-                [AC_MSG_ERROR(GTK+ 2.0 not found)],
-                $extra_mods)
+AM_PATH_GTK_2_0([gtk_required_version], ,
+                [AC_MSG_ERROR([GTK+ 2.0 not found])],
+                [$extra_mods])
 if test -n "$export_dynamic"; then
   GTK_LIBS=`echo $GTK_LIBS | sed -e "s/$export_dynamic//"`
 fi
 
 # Check for GtkGLExt
-AM_PATH_GTKGLEXT_1_0($GTKGLEXT_REQUIRED_VERSION, ,
-                     [AC_MSG_ERROR(GtkGLExt not found)])
+AM_PATH_GTKGLEXT_1_0([gtkglext_required_version], ,
+                     [AC_MSG_ERROR([GtkGLExt not found])])
 if test -n "$export_dynamic"; then
   GTKGLEXT_LIBS=`echo $GTKGLEXT_LIBS | sed -e "s/$export_dynamic//"`
 fi
 
-# Add debugging options ...
+# Additional CFLAGS.
 changequote(,)dnl
 if test "x$GCC" = xyes; then
   case " $CFLAGS " in
   *[\	\ ]-Wall[\	\ ]*) ;;
   *) CFLAGS="$CFLAGS -Wall" ;;
   esac
-
-  case " $CFLAGS " in
-  *[\	\ ]-std=c9x[\	\ ]*) ;;
-  *) CFLAGS="$CFLAGS -std=c9x" ;;
-  esac
 fi
 changequote([,])dnl
 
 # Output files
 AC_CONFIG_FILES([
-Makefile
 pygtkglext.pc
 setup.py
+Makefile
 gtk/Makefile
 gtk/gdkgl/Makefile
 gtk/gtkgl/Makefile
