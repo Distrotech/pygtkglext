@@ -166,6 +166,12 @@
   )
 )
 
+(define-method destroy
+  (of-object "GdkGLContext")
+  (c-name "gdk_gl_context_destroy")
+  (return-type "none")
+)
+
 (define-method copy
   (of-object "GdkGLContext")
   (c-name "gdk_gl_context_copy")
@@ -453,6 +459,12 @@
   )
 )
 
+(define-method destroy
+  (of-object "GdkGLPixmap")
+  (c-name "gdk_gl_pixmap_destroy")
+  (return-type "none")
+)
+
 (define-method get_pixmap
   (of-object "GdkGLPixmap")
   (c-name "gdk_gl_pixmap_get_pixmap")
@@ -676,6 +688,12 @@
     '("GdkWindow*" "window")
     '("const-int*" "attrib_list" (null-ok) (default "NULL"))
   )
+)
+
+(define-method destroy
+  (of-object "GdkGLWindow")
+  (c-name "gdk_gl_window_destroy")
+  (return-type "none")
 )
 
 (define-method get_window
