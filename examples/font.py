@@ -7,7 +7,7 @@
 # Alif Wahid, March 2003.
 
 # This program is very patchy currently due to couple of problematic
-# function calls that arr well identified. So if anyone knows how to 
+# function calls that are well identified. So if anyone knows how to 
 # work around or solve those function call problems, you're more than
 # welcome to contribute. Just see the FIXME note inside the Font.init
 # method definition.
