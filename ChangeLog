@@ -1,5 +1,8 @@
 2003-05-04  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* gtk/gdkgl/__init__.py: 
+	* gtk/gtkgl/__init__.py: Removed unused ltihooks check.
+
 	* examples/NeHe6Multi.py (NeHe6Multi.display): Fixed texture
 	coordinates.
 

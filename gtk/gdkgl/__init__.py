@@ -15,13 +15,6 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA.
 
-# this can go when things are a little further along
-try:
-    import ltihooks
-    del ltihooks
-except ImportError:
-    pass
-
 import gobject
 del gobject
 
