@@ -1,3 +1,9 @@
+2003-05-05  Naofumi Yasufuku  <naofumi@yasufuku.net>
+
+	* Version 0.1.0
+
+	* configure.in: Bumped version. Require GtkGLExt-0.99.1.
+
 2003-05-04  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* gtk/gdkgl/__init__.py: 
