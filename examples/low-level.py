@@ -15,6 +15,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import sys
+import gc
 
 # Due to the low level nature of this
 # program, I think aggregating Gtk
@@ -212,6 +213,9 @@ class LowLevelDemo(object):
     def __unrealize(self, widget):
         # Remove OpenGL-capability from widget.window
         gtk.gdkgl.window_unset_gl_capability(widget.window)
+        # Destroy rendering context
+        self.glcontext = None
+        gc.collect()
     
     def __print_msg(self, widget):
         print "Destroying %s" % (widget.get_name())
