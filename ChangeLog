@@ -7,7 +7,8 @@
 	those soon.
 
 	* examples/color.py
-	* examples/Makefile.am: Added new example color.py
+	* examples/Makefile.am
+	* AUTHORS: Added new example color.py
 
 2003-04-28  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
