@@ -18,6 +18,7 @@ import sys
 class Teapot(GLScene,
              GLSceneButton,
              GLSceneButtonMotion):
+
     def __init__(self):
         GLScene.__init__(self,
                          gtk.gdkgl.MODE_RGB   |
@@ -86,6 +87,7 @@ class Teapot(GLScene,
         self.beginy = event.y
         
         self.queue_draw()
+
 
 # A simple window to show the Teapot scene
 # in a GLArea widget along with two

@@ -22,7 +22,8 @@ try:
 except:
     from OpenGL.GL.EXT.polygon_offset import *
 
-import math, array
+import math
+import array
 
 # Some constants.
 MAXGRID = 64

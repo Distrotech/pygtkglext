@@ -14,7 +14,9 @@ import gtk.gdkgl
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-import sys, string, gc
+import sys
+import string
+import gc
 
 # Due to the low level nature of this
 # program, I think aggregating Gtk

@@ -24,6 +24,7 @@ import sys
 # than an object heirarchy.
 
 class PixmapDemo(object):
+
     def __init__(self):
         self.glconfig = None
         self.glcontext = None

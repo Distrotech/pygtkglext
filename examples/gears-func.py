@@ -126,6 +126,7 @@ def gear(inner_radius, outer_radius, width, teeth, tooth_depth):
         glVertex3f( r0*cos(angle), r0*sin(angle), width*0.5 )
     glEnd()
 
+
 view_rotx=20.0
 view_roty=30.0
 view_rotz=0.0
@@ -181,6 +182,7 @@ def draw(glarea, event):
     
     return gtk.TRUE
 
+
 def reshape(glarea, event):
     # get GLContext and GLDrawable
     glcontext = gtk.gtkgl.widget_get_gl_context(glarea)
@@ -208,6 +210,7 @@ def reshape(glarea, event):
     gldrawable.gl_end()
     
     return gtk.TRUE
+
 
 def init(glarea):
     # get GLContext and GLDrawable
@@ -253,27 +256,33 @@ def init(glarea):
     
     gldrawable.gl_end()
 
+
 def idle(glarea):
     global angle
     angle = angle + 2.0
     glarea.queue_draw()
     return gtk.TRUE
 
+
 def map(glarea, event):
     gtk.idle_add(idle, glarea)
     return gtk.TRUE
+
 
 def xchange(adj):
     global view_rotx
     view_rotx = adj.value
 
+
 def ychange(adj):
     global view_roty
     view_roty = adj.value
 
+
 def zchange(adj):
     global view_rotz
     view_rotz = adj.value
+
 
 #
 # GLX version

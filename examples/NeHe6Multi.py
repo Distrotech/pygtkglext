@@ -1,14 +1,5 @@
 #!/usr/bin/env python
 
-import pygtk
-pygtk.require('2.0')
-from gtk.gtkgl.apputils import *
-
-from OpenGL.GL.ARB.multitexture import *
-
-from math import *
-import sys
-
 '''
 Ported to PyGtk and PyGtkGLExt by Alif Wahid, 16 March, 2003.
 It now uses gtk.gdk.Pixbuf to load image files as texturemaps, not PIL.
@@ -44,6 +35,15 @@ just the DOS PATH.
 BTW, since this is Python make sure you use tabs or spaces to indent, I had numerous problems since I
 was using editors that were not sensitive to Python.
 '''
+
+import pygtk
+pygtk.require('2.0')
+from gtk.gtkgl.apputils import *
+
+from OpenGL.GL.ARB.multitexture import *
+
+from math import *
+import sys
 
 # Implement the GLScene interface
 # to have the NeHe6Multi scene rendered.

@@ -24,6 +24,7 @@ import sys
 # than an object heirarchy.
 
 class SimpleDemo(object):
+
     def __init__(self):
         self.glconfig = None
         

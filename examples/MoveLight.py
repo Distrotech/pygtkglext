@@ -67,13 +67,14 @@ from gtk.gtkgl.apputils import *
 
 class MoveLight(GLScene,
                 GLSceneButton):
+
     def __init__(self):
         GLScene.__init__(self,
                          gtk.gdkgl.MODE_RGB   |
                          gtk.gdkgl.MODE_DEPTH |
                          gtk.gdkgl.MODE_DOUBLE)
         self.spin = 0
-    
+
     def init(self):
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepth(1.0)
@@ -81,7 +82,7 @@ class MoveLight(GLScene,
         glEnable(GL_LIGHTING)
         glEnable(GL_LIGHT0)
         glEnable(GL_DEPTH_TEST)
-    
+
     def display(self, width, height):
         position = [0.0, 0.0, 1.5, 1.0]
         
@@ -102,7 +103,7 @@ class MoveLight(GLScene,
         
         gtk.gdkgl.draw_torus(gtk.TRUE, 0.275, 0.85, 8, 15)
         glPopMatrix()
-    
+
     def reshape(self, width, height):
         glViewport(0, 0, width, height)
         glMatrixMode(GL_PROJECTION)
@@ -110,7 +111,7 @@ class MoveLight(GLScene,
         gluPerspective(40.0, width/height, 1.0, 20.0)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-    
+
     def button_press(self, width, height, event):
         if event.button == 1:
             self.spin = (self.spin + 30) % 360
@@ -118,7 +119,7 @@ class MoveLight(GLScene,
             self.spin = (self.spin - 30) % 360
         
         self.queue_draw()
-    
+
     def button_release(self, width, height, event):
         pass
 

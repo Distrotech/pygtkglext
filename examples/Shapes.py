@@ -191,11 +191,14 @@ class Shapes(GLScene,
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         
-        # Calculate left/right and top/bottom clipping planes based on the smallest square viewport.
+        # Calculate left/right and top/bottom clipping planes based on
+        # the smallest square viewport.
         a = 13.0/min(width, height)
         clipping_planes = (a*width, a*height)
         # Setup the projection
-        glFrustum(-clipping_planes[0], clipping_planes[0], -clipping_planes[1], clipping_planes[1], 50.0, 150.0)
+        glFrustum(-clipping_planes[0], clipping_planes[0],
+                  -clipping_planes[1], clipping_planes[1],
+                  50.0, 150.0)
     
     def button_press(self, width, height, event):
         self.beginx = event.x
@@ -218,6 +221,7 @@ class Shapes(GLScene,
         self.beginy = event.y
         
         self.queue_draw()
+
 
 # A window to show the Shapes scene
 # in a GLArea widget along with two
@@ -267,7 +271,8 @@ class ShapesWindow(gtk.Window):
         self.zscale.show()
         self.zfbox.add(self.zscale)
         self.zframe.add(self.zfbox)
-        self.table.attach(self.zframe, 0, 1, 0, 1, xoptions=gtk.FILL, yoptions=gtk.FILL)
+        self.table.attach(self.zframe, 0, 1, 0, 1,
+                          xoptions=gtk.FILL, yoptions=gtk.FILL)
         
         self.xframe = gtk.Frame('X-Axis')
         self.xframe.show()
@@ -281,7 +286,8 @@ class ShapesWindow(gtk.Window):
         self.xscale.show()
         self.xfbox.add(self.xscale)
         self.xframe.add(self.xfbox)
-        self.table.attach(self.xframe, 2, 3, 0, 1, xoptions=gtk.FILL, yoptions=gtk.FILL)
+        self.table.attach(self.xframe, 2, 3, 0, 1,
+                          xoptions=gtk.FILL, yoptions=gtk.FILL)
         
         self.yframe = gtk.Frame('Y-Axis')
         self.yframe.show()
@@ -295,12 +301,14 @@ class ShapesWindow(gtk.Window):
         self.yscale.show()
         self.yfbox.add(self.yscale)
         self.yframe.add(self.yfbox)
-        self.table.attach(self.yframe, 1, 2, 1, 2, xoptions=gtk.FILL, yoptions=gtk.FILL)
+        self.table.attach(self.yframe, 1, 2, 1, 2,
+                          xoptions=gtk.FILL, yoptions=gtk.FILL)
         
         # A box to hold some control interface stuff.
         self.cbox = gtk.HBox(gtk.TRUE, spacing=10)
         self.cbox.show()
-        self.table.attach(self.cbox, 1, 2, 2, 3, xoptions=gtk.FILL, yoptions=gtk.FILL)
+        self.table.attach(self.cbox, 1, 2, 2, 3,
+                          xoptions=gtk.FILL, yoptions=gtk.FILL)
         
         # A frame showing some colour changing buttons.
         self.colourFrame = gtk.Frame('Change Colour')

@@ -20,6 +20,7 @@ from OpenGL.GLU import *
 import sys
 
 class PixmapMixedDemo(object):
+
     def __init__(self):
         self.glconfig = None
         self.glcontext = None

@@ -51,6 +51,7 @@ def realize(glarea):
         
     gldrawable.gl_end()
 
+
 def configure_event(glarea, event):
     # get GLContext and GLDrawable
     glcontext = glarea.get_gl_context()
@@ -76,6 +77,7 @@ def configure_event(glarea, event):
     gldrawable.gl_end()
     
     return gtk.TRUE
+
 
 def expose_event(glarea, event):
     # get GLContext and GLDrawable
@@ -105,20 +107,24 @@ def expose_event(glarea, event):
     
     return gtk.TRUE
 
+
 def vchanged(vadj, glarea):
     global rotx
     rotx = vadj.value
     glarea.queue_draw()
+
 
 def hchanged(hadj, glarea):
     global roty
     roty = hadj.value
     glarea.queue_draw()
 
+
 def toggled(button, glarea):
     global is_solid
     is_solid = not is_solid
     glarea.queue_draw()
+
 
 #
 # GLX version

@@ -24,6 +24,7 @@ import sys
 # than an object heirarchy.
 
 class ShareListsDemo(object):
+
     def __init__(self):
         self.display_mode = gtk.gdkgl.MODE_RGB    | \
                             gtk.gdkgl.MODE_DEPTH  | \

@@ -17,6 +17,7 @@ from OpenGL.GLU import *
 import sys 
 
 class ColorManagementDemo(object):
+
     def __init__(self):
         # Check for whether to set rgb mode
         # or color index mode.
