@@ -151,9 +151,9 @@ print "glconfig.is_double_buffered() =", glconfig.is_double_buffered()
 print "glconfig.has_depth_buffer() =",   glconfig.has_depth_buffer()
 
 # get_attrib()
-print "gtk.gdkgl.RGBA = %d" % glconfig.get_attrib(gtk.gdkgl.RGBA)
+print "gtk.gdkgl.RGBA = %d"         % glconfig.get_attrib(gtk.gdkgl.RGBA)
 print "gtk.gdkgl.DOUBLEBUFFER = %d" % glconfig.get_attrib(gtk.gdkgl.DOUBLEBUFFER)
-print "gtk.gdkgl.DEPTH_SIZE = %d" % glconfig.get_attrib(gtk.gdkgl.DEPTH_SIZE)
+print "gtk.gdkgl.DEPTH_SIZE = %d"   % glconfig.get_attrib(gtk.gdkgl.DEPTH_SIZE)
 
 #
 # top-level gtk.Window
@@ -165,7 +165,7 @@ win.set_title("Teapot")
 win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 win.set_reallocate_redraws(gtk.TRUE)
 
-win.connect("destroy", gtk.mainquit)
+win.connect('destroy', gtk.mainquit)
 
 #
 # gtk.Table
@@ -185,9 +185,9 @@ table.show()
 glarea = gtk.gtkgl.DrawingArea(glconfig)
 glarea.set_size_request(300, 300)
 
-glarea.connect("realize", realize)
-glarea.connect("configure_event", configure_event)
-glarea.connect("expose_event", expose_event)
+glarea.connect('realize', realize)
+glarea.connect('configure_event', configure_event)
+glarea.connect('expose_event', expose_event)
 
 table.attach(glarea, 0,1, 0,1)
 glarea.show()
@@ -197,14 +197,14 @@ glarea.show()
 #
 
 vadj = gtk.Adjustment(0, -360, 360, 5, 5, 0)
-vadj.connect("value_changed", vchanged, glarea)
+vadj.connect('value_changed', vchanged, glarea)
 
 vscale = gtk.VScale(vadj)
 table.attach(vscale, 1,2, 0,1, xoptions=gtk.FILL)
 vscale.show()
 
 hadj = gtk.Adjustment(0, -360, 360, 5, 5, 0)
-hadj.connect("value_changed", hchanged, glarea)
+hadj.connect('value_changed', hchanged, glarea)
 
 hscale = gtk.HScale(hadj)
 table.attach(hscale, 0,1, 1,2, yoptions=gtk.FILL)
@@ -214,8 +214,8 @@ hscale.show()
 # toggle button
 #
 
-button = gtk.ToggleButton('solid')
-button.connect("toggled", toggled, glarea)
+button = gtk.ToggleButton("solid")
+button.connect('toggled', toggled, glarea)
 table.attach(button, 0,2, 2,3, gtk.FILL, gtk.FILL)
 button.show()
 

@@ -310,21 +310,21 @@ print "glconfig.is_double_buffered() =", glconfig.is_double_buffered()
 print "glconfig.has_depth_buffer() =",   glconfig.has_depth_buffer()
 
 # get_attrib()
-print "gtk.gdkgl.RGBA = %d" % glconfig.get_attrib(gtk.gdkgl.RGBA)
+print "gtk.gdkgl.RGBA = %d"         % glconfig.get_attrib(gtk.gdkgl.RGBA)
 print "gtk.gdkgl.DOUBLEBUFFER = %d" % glconfig.get_attrib(gtk.gdkgl.DOUBLEBUFFER)
-print "gtk.gdkgl.DEPTH_SIZE = %d" % glconfig.get_attrib(gtk.gdkgl.DEPTH_SIZE)
+print "gtk.gdkgl.DEPTH_SIZE = %d"   % glconfig.get_attrib(gtk.gdkgl.DEPTH_SIZE)
 
 #
 # top-level gtk.Window
 #
 
 win = gtk.Window()
-win.set_title('Gears')
+win.set_title("Gears")
 
 win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 win.set_reallocate_redraws(gtk.TRUE)
 
-win.connect("destroy", gtk.mainquit)
+win.connect('destroy', gtk.mainquit)
 
 #
 # gtk.Table
@@ -344,10 +344,10 @@ glarea.set_size_request(300, 300)
 # make glarea OpenGL-capable
 gtk.gtkgl.widget_set_gl_capability(glarea, glconfig)
 
-glarea.connect("realize", init)
-glarea.connect("configure_event", reshape)
-glarea.connect("expose_event", draw)
-glarea.connect("map_event", map)
+glarea.connect('realize', init)
+glarea.connect('configure_event', reshape)
+glarea.connect('expose_event', draw)
+glarea.connect('map_event', map)
 
 table.attach(glarea, 0,2, 0,1)
 glarea.show()
@@ -356,15 +356,15 @@ glarea.show()
 # rotation sliders
 #
 
-for row, label, start, cb in ((1, 'X Rotation', view_rotx, xchange),
-			      (2, 'Y Rotation', view_roty, ychange),
-			      (3, 'Z Rotation', view_rotz, zchange)):
+for row, label, start, cb in ((1, "X Rotation", view_rotx, xchange),
+			      (2, "Y Rotation", view_roty, ychange),
+			      (3, "Z Rotation", view_rotz, zchange)):
 	l = gtk.Label(label)
 	table.attach(l, 0,1, row,row+1, xoptions=0, yoptions=gtk.FILL)
 	l.show()
 	
 	adj = gtk.Adjustment(start, 0, 360, 5, 5, 0)
-	adj.connect("value_changed", cb)
+	adj.connect('value_changed', cb)
 	
 	scale = gtk.HScale(adj)
 	table.attach(scale, 1,2, row,row+1, yoptions=gtk.FILL)
