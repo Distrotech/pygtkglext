@@ -8,6 +8,12 @@ from distutils.core import setup
 import os
 import sys
 
+try:
+    import pygtk
+    pygtk.require('2.0')
+except (ImportError, AssertionError):
+    raise SystemExit, 'ERROR: Could not find a recent version of pygtk.'
+
 from dsextras import GLOBAL_INC, GLOBAL_MACROS
 from dsextras import getoutput, have_pkgconfig, list_files, pkgc_version_check
 from dsextras import BuildExt, InstallLib, PkgConfigExtension

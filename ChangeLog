@@ -1,5 +1,13 @@
 2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* Makefile.am (EXTRA_DIST): Removed dsextras.py
+
+	* dsextras.py: Removed.
+
+	* setup.py.in: Use dsextras installed by PyGTK.
+
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
 	* gtk/gdkgl/ext.py: New gtk.gdkgl.ext() function to add OpenGL
 	extension API support to the Gdk object.
 	e.g. pixmap = gtk.gdkgl.ext(gtk.gdkgl.Pixmap(...))

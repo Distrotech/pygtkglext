@@ -9,7 +9,6 @@ EXTRA_DIST = \
 	pygtkglext.pc.in	\
 	setup.py.in 		\
 	setup.py 		\
-	dsextras.py		\
 	pygtkglext.spec.in	\
 	pygtkglext.spec
 
