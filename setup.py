@@ -19,9 +19,9 @@ from dsextras import getoutput, have_pkgconfig, list_files, pkgc_version_check
 from dsextras import BuildExt, InstallLib, PkgConfigExtension
 from dsextras import Template, TemplateExtension
 
-MAJOR_VERSION = 0
-MINOR_VERSION = 99
-MICRO_VERSION = 2
+MAJOR_VERSION = 1
+MINOR_VERSION = 0
+MICRO_VERSION = 0
 
 VERSION = "%d.%d.%d" % (MAJOR_VERSION,
                         MINOR_VERSION,

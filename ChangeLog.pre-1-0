@@ -1,0 +1,584 @@
+2003-09-15  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* ==== Released 1.0.0 ====
+
+	* configure.in: Version 1.0.0.
+
+	* Makefile.am (EXTRA_DIST): 
+	* ChangeLog.pre-1-0: Renamed pre-1.0 ChangeLog.
+
+2003-09-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/pixmap.py (PixmapDrawingArea._on_configure_event): 
+	* examples/pixmap-mixed.py
+	(PixmapMixedDrawingArea._on_configure_event): depth argument is
+	not needed.
+
+2003-09-08  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.99.2
+
+	* configure.in: Bumped version. Require PyGTK-2.0.0.
+
+2003-09-08  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/low-level.py: 
+	* examples/simple.py: 
+	* examples/simple-mixed.py: 
+	* examples/pixmap.py: 
+	* examples/pixmap-mixed.py: Rewritten in object-oriented style.
+	simple*.py demonstrates the usage of gtk.gtkgl.Widget mixin.
+
+2003-09-06  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py: Import pygtk.
+
+	* gtk/gdkgl/ext.py: 
+	* gtk/gtkgl/widget.py: Added __all__ module attribute.
+
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/ext.py (_pixmap_ext, _window_ext, _register_method) 
+	(_register_ext): Make them "internal use".
+
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/low-level.py:
+	* examples/color.py: 
+	* examples/share-lists.py: Removed unnecessary code.
+
+	* examples/coolwave.py: import pygtk.
+
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py (GLScene*): Subclassing from built-in
+	object.
+	(GLArea.__button_press_event, GLArea.__button_release_event): Do
+	gl_begin() for selection.
+
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Makefile.am (EXTRA_DIST): Removed dsextras.py
+
+	* dsextras.py: Removed.
+
+	* setup.py.in: Use dsextras installed by PyGTK.
+
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/ext.py: New gtk.gdkgl.ext() function to add OpenGL
+	extension API support to the Gdk object.
+	e.g. pixmap = gtk.gdkgl.ext(gtk.gdk.Pixmap(...))
+	     glpixmap = pixmap.set_gl_capability(glconfig)
+	     pixmap.is_gl_capable()
+
+	* gtk/gdkgl/__init__.py: Import ext module.
+
+	* setup.py.in: 
+	* gtk/gdkgl/Makefile.am (pygdkgl_PYTHON): Added ext.py.
+
+	* examples/pixmap-mixed.py (PixmapMixedDemo.__configure_event): 
+	* examples/pixmap.py (PixmapDemo.__configure_event): Use
+	gtk.gdkgl.ext().
+
+2003-08-23  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.99.1
+
+	* configure.in: Bumped version.
+
+	* README.win32: Removed old PyGTK installtion instruction.
+
+2003-08-21  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/coolwave.py (CoolWave.init): Check GL_VERSION_1_1.
+	If OpenGL version 1.1 is not supported, EXT.polygon_offset
+	extension is used.
+	(CoolWave.idle): Use idle instead of timeout for (my) slow
+	machines.
+	(CoolWave.key_press): Call toggle_idle() instead of toggle_timeout().
+	(CoolWave.__setup_arrays): Suppress python 2.3 deprecation
+	warnings (non-integer arguments for range()).
+
+2003-08-21  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/Makefile.am (coolwave.py):
+	* examples/coolwave.py: Added new example program. This is
+	again another mapping from C to Python. The original
+	program 'coolwave.c' comes with GtkGLExt. It's a good
+	example of how to use the latest gtk.gtkgl.apputils
+	module quite extensively.
+
+2003-08-18  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/font.py:
+	* examples/button.py: Don't use apputils module.
+
+	* examples/MoveLight.py:
+	* examples/NeHe6Multi.py:
+	* examples/Shapes.py:
+	* examples/SimpleScene.py:
+	* examples/button.py:
+	* examples/font.py:
+	* examples/scribble-gl.py:
+	* examples/scribble.py:
+	* examples/scribbling-worms.py:
+	* examples/teapot2.py: Changes for new apputils module.
+
+	* gtk/gtkgl/apputils.py: Rewritten. GLScene has been divided into
+	some mixin classes. e.g. Users can add button action capability to
+	their GLScene by subclassing from GLSceneButton. If given GLScene
+	implements GLSceneButton, GLArea enables mouse button events
+	automatically. GLArea.enable_* functions are no longer needed.
+
+2003-08-6  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py: Fixed timeout function management code
+	to ensure per instance timeout intervals for the GLArea class are
+	used as noted by Naofumi. Thanks Naofumi.
+
+	* examples/button.py (ButtonDemo.glarea.enable_timeout):
+	Updated to reflect	the above changes in the
+	gtk.gtkgl.apputils module.
+
+2003-08-5  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py: Added timeout callback facility
+	for frame update of the GLScene, GLArea and GLApplication
+	classes. As requested by Naofumi these new methods/attributes are,
+		GLScene.toggle_timeout()
+		GLScene.timeout(width, height)
+
+		GLArea.default_timeout_interval
+		GLArea.enable_timeout(interval)
+		GLArea.timeout_add()
+		GLArea.timeout_remove()
+		GLArea.toggle_timeout()
+
+		GLApplication.enable_timeout(interval)
+
+	* examples/button.py (BouncingTorus.timeout):
+	* examples/NeHe6Multi.py (NeHe6Multi.timeout):
+	Animation is performed using timeout functions now.
+
+	* examples/font.py (Font.timeout):
+	* examples/MoveLight.py (MoveLight.timeout):
+	* examples/scribble.py (Scribble.timeout):
+	* examples/Shapes.py (Shapes.timeout):
+	* examples/SimpleScene.py (SimpleScene.timeout):
+	* example/teapot2.py (Teapot.timeout):
+	All the corresponding implementations of GLScene now
+	also implement the 'timeout' method.
+
+2003-08-4  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/Makefile.am (scribble.py):
+	* examples/scribble-gl.py:
+	* examples/scribble.py: The previous example scribble-gl.py
+	has been split into scribble.py and scribble-gl.py to separate
+	out the OpenGL parts from Gtk parts completely. Thus scribble.py
+	is fully modular and can be used in other programs now. The
+	Scribble class resides in scribble.py while the ScribbleGLDemo
+	class resides in scribble-gl.py
+
+	* AUTHORS (scribbling-worms.py)
+	* examples/Makefile.am (scribbling-worms.py):
+	* examples/scribbling-worms.py: New example program to
+	test multi-threading with PyGtkGLExt. Uses the scribble.py
+	module to draw scribble strokes from multiple threads in
+	an autonomous manner and lets the user scribble at the
+	same time too.
+
+2003-08-3  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* configure.in (pygtk_required_version):
+	* setup.py (PYGTK_REQUIRED_VERSION): PyGtkGLExt now depends on
+	release 1.99.17 of the PyGtk library or above.
+
+	* examples/font.py (Font.init): Activated a previously commented
+	out	chunk of code (that was due to dependencies on non-standard
+	features in the PyGtk library). Now that the PyGtk library release
+	1.99.17 is compatible with the default conventions of Pango,
+	that chunk of code is safe for use.
+
+2003-08-01  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/gdkglext.override:
+	* gtk/gtkgl/gtkglext.override: Define NO_IMPORT_PYGOBJECT before
+	#include <pygobject.h>. Define NO_IMPORT_PYGTK before #include
+	<pygtk/pygtk.h>.
+
+	* dsextras.py: Updated to the latest PyGTK version of dsextras.py.
+
+2003-07-19  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/button.py: New example program added. Mapped
+	from C to Python. Original program button.c written by
+	Naofumi.
+
+2003-05-26  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/scribble-gl.py (Scribble.display): Optimised
+	execution time by removing redundant method invokations.
+
+2003-05-24  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/scribble-gl.py: Added new example program. This
+	one is functionally equivalent to the PyGtk program scribble.py
+	but obviously all the drawing here is done using OpenGL.
+
+2003-05-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.99.0
+
+	* configure.in: Bumped version. Require GtkGLExt 1.0.0.
+
+2003-05-12  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/gdkglext.override (_wrap_gdk_gl_context_copy):
+	* gtk/gdkgl/gdkglext.defs (gdk_gl_context_copy):
+	Changed src_glcontext -> src.
+
+	* examples/low-level.py (LowLevelDemo.__unrealize): Destroy
+	rendering context explicitly.
+
+2003-05-11  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Makefile.am (EXTRA_DIST):
+	* configure.in:
+	* pygtkglext.spec.in: Added RPM spec file.
+
+	* gtk/gtkgl/apputils.py:
+	* examples/*.py: Changed '#!/usr/bin/env python2.2' to
+	'#!/usr/bin/env python'.
+
+2003-05-10  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/share-lists.py: Added new example program. Another
+	mapping from C to Python. Original C program written by Noafumi
+	for GtkGLExt.
+
+2003-05-10  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/color.py (ColorManagementDemo.__init__): Put in place
+	exception handling. So now if PyGtk raises an exception on not
+	being able to allocate a specific colour from the colourmap, we
+	just switch to RGB mode rather than staying in Colour Index mode.
+
+	* examples/color.py (ColorManagementDemo.__realize): Prints out
+	the OpenGL vendor, renderer, version and extensions strings as
+	switching between RGB and Index modes in above case also causes a
+	switch in the use of GDI Generic or third party renderers on
+	Win32.
+
+2003-05-05  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.1.0
+
+	* configure.in: Bumped version. Require GtkGLExt-0.99.1.
+
+2003-05-04  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/__init__.py:
+	* gtk/gtkgl/__init__.py: Removed unused ltihooks check.
+
+	* examples/NeHe6Multi.py (NeHe6Multi.display): Fixed texture
+	coordinates.
+
+	* examples/*.py: Clean up. Changed indent offset to 4 (default of
+	python-mode.el).
+
+2003-05-01  Alif Wahid  <awah005@users.sourceforge.net>
+
+	BUG FIXES
+
+	* examples/Makefile.am: added the two texturemap images
+	for NeHe6Multi.py example program, that's Wall.png and
+	NeHe.png. They didn't get packaged with the official
+	source tarball release of 0.0.3 since I forgot to add
+	them to this Makefile.am initially.
+
+	* examples/Shapes.py (ShapesWindow.changeColourBg):
+	Fixed a rather serious un-noticed bug by making sure all
+	OpenGL calls were made while having a valid context! There
+	are also changes to the Shapes.display method due to this.
+
+	CLEAN UP
+
+	* examples/Shapes.py (ShapesWindow.__init__): Don't set
+	resize_mode RESIZE_IMMEDIATE on Win32 and got rid of
+	redundant FIXME notes.
+
+2003-05-01  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/teapot2.py (TeapotWindow.__init__):
+	* examples/Shapes.py (ShapesWindow.__init__):
+	* examples/SimpleScene.py:
+	* examples/MoveLight.py:
+	* examples/NeHe6Multi.py: Add gtk.gdkgl.MODE_DEPTH to the default
+	display mode.
+
+2003-05-01  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py (GLApplication.__init__): Don't set
+	resize_mode RESIZE_IMMEDIATE on Win32.
+
+2003-04-30  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py (GLArea.__init__): Use connect_after()
+	instead of connect() to connect 'realize' signal handler.
+
+	* examples/gears-func.py:
+	* examples/gears-darea.py:
+	* examples/teapot.py:
+	* examples/low-level.py (LowLevelDemo.__init__):
+	* examples/simple.py (SimpleDemo.__init__):
+	* examples/simple-mixed.py (SimpleMixedDemo.__init__):
+	* examples/color.py (ColorManagementDemo.__init__):
+	Use connect_after() instead of connect() to connect 'realize'
+	signal handler.
+
+2003-04-30  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Added new example program color.py, it's a mapping
+	from C to Python of the color.c program written by
+	Naofumi for GtkGLExt. Currently experimental as some
+	necessary exceptions are not handled yet. I'll add
+	those soon.
+
+	* examples/color.py
+	* examples/Makefile.am
+	* AUTHORS: Added new example color.py
+
+2003-04-28  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.0.3
+
+	* configure.in: Bumped version.
+
+	* dsextras.py (BuildExt.modify_compiler): Added to modify default
+	compiler settings. Remove -static linker option if mingw32
+	compiler is used on Win32.
+	(BuildExt.build_extensions): Call self.modify_compiler().
+
+2003-04-27  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/*.py: Check required PyGTK version.
+
+	* examples/gears-func.py: 
+	* examples/gears-darea.py: 
+	* examples/teapot.py: 
+	* examples/teapot2.py (TeapotWindow.__init__): 
+	* examples/low-level.py (LowLevelDemo.__init__): 
+	* examples/simple.py (SimpleDemo.__init__): 
+	* examples/simple-mixed.py (SimpleMixedDemo.__init__): 
+	* examples/pixmap.py (PixmapDemo.__init__): 
+	* examples/pixmap-mixed.py (PixmapMixedDemo.__init__): Don't set
+	resize_mode RESIZE_IMMEDIATE on Win32.
+
+2003-04-26  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/gdkglext.defs (gdk_gl_context_destroy)
+	(gdk_gl_pixmap_destroy, gdk_gl_window_destroy): Added.
+
+2003-04-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* acinclude.m4 (AM_CHECK_PYTHON_HEADERS): Fixed for Win32.
+
+2003-04-16  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	Now use new versions of GNU autotools.
+	
+	  - autoconf 2.54 or above
+	  - automake 1.7 or above
+	  - libtool 1.5 or above
+	
+	* autogen.sh: Use libtool-1.5 and automake-1.7.
+	* configure.in: Use autoconf 2.54 or above.
+	* Makefile.am: Use automake-1.7.
+
+2003-04-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* README.win32: Added.
+
+	* Makefile.am (EXTRA_DIST): Added README.win32.
+
+	* gtk/gdkgl/gdkglext.override: Include <windows.h> on Win32 to
+	build using MSVC.
+
+	* dsextras.py (BuildExt.init_extra_compile_args)
+	(BuildExt.build_extensions, BuildExt.build_extension): Now MSVC
+	compatible struct GCC option is automatically added by BuildExt.
+
+	* setup.py.in: extra_compile_args parameter is no longer needed.
+
+2003-04-13  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* setup.py.in
+	* setup.py: Extra predicate added to ensure that MSVC compatible
+	flags are only used when actually using the GCC compiler.
+
+2003-04-13  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* setup.py.in: Changed 'gcc --version' to 'gcc -dumpversion'.
+
+	* examples/low-level.py: Don't import gtk.gtkgl module.
+
+	* gtk/gdkgl/gdkglmodule.c (init_gdkgl): Initialize GdkGLExt
+	library. Added version information.
+
+2003-04-13  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Win32 build fix to take account of GCC version to
+	provide proper MSVC compatible struct packing.
+
+	* setup.py.in
+	* setup.py
+
+2003-04-12  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* dsextras.py:
+	* setup.py.in: Win32 build fix.
+
+2003-04-04  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Fixed bug in the font.py example program, however
+	it won't be apparent yet. This is because we're waiting
+	for PyGtk to conform to the default parameter conventions
+	in the Pango API. Once PyGtk has, then some part of
+	the code will be activated manually. So for now it's
+	fixed in the background only.
+
+2003-03-30  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Added new example programs. Another set of straight
+	conversion from C to Python based on Naofumi's programs
+	from GtkGLExt in C.
+
+	* examples/simple.py
+	* examples/simple-mixed.py: Tests the mixing of GDK and
+	OpenGL calls using a DrawingArea widget.
+
+2003-03-30  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Added example program. Another straight conversion from
+	C to Python based on Naofumi's program in C.
+
+	* examples/pixmap-mixed.py: Tests the mixing of GDK and
+	OpenGL calls using a GdkPixmap.
+
+2003-03-22  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Added some basic instruction for building using
+	python and distutil on Win32 platforms. See the
+	WIN32_BUILD file.
+
+2003-03-22  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Added new example programs. These are a mappings of the
+	programs that Naofumi wrote for GtkGLExt in C. These
+	should test a few more features of PyGtkGLExt before the
+	next release.
+
+	* examples/font.py: *** currently it's quite patchy, needs fixing. ***
+	* examples/low-level.py
+	* examples/pixmap.py
+
+2003-03-21  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Updated remaining example programs that
+	used PyGtkGLTemplate module to now use
+	the gtk.gtkgl.apputils module.
+
+	* examples/Shapes.py
+	* examples/teapot2.py
+
+	Some cleanup of other examples.
+
+	* examples/MoveLight.py
+	* examples/NeHe6Multi.py
+	* examples/SimpleScene.py
+
+	Finally, removed the PyGtkGLTemplate module.
+
+	* examples/PyGtkGLTemplate.py: removed.
+
+2003-03-19  Alif Wahid  <awah005@users.sourceforge.net>
+
+	Updated following example programs to use
+	the gtk.gtkgl.apputils module.
+
+	* examples/NeHe6Multi.py
+	* examples/SimpleScene.py
+	* examples/MoveLight.py
+
+2003-03-19  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/teapot.py (realize): Clear color and depth.
+
+	* setup.py.in:
+	* gtk/gdkgl/Makefile.am:
+	* gtk/gtkgl/Makefile.am: Changed extension module file names to
+	_gdkgl.so and _gtkgl.so.
+
+2003-03-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gtkgl/widget.py: Widget subclasses built-in object class,
+	and restricts instantiation.
+
+2003-03-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py: Added new add-on module which is based on
+	PyGtkGLTemplate.py written by Alif. It provides GLScene, GLArea,
+	and GLApplication classes which reduces programmers' work.
+
+2003-03-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	Added new example programs contributed by Alif Wahid.
+	Thank you, Alif ;-)
+
+	* examples/NeHe6Multi.py: 
+	* examples/Shapes.py: 
+
+2003-03-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	Added new example programs contributed by Alif Wahid.
+	Thank you, Alif ;-)
+
+	* examples/teapot2.py: Revised version of teapot.py using the
+	template.
+	* examples/MoveLight.py: A demo ported from PyOpenGL and PyGLUT.
+	* examples/SimpleScene.py: A demo ported from PyOpenGL and PyGLUT.
+	* examples/PyGtkGLTemplate.py: Generic interface class and a
+	OpenGL widget.
+
+2003-03-10  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.0.2
+
+2003-03-09  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/teapot.py: Simple example based on cone.py that comes
+	with PyGTK.
+
+	* examples/cone.py: Removed.
+
+	* examples/gears-*.py: Rewritten.
+
+2003-03-07  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/*.py: Check gtk.gdkgl.NoMatches exception and try
+	single-buffered frame buffer.
+
+	* gtk/gdkgl/gdkglext.override (_wrap_gdk_gl_config_new): Raises
+	gtk.gdkgl.NoMatches exception if no frame buffer configurations
+	match the specified attributes.
+
+	* gtk/gdkgl/gdkglmodule.c: Added gtk.gdkgl.NoMatches exception.
+
+2003-03-06  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.0.1
+
+	* Initial alpha release.
+

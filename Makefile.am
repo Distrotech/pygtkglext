@@ -6,6 +6,7 @@ DIST_SUBDIRS = $(SUBDIRS) examples
 
 EXTRA_DIST = \
 	README.win32		\
+	ChangeLog.pre-1-0	\
 	pygtkglext.pc.in	\
 	setup.py.in 		\
 	setup.py 		\
