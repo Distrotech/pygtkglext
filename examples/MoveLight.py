@@ -60,7 +60,7 @@ Converted to Python 6/2000 by Jason Petrone <jp@demonseed.net>
 
 from gtk.gtkgl.apputils import *
 
-# Implement the GLSceneInterface
+# Implement the GLScene interface
 # to have the MoveLight scene rendered.
 
 class MoveLight (GLScene):

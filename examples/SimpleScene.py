@@ -51,13 +51,13 @@ Converted to Python by Jason Petrone(jp@demonseed.net) 8/2000
 
 '''
 
-from PyGtkGLTemplate import *
+from gtk.gtkgl.apputils import *
 
-# Implement the GLSceneInterface
+# Implement the GLScene interface
 # to have the Simple scene rendered.
 
-class Simple (GLSceneInterface):
-	def __init__ (self):
+class Simple (GLScene):
+    def __init__(self):
 		self.light_ambient =  [0.0, 0.0, 0.0, 1.0]
 		self.light_diffuse =  [1.0, 1.0, 1.0, 1.0]
 		self.light_specular =  [1.0, 1.0, 1.0, 1.0]
@@ -66,7 +66,7 @@ class Simple (GLSceneInterface):
 
 	#  Initialize material property, light source,
 	# lighting model, and depth buffer.
-	def realize (self):
+    def init(self):
 		glLightfv(GL_LIGHT0, GL_AMBIENT, self.light_ambient)
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, self.light_diffuse)
 		glLightfv(GL_LIGHT0, GL_SPECULAR, self.light_specular)
@@ -80,7 +80,7 @@ class Simple (GLSceneInterface):
 	#  transformation (glRotated) is called.  This places the
 	#  light at a new position in world coordinates.  The cube
 	#  represents the position of the light.
-	def expose (self, width, height):
+    def display(self, width, height):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		glPushMatrix()
 		glRotatef(20.0, 1.0, 0.0, 0.0)
@@ -102,7 +102,7 @@ class Simple (GLSceneInterface):
 		glPopMatrix()
 		glPopMatrix()
 
-	def configure (self, width, height):
+    def reshape(self, width, height):
 		glViewport(0, 0, width, height)
 		glMatrixMode (GL_PROJECTION)
 		glLoadIdentity()
@@ -113,30 +113,44 @@ class Simple (GLSceneInterface):
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
 
-	def button_press (self, event, width, height):
-		pass
-		
-	def motion_notify (self, event, width, height):
-		pass
+    def key_press(self, width, height, event):
+        print "key_press (keyval=%d, state=%d)" \
+              % (event.keyval, event.state)
 
-	def key_press (self, event, width, height):
-		pass
+    def key_release(self, width, height, event):
+        print "key_release (keyval=%d, state=%d)" \
+              % (event.keyval, event.state)
+        if event.keyval == gtk.keysyms.i:
+            self.toggle_idle()
+        elif event.keyval == gtk.keysyms.Escape:
+            gtk.main_quit()
 
-	def visibility_notify (self, event, width, height):
-		pass
+    def button_press(self, width, height, event):
+        print "button_press (button=%d, state=%d, x=%d, y=%d)" \
+              % (event.button, event.state, event.x, event.y)
+
+    def button_release(self, width, height, event):
+        print "button_release (button=%d, state=%d, x=%d, y=%d)" \
+              % (event.button, event.state, event.x, event.y)
+
+    def motion(self, width, height, event):
+        print "motion (state=%d, x=%d, y=%d)" \
+              % (event.state, event.x, event.y)
+
+    def idle(self, width, height):
+        print "idle"
+        self.glarea.queue_draw()
 
 
 if __name__ == '__main__':
-	win = gtk.Window()
-	win.set_title('Simple Scene')
-	win.connect('destroy', lambda quit: gtk.main_quit())
+    glscene = Simple()
 
-	scene = Simple()
-	glarea = GtkGLScene(scene)
-	glarea.set_size_request(300,300)
-	glarea.show()
+    glapp = GLApplication(glscene)
 
-	win.add(glarea)
-	win.show()
+    #glapp.enable_key_events()
+    glapp.enable_button_events()
+    glapp.enable_button_motion_events()
+    #glapp.enable_pointer_motion_events()
+    #glapp.enable_idle()
 
-	gtk.main()
+    glapp.run()
