@@ -13,5 +13,7 @@ EXTRA_DIST = \
 	font.py			\
 	low-level.py		\
 	pixmap.py		\
-	pixmap-mixed.py
+	pixmap-mixed.py 	\
+	simple.py		\
+	simple-mixed.py
 

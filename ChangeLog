@@ -1,11 +1,20 @@
 2003-03-30  Alif Wahid	<awah005@users.sourceforge.net>
 
+	Added new example programs. Another set of straight
+	conversion from C to Python based on Naofumi's programs
+	from GtkGLExt in C.
+
+	* examples/simple.py
+	* examples/simple-mixed.py: Tests the mixing of GDK and
+	OpenGL calls using a DrawingArea widget.
+
+2003-03-30  Alif Wahid	<awah005@users.sourceforge.net>
+
 	Added example program. Another straight conversion from
 	C to Python based on Naofumi's program in C.
 
 	* examples/pixmap-mixed.py: Tests the mixing of GDK and
 	OpenGL calls using a GdkPixmap.
-
 
 2003-03-22  Alif Wahid	<awah005@users.sourceforge.net>
 
