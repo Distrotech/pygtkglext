@@ -31,13 +31,6 @@ class Scribble (GLScene):
 		# The thickness can be adjusted by the user.
 		self.thickness = 5
 
-	def __drawBrushStroke (self, coord):
-		# Set the foreground colour to black.
-		glColor3f(0.0, 0.0, 0.0)
-
-		# Draw a rectangle as the brush stroke with the foreground colour.
-		glRecti(coord[0]+coord[2], coord[1]-coord[2], coord[0]-coord[2], coord[1]+coord[2])
-
 	def init (self):
 		# Set the background colour to white.
 		glClearColor(1.0, 1.0, 1.0, 1.0)
@@ -46,9 +39,13 @@ class Scribble (GLScene):
 	def display (self, width, height):
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+		# Set the foreground colour to black.
+		glColor3f(0.0, 0.0, 0.0)
+
 		# Draw the complete list of brush strokes.
-		for coordinate in self.brushStrokeList:
-			self.__drawBrushStroke(coordinate)
+		for coord in self.brushStrokeList:
+			# Draw a rectangle as the brush stroke.
+			glRecti(coord[0]+coord[2], coord[1]-coord[2], coord[0]-coord[2], coord[1]+coord[2])
 
 	def reshape (self, width, height):
 		# At every reshape, reallocate the brush stroke list.
