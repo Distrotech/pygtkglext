@@ -18,6 +18,7 @@ EXTRA_DIST = \
 	MoveLight.py		\
 	Shapes.py		\
 	NeHe6Multi.py		\
+	scribble-gl.py		\
 	Wall.png		\
 	NeHe.png
 

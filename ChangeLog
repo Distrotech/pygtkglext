@@ -1,3 +1,9 @@
+2003-05-24  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/scribble-gl.py: Added new example program. This
+	one is functionally equivalent to the PyGtk program scribble.py
+	but obviously all the drawing here is done using OpenGL.
+
 2003-05-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* Version 0.99.0
@@ -6,8 +12,8 @@
 
 2003-05-12  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
-	* gtk/gdkgl/gdkglext.override (_wrap_gdk_gl_context_copy): 
-	* gtk/gdkgl/gdkglext.defs (gdk_gl_context_copy): 
+	* gtk/gdkgl/gdkglext.override (_wrap_gdk_gl_context_copy):
+	* gtk/gdkgl/gdkglext.defs (gdk_gl_context_copy):
 	Changed src_glcontext -> src.
 
 	* examples/low-level.py (LowLevelDemo.__unrealize): Destroy
@@ -15,11 +21,11 @@
 
 2003-05-11  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
-	* Makefile.am (EXTRA_DIST): 
-	* configure.in: 
+	* Makefile.am (EXTRA_DIST):
+	* configure.in:
 	* pygtkglext.spec.in: Added RPM spec file.
 
-	* gtk/gtkgl/apputils.py: 
+	* gtk/gtkgl/apputils.py:
 	* examples/*.py: Changed '#!/usr/bin/env python2.2' to
 	'#!/usr/bin/env python'.
 
