@@ -6,6 +6,9 @@
 #
 # Alif Wahid, March 2003.
 
+import sys
+import string
+
 import pygtk
 pygtk.require('2.0')
 import pango
@@ -17,49 +20,38 @@ from gtk.gtkgl.apputils import *
 class Font(GLScene):
     def __init__(self):
         GLScene.__init__(self)
-        
+
         self.fontString = 'courier 12'
         self.fontListBase = 0
         self.fontHeight = 0
-    
+
     def init(self):
-        self.fontListBase = glGenLists(128)
-        
-        fontDesc = pango.FontDescription(self.fontString)
-        font = gtk.gdkgl.font_use_pango_font(fontDesc, 0, 128, self.fontListBase)
-        if not font:
-            print "Can't load the font %s" % (self.fontString)
-            raise SystemExit
-        
-        # FIXME!!
-        #
-        # UPDATED: 4th April, 2003.
-        #
-        # As soon as PyGtk updates to the default
-        # parameter API convention of Pango, we
-        # can just uncomment the following bits
-        # of code and then it will work! I'm not
-        # sure though how PyGtk will provide the
-        # essential PANGO_PIXELS and PANGO_SCALE
-        # macros that're available in C. So for
-        # now they are hardcoded in.
-        #
-        #fontMetrics = font.get_metrics()
-        #self.fontHeight = fontMetrics.get_ascent() + fontMetrics.get_descent()
-        #scale = 1024
-        #if self.fontHeight >= 0:
-        #    self.fontHeight = (self.fontHeight + (scale / 2)) / scale
-        #else:
-        #    self.fontHeight = (self.fontHeight - (scale / 2)) / scale
-        #
-        # FIXME!!
-        
-        glClearColor(1.0, 1.0, 1.0, 1.0)
-        glClearDepth(1.0)
-    
+		#Print some OpenGL strings.
+		print "GL_VENDOR\t= %s" % (glGetString(GL_VENDOR))
+		print "GL_RENDERER\t= %s" % (glGetString(GL_RENDERER))
+		print "GL_VERSION\t= %s" % (glGetString(GL_VERSION))
+		print "GL_EXTENSIONS\t="
+		for extension in (string.split(glGetString(GL_EXTENSIONS))):
+			print "\t\t%s" % (extension)
+
+		self.fontListBase = glGenLists(128)
+
+		fontDesc = pango.FontDescription(self.fontString)
+		font = gtk.gdkgl.font_use_pango_font(fontDesc, 0, 128, self.fontListBase)
+		if not font:
+			print "Can't load the font %s" % (self.fontString)
+			raise SystemExit
+
+		fontMetrics = font.get_metrics()
+		self.fontHeight = fontMetrics.get_ascent() + fontMetrics.get_descent()
+		self.fontHeight = pango.PIXELS(self.fontHeight)
+
+		glClearColor(1.0, 1.0, 1.0, 1.0)
+		glClearDepth(1.0)
+
     def display(self, width, height):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        
+
         glColor3f(0.0, 0.0, 0.0)
         for i in range(2,-3,-1):
             glRasterPos2f(10.0, 0.5*height + i*self.fontHeight)
