@@ -346,7 +346,7 @@ glarea.connect('configure_event', reshape)
 glarea.connect('expose_event', draw)
 glarea.connect('map_event', map)
 
-table.attach(glarea, 0,2, 0,1)
+table.attach(glarea, 0, 2, 0, 1)
 glarea.show()
 
 #
@@ -357,14 +357,14 @@ for row, label, start, cb in ((1, "X Rotation", view_rotx, xchange),
 			      (2, "Y Rotation", view_roty, ychange),
 			      (3, "Z Rotation", view_rotz, zchange)):
 	l = gtk.Label(label)
-	table.attach(l, 0,1, row,row+1, xoptions=0, yoptions=gtk.FILL)
+	table.attach(l, 0, 1, row, row+1, xoptions=0, yoptions=gtk.FILL)
 	l.show()
 	
 	adj = gtk.Adjustment(start, 0, 360, 5, 5, 0)
 	adj.connect('value_changed', cb)
 	
 	scale = gtk.HScale(adj)
-	table.attach(scale, 1,2, row,row+1, yoptions=gtk.FILL)
+	table.attach(scale, 1, 2, row, row+1, yoptions=gtk.FILL)
 	scale.show()
 
 #

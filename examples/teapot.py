@@ -171,7 +171,7 @@ win.connect('destroy', gtk.mainquit)
 # gtk.Table
 #
 
-table = gtk.Table(2, 4)
+table = gtk.Table(3, 2)
 table.set_border_width(5)
 table.set_col_spacings(5)
 table.set_row_spacings(5)
@@ -189,7 +189,7 @@ glarea.connect('realize', realize)
 glarea.connect('configure_event', configure_event)
 glarea.connect('expose_event', expose_event)
 
-table.attach(glarea, 0,1, 0,1)
+table.attach(glarea, 0, 1, 0, 1)
 glarea.show()
 
 #
@@ -200,14 +200,14 @@ vadj = gtk.Adjustment(0, -360, 360, 5, 5, 0)
 vadj.connect('value_changed', vchanged, glarea)
 
 vscale = gtk.VScale(vadj)
-table.attach(vscale, 1,2, 0,1, xoptions=gtk.FILL)
+table.attach(vscale, 1, 2, 0, 1, xoptions=gtk.FILL)
 vscale.show()
 
 hadj = gtk.Adjustment(0, -360, 360, 5, 5, 0)
 hadj.connect('value_changed', hchanged, glarea)
 
 hscale = gtk.HScale(hadj)
-table.attach(hscale, 0,1, 1,2, yoptions=gtk.FILL)
+table.attach(hscale, 0, 1, 1, 2, yoptions=gtk.FILL)
 hscale.show()
 
 #
@@ -216,7 +216,7 @@ hscale.show()
 
 button = gtk.ToggleButton("solid")
 button.connect('toggled', toggled, glarea)
-table.attach(button, 0,2, 2,3, gtk.FILL, gtk.FILL)
+table.attach(button, 0, 2, 2, 3, gtk.FILL, gtk.FILL)
 button.show()
 
 #
