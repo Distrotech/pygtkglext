@@ -1,5 +1,11 @@
 2003-09-08  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* Version 0.99.2
+
+	* configure.in: Bumped version. Require PyGTK-2.0.0.
+
+2003-09-08  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
 	* examples/low-level.py: 
 	* examples/simple.py: 
 	* examples/simple-mixed.py: 
