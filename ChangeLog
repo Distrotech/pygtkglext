@@ -1,3 +1,17 @@
+2003-05-10  Alif Wahid  <awah005@users.sourceforge.net>
+
+    * examples/color.py (ColorManagementDemo.__init__): Put in
+    place exception handling. So now if PyGtk raises an exception
+    on not being able to allocate a specific colour from the
+    colourmap, we just switch to RGB mode rather than staying
+    in Colour Index mode.
+    
+    * examples/color.py (ColorManagementDemo.__realize): Prints
+    out the OpenGL vendor, renderer, version and extensions strings
+    as switching between RGB and Index modes in above case also
+    causes a switch in the use of GDI Generic or third party renderers
+    on Win32.
+
 2003-05-05  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* Version 0.1.0
@@ -6,7 +20,7 @@
 
 2003-05-04  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
-	* gtk/gdkgl/__init__.py: 
+	* gtk/gdkgl/__init__.py:
 	* gtk/gtkgl/__init__.py: Removed unused ltihooks check.
 
 	* examples/NeHe6Multi.py (NeHe6Multi.display): Fixed texture
@@ -21,7 +35,7 @@
 
 	* examples/Makefile.am: added the two texturemap images
 	for NeHe6Multi.py example program, that's Wall.png and
-	NeHe.png. They didn't get packaged	with the official
+	NeHe.png. They didn't get packaged with the official
 	source tarball release of 0.0.3 since I forgot to add
 	them to this Makefile.am initially.
 

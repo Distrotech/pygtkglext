@@ -15,7 +15,8 @@ import gtk.gdkgl
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-import sys
+import sys 
+import string
 
 class ColorManagementDemo(object):
     def __init__(self):
@@ -25,49 +26,46 @@ class ColorManagementDemo(object):
             self.display_mode = gtk.gdkgl.MODE_RGB
         else:
             self.display_mode = gtk.gdkgl.MODE_INDEX
-        
+
         # Query the OpenGL extension version.
         print "OpenGL extension version - %d.%d\n" % gtk.gdkgl.query_version()
-        
+
         # Try to create a double buffered framebuffer,
         # if not successful then create a single
         # buffered one.
-        self.display_mode = self.display_mode | gtk.gdkgl.MODE_DOUBLE
+        self.display_mode |= gtk.gdkgl.MODE_DOUBLE
         try:
             self.glconfig = gtk.gdkgl.Config(mode=self.display_mode)
         except gtk.gdkgl.NoMatches:
             self.display_mode &= ~gtk.gdkgl.MODE_DOUBLE
             self.glconfig = gtk.gdkgl.Config(mode=self.display_mode)
-        
-        # TODO NOTE
-        #
-        # If configured as color index mode
-        # then try to allocate colors from
-        # the colormap. Currently no exception
-        # catching is happening. The alloc_color
-        # method raises an exception if it
-        # fails to allocate a color from the
-        # colormap.
-        #
-        # I WILL PUT AN EXCEPTION CATCHING BLOCK.
-        #
-        # TODO NOTE
+
         if not self.glconfig.is_rgba():
-            # Allocate non-writeable and perfect match colors.
-            colormap = self.glconfig.get_colormap()
-            self.BLACK = colormap.alloc_color(0x0, 0x0, 0x0, gtk.FALSE, gtk.FALSE)
-            self.RED = colormap.alloc_color(0xffff, 0x0, 0x0, gtk.FALSE, gtk.FALSE)
-            self.GREEN = colormap.alloc_color(0x0, 0xffff, 0x0, gtk.FALSE, gtk.FALSE)
-            self.BLUE = colormap.alloc_color(0x0, 0x0, 0xffff, gtk.FALSE, gtk.FALSE)
-            self.render_type = gtk.gdkgl.COLOR_INDEX_TYPE
+            # Try to allocate non-writeable and perfect match colours.
+            try:
+                colormap = self.glconfig.get_colormap()
+                self.BLACK = colormap.alloc_color(0x0, 0x0, 0x0, gtk.FALSE, gtk.FALSE)
+                self.RED = colormap.alloc_color(0xffff, 0x0, 0x0, gtk.FALSE, gtk.FALSE)
+                # Raise this dummy exception for testing to
+                # see if switching to RGB mode occurs
+                # properly. Currently commented out, but
+                # uncomment if necessary for testing.
+                #
+                #raise RuntimeError
+                self.GREEN = colormap.alloc_color(0x0, 0xffff, 0x0, gtk.FALSE, gtk.FALSE)
+                self.BLUE = colormap.alloc_color(0x0, 0x0, 0xffff, gtk.FALSE, gtk.FALSE)
+                self.render_type = gtk.gdkgl.COLOR_INDEX_TYPE
+            except RuntimeError:
+                print 'Could not allocate colours in Index mode.'
+                print 'Switching to RGB mode.'
+                self.display_mode &= ~gtk.gdkgl.MODE_INDEX      # Clear the Index mode flag.
+                self.display_mode |= gtk.gdkgl.MODE_RGB         # Set the RGB mode flag.
+                self.glconfig = gtk.gdkgl.Config(mode=self.display_mode)
+                self.__create_Color_objects()
         else:
             # Directly corresponding gdk.Color objects.
-            self.BLACK = gtk.gdk.Color(0x0, 0x0, 0x0)
-            self.RED = gtk.gdk.Color(0xffff, 0x0, 0x0)
-            self.GREEN = gtk.gdk.Color(0x0, 0xffff, 0x0)
-            self.BLUE = gtk.gdk.Color(0x0, 0x0, 0xffff)
-            self.render_type = gtk.gdkgl.RGBA_TYPE
-        
+            self.__create_Color_objects()
+
         # Create the window for the app.
         self.win = gtk.Window()
         self.win.set_title('color')
@@ -75,12 +73,12 @@ class ColorManagementDemo(object):
             self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
         self.win.set_reallocate_redraws(gtk.TRUE)
         self.win.connect('destroy', lambda quit: gtk.main_quit())
-        
+
         # VBox to hold everything.
         vbox = gtk.VBox()
         self.win.add(vbox)
         vbox.show()
-        
+
         # DrawingArea for OpenGL rendering.
         glarea = gtk.gtkgl.DrawingArea(glconfig=self.glconfig,
                                        render_type=self.render_type)
@@ -90,23 +88,37 @@ class ColorManagementDemo(object):
         glarea.connect('expose_event', self.__expose_event)
         vbox.pack_start(glarea)
         glarea.show()
-        
+
         # A quit button.
         button = gtk.Button('Quit')
         button.connect('clicked', lambda quit: self.win.destroy())
         vbox.pack_start(button, expand=gtk.FALSE)
         button.show()
-    
+
+    def __create_Color_objects (self):
+        # Directly corresponding gdk.Color objects.
+        self.BLACK = gtk.gdk.Color(0x0, 0x0, 0x0)
+        self.RED = gtk.gdk.Color(0xffff, 0x0, 0x0)
+        self.GREEN = gtk.gdk.Color(0x0, 0xffff, 0x0)
+        self.BLUE = gtk.gdk.Color(0x0, 0x0, 0xffff)
+        self.render_type = gtk.gdkgl.RGBA_TYPE
+
     def __realize(self, widget):
         # Get GLContext and GLDrawable
         glcontext = widget.get_gl_context()
         gldrawable = widget.get_gl_drawable()
-        
+
         # GL calls
         if not gldrawable.gl_begin(glcontext): return
-        
+
         # OpenGL begin.
-        
+        print "GL_VENDOR\t= %s" % (glGetString(GL_VENDOR))
+        print "GL_RENDERER\t= %s" % (glGetString(GL_RENDERER))
+        print "GL_VERSION\t= %s" % (glGetString(GL_VERSION))
+        print "GL_EXTENSIONS\t="
+        for extension in (string.split(glGetString(GL_EXTENSIONS))):
+            print "\t\t%s" % (extension)
+
         glClearColor(0.0, 0.0, 0.0, 0.0)
         
         # OpenGL end
