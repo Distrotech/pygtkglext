@@ -15,7 +15,10 @@ import math, array
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from OpenGL.GL.EXT.polygon_offset import *
+try:
+    GL_VERSION_1_1
+except:
+    from OpenGL.GL.EXT.polygon_offset import *
 
 import gtk
 import gtk.gtkgl
@@ -30,8 +33,8 @@ SQRTOFTWOINV = 0.707106781
 class CoolWave (GLScene,
                 GLSceneButton,
                 GLSceneButtonMotion,
-				GLSceneKey,
-                GLSceneTimeout):
+                GLSceneKey,
+                GLSceneIdle):
     ''' An implementation of the GLScene and
     related mixin interfaces. It renders an
     animating 3D waveform. The waveform shows
@@ -42,7 +45,6 @@ class CoolWave (GLScene,
                          gtk.gdkgl.MODE_RGB   |
                          gtk.gdkgl.MODE_DEPTH |
                          gtk.gdkgl.MODE_DOUBLE)
-        GLSceneTimeout.__init__(self, 50)
 
         # Some private attributes needed
         # for rendering purposes.
@@ -70,9 +72,9 @@ class CoolWave (GLScene,
         self.__veloc = []
         self.__posit = []
         for i in xrange(0, MAXGRID):
-            self.__force.append(array.array('f', range(0.0, MAXGRID)))
-            self.__veloc.append(array.array('f', range(0.0, MAXGRID)))
-            self.__posit.append(array.array('f', range(0.0, MAXGRID)))
+            self.__force.append(array.array('f', range(0, MAXGRID)))
+            self.__veloc.append(array.array('f', range(0, MAXGRID)))
+            self.__posit.append(array.array('f', range(0, MAXGRID)))
 
     def __getforce (self, gridSize):
         ''' The force derivative of the transcendental
@@ -162,11 +164,6 @@ class CoolWave (GLScene,
     # the GLScene and related mixin interfaces.
 
     def init (self):
-        # Check for the PolygonOffset extension.
-        if not glInitPolygonOffsetEXT():
-            print "Need glPolygonOffsetEXT()"
-            raise SystemExit
-
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepth(1.0)
         glDepthFunc(GL_LEQUAL)
@@ -176,7 +173,14 @@ class CoolWave (GLScene,
         glEnable(GL_COLOR_MATERIAL)
         glEnable(GL_LIGHT0)
 
-        glPolygonOffset(1.0, 1.0)
+        if GL_VERSION_1_1:
+            glPolygonOffset(1.0, 1.0)
+        else:
+            # Check for the PolygonOffset extension.
+            if not glInitPolygonOffsetEXT():
+                print "Need glPolygonOffsetEXT()"
+                raise SystemExit
+            glPolygonOffsetEXT(1.0, 1.0)
 
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
         glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST)
@@ -218,15 +222,15 @@ class CoolWave (GLScene,
 
         elif event.keyval == gtk.keysyms.r:
             # Reset the wave shape.
-        	self.__init_wireframe(self.__grid)
+            self.__init_wireframe(self.__grid)
 
         elif event.keyval == gtk.keysyms.plus:
             # Zoom in.
-        	self.__sdepth -= 2.0
+            self.__sdepth -= 2.0
 
         elif event.keyval == gtk.keysyms.minus:
             # Zoom out.
-        	self.__sdepth += 2.0
+            self.__sdepth += 2.0
 
         self.queue_draw()
 
@@ -243,16 +247,16 @@ class CoolWave (GLScene,
 
     def button_motion (self, width, height, event):
         if event.state == gtk.gdk.BUTTON1_MASK:
-        	self.__sphi += (event.x - self.__beginX)/4.0
-        	self.__stheta += (self.__beginY - event.y)/4.0
+            self.__sphi += (event.x - self.__beginX)/4.0
+            self.__stheta += (self.__beginY - event.y)/4.0
         elif event.state == gtk.gdk.BUTTON2_MASK:
-        	self.__sdepth += (self.__beginY - event.y)/10.0
+            self.__sdepth += (self.__beginY - event.y)/10.0
         self.__beginX = event.x
         self.__beginY = event.y
 
         self.queue_draw()
 
-    def timeout (self, width, height):
+    def idle (self, width, height):
         self.__getforce(self.__grid)
         self.__getveloc(self.__grid, self.__dt)
         self.__getposit(self.__grid)

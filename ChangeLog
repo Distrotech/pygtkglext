@@ -1,3 +1,13 @@
+2003-08-21  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/coolwave.py (CoolWave.init): Check GL_VERSION_1_1.
+	If OpenGL version 1.1 is not supported, EXT.polygon_offset
+	extension is used.
+	(CoolWave.idle): Use idle instead of timeout for (my) slow
+	machines.
+	(CoolWave.__setup_arrays): Suppress python 2.3 deprecation
+	warnings (non-integer arguments for range()).
+
 2003-08-21  Alif Wahid  <awah005@users.sourceforge.net>
 
 	* examples/Makefile.am (coolwave.py):
