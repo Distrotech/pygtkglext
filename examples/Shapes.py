@@ -216,9 +216,12 @@ class Shapes(GLScene):
     
     def key_release(self, width, height, event):
         pass
-    
-    def idle(self, width, height):
-        pass
+
+	def timeout(self, width, height):
+		pass
+
+	def idle(self, width, height):
+		pass
 
 # A window to show the Shapes scene
 # in a GLArea widget along with two

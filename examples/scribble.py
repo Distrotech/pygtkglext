@@ -97,8 +97,11 @@ class Scribble (GLScene):
 
 	def idle (self, width, height):
 		pass
-		
-	# Two extra functions to give a nice API for
+
+	def timeout (self, width, height):
+		pass
+
+    # Two extra functions to give a nice API for
 	# embedding this class in other applications.
 
 	def queue_brush_stroke_draw (self, *args):

@@ -127,6 +127,9 @@ class MoveLight(GLScene):
     def motion(self, width, height, event):
         pass
     
+    def timeout(self, width, height):
+        pass
+
     def idle(self, width, height):
         pass
 
@@ -134,16 +137,17 @@ class MoveLight(GLScene):
 if __name__ == '__main__':
     # add MODE_DEPTH to the default display mode
     GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
-    
+
     glscene = MoveLight()
-    
+
     glapp = GLApplication(glscene)
     glapp.set_title('MoveLight')
-    
+
     #glapp.enable_key_events()
     glapp.enable_button_events()
     #glapp.enable_button_motion_events()
     #glapp.enable_pointer_motion_events()
     #glapp.enable_idle()
-    
+    #glapp.enable_timeout()
+
     glapp.run()

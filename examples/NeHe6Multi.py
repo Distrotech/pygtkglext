@@ -173,13 +173,13 @@ class NeHe6Multi(GLScene):
 
     def key_press(self, width, height, event):
         if event.keyval == gtk.keysyms.i:
-            self.toggle_idle()
+            self.toggle_timeout()
         elif event.keyval == gtk.keysyms.Escape:
             gtk.main_quit()
 
     def key_release(self, width, height, event):
         pass
-        
+
     def button_press(self, width, height, event):
         pass
 
@@ -189,15 +189,18 @@ class NeHe6Multi(GLScene):
     def motion(self, width, height, event):
         pass
 
-    def idle(self, width, height):
+    def timeout(self, width, height):
         self.rot = (self.rot + 0.2) % 360
         self.queue_draw()
+
+    def idle(self, width, height):
+        pass
 
 
 if __name__ == '__main__':
     # add MODE_DEPTH to the default display mode
     GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
-    
+
     glscene = NeHe6Multi()
 
     glapp = GLApplication(glscene)
@@ -207,6 +210,7 @@ if __name__ == '__main__':
     #glapp.enable_button_events()
     #glapp.enable_button_motion_events()
     #glapp.enable_pointer_motion_events()
-    glapp.enable_idle()
+    #glapp.enable_idle()
+    glapp.enable_timeout(10)
 
     glapp.run()

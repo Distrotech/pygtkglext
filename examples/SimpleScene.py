@@ -133,6 +133,9 @@ class Simple(GLScene):
     def idle(self, width, height):
         pass
 
+    def timeout(self, width, height):
+        pass
+
 
 if __name__ == '__main__':
     # add MODE_DEPTH to the default display mode
@@ -148,5 +151,6 @@ if __name__ == '__main__':
     glapp.enable_button_motion_events()
     #glapp.enable_pointer_motion_events()
     #glapp.enable_idle()
+    #glapp.enable_timeout()
     
     glapp.run()

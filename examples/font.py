@@ -94,18 +94,21 @@ class Font(GLScene):
     def idle(self, width, height):
         pass
 
+    def timeout(self, width, height):
+        pass
 
 if __name__ == '__main__':
     glscene = Font()
-    
+
     glapp = GLApplication(glscene)
     glapp.set_size_request(640, 200)
     glapp.set_title('Font')
-    
+
     #glapp.enable_key_events()
     #glapp.enable_button_events()
     #glapp.enable_button_motion_events()
     #glapp.enable_pointer_motion_events()
     #glapp.enable_idle()
-    
+    #glapp.enable_timeout()
+
     glapp.run()

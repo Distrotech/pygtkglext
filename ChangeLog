@@ -1,6 +1,34 @@
+2003-08-5  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py: Added timeout callback facility
+	for frame update of the GLScene, GLArea and GLApplication
+	classes. As requested by Naofumi these new methods/attributes are,
+		GLScene.toggle_timeout()
+		GLScene.timeout(width, height)
+
+		GLArea.default_timeout_interval
+		GLArea.enable_timeout(interval)
+		GLArea.timeout_add()
+		GLArea.timeout_remove()
+		GLArea.toggle_timeout()
+
+		GLApplication.enable_timeout(interval)
+
+	* examples/button.py (BouncingTorus.timeout):
+	* examples/NeHe6Multi.py (NeHe6Multi.timeout):
+	Animation is performed using timeout functions now.
+
+	* examples/font.py (Font.timeout):
+	* examples/MoveLight.py (MoveLight.timeout):
+	* examples/scribble.py (Scribble.timeout):
+	* examples/Shapes.py (Shapes.timeout):
+	* examples/SimpleScene.py (SimpleScene.timeout):
+	* example/teapot2.py (Teapot.timeout):
+	All the corresponding implementations of GLScene now
+	also implement the 'timeout' method.
+
 2003-08-4  Alif Wahid  <awah005@users.sourceforge.net>
 
-	* AUTHORS (scribble.py):
 	* examples/Makefile.am (scribble.py):
 	* examples/scribble-gl.py:
 	* examples/scribble.py: The previous example scribble-gl.py

@@ -89,6 +89,9 @@ class Teapot(GLScene):
     def idle(self, width, height):
         pass
 
+    def timeout(self, width, height):
+        pass
+
 # A simple window to show the Teapot scene
 # in a GLArea widget along with two
 # sliders for rotating the teapot rendered

@@ -105,14 +105,16 @@ class BouncingTorus (GLScene):
 	def motion (self, width, height, event):
 		pass
 
-	def idle (self, width, height):
+	def timeout (self, width, height):
 		self.angle += 1.0
 		if (self.angle >= 360.0):
 			self.angle = 0
 
 		self.pos_y = math.sin (self.angle * math.pi / 180.0)
-
 		self.queue_draw()
+
+	def idle (self, width, height):
+		pass
 
 
 # Simple window holding a toggle button
@@ -133,8 +135,8 @@ class ButtonDemo (gtk.Window):
 		self.glarea.set_size_request(200,200)
 		self.glarea.show()
 
-        # Enable the idle callback for animation.
-		self.glarea.enable_idle()
+        # Enable the timeout callback for animation.
+		self.glarea.enable_timeout()
 
         # A label to accompany the bouncing torus.
 		self.label = gtk.Label('Toggle Animation')
@@ -157,7 +159,7 @@ class ButtonDemo (gtk.Window):
 		self.add(self.button)
 
 	def toggle_animation (self, button):
-		self.glarea.toggle_idle()
+		self.glarea.toggle_timeout()
 
 	def run (self):
 		self.show()
@@ -165,5 +167,8 @@ class ButtonDemo (gtk.Window):
 
 
 if __name__ == '__main__':
+	# override the default timeout interval of GLArea.
+	GLArea.default_timeout_interval = 10
+
 	glapp = ButtonDemo()
 	glapp.run()

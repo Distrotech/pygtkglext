@@ -37,6 +37,9 @@ class GLScene(object):
     def queue_draw(self):
         self.glarea.queue_draw()
 
+    def toggle_timeout(self):
+        self.glarea.toggle_timeout()
+
     def toggle_idle(self):
         self.glarea.toggle_idle()
 
@@ -92,6 +95,9 @@ class GLScene(object):
         """Idle function."""
         raise NotImplementedError, "must be implemented."
 
+    def timeout(self, width, height):
+        """Timeout function."""
+        raise NotImplementedError, "must be implemented."
 
 ### OpenGL drawing area widget
 
@@ -101,12 +107,20 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
     # default display mode (may be overridden)
     default_display_mode = gtk.gdkgl.MODE_RGB | gtk.gdkgl.MODE_DOUBLE
 
+    # default timeout interval used to provide
+    # an iterative update of frames (in ms). It
+    # may also be overriden.
+    default_timeout_interval = 30
+
     def __init__(self, glscene, glconfig=None, share_list=None,
                  direct=gtk.TRUE, render_type=gtk.gdkgl.RGBA_TYPE):
         gtk.DrawingArea.__init__(self)
 
         self.glscene = glscene;
         self.glscene.glarea = self;
+
+        self.__enable_timeout = gtk.FALSE
+        self.__timeout_id = 0
 
         self.__enable_idle = gtk.FALSE
         self.__idle_id = 0
@@ -148,6 +162,9 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
 
     def enable_pointer_motion_events(self):
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
+
+    def enable_timeout(self):
+        self.__enable_timeout = gtk.TRUE
 
     def enable_idle(self):
         self.__enable_idle = gtk.TRUE
@@ -247,7 +264,42 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
                             event)
         return gtk.TRUE
 
-    ## idle function management
+    ## timeout function management
+
+    def __timeout(self, widget):
+        """Timeout callback function.
+        This function invokes glscene.timeout().
+        """
+        
+        # call glscene.timeout()
+        self.glscene.timeout(widget.allocation.width,
+                             widget.allocation.height)
+        return gtk.TRUE
+
+    def timeout_add(self):
+        """Add timeout function.
+        """
+        if self.__timeout_id == 0:
+            self.__timeout_id = gtk.timeout_add(self.default_timeout_interval, self.__timeout, self)
+
+    def timeout_remove(self):
+        """Remove timeout function.
+        """
+        if self.__timeout_id != 0:
+            gtk.timeout_remove(self.__timeout_id)
+            self.__timeout_id = 0
+
+    def toggle_timeout(self):
+        """Toggle timeout function.
+        """
+        self.__enable_timeout = not self.__enable_timeout;
+        if self.__enable_timeout:
+            self.timeout_add()
+        else:
+            self.timeout_remove()
+            self.queue_draw()
+
+	## idle function management
 
     def __idle(self, widget):
         """Idle callback function.
@@ -286,12 +338,17 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """
         if self.__enable_idle:
             self.idle_add()
+
+        if self.__enable_timeout:
+            self.timeout_add()
+
         return gtk.TRUE
 
     def __unmap_event(self, widget, event):
         """'unmap_event' signal handler.
         """
         self.idle_remove()
+        self.timeout_remove()
         return gtk.TRUE
 
     def __visibility_notify_event(self, widget, event):
@@ -302,6 +359,13 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
                 self.idle_remove()
             else:
                 self.idle_add()
+
+        if self.__enable_timeout:
+            if event.state == gtk.gdk.VISIBILITY_FULLY_OBSCURED:
+                self.timeout_remove()
+            else:
+                self.timeout_add()
+
         return gtk.TRUE
 
 
@@ -336,6 +400,10 @@ class GLApplication(gtk.Window):
     def enable_idle(self):
         self.glarea.enable_idle()
 
+    def enable_timeout(self, interval=GLArea.default_timeout_interval):
+        GLArea.default_timeout_interval = interval
+        self.glarea.enable_timeout()
+
     def run(self):
         self.add(self.glarea)
         self.glarea.show()
@@ -353,11 +421,11 @@ class EmptyScene(GLScene):
     def init(self):
         print "init"
         glClearColor(0.0, 0.0, 0.0, 0.0)
-    
+
     def display(self, width, height):
         print "display"
         glClear(GL_COLOR_BUFFER_BIT)
-    
+
     def reshape(self, width, height):
         print "reshape (width=%d, height=%d)" \
               % (width, height)
@@ -374,18 +442,22 @@ class EmptyScene(GLScene):
             self.toggle_idle()
         elif event.keyval == gtk.keysyms.Escape:
             gtk.main_quit()
-    
+
     def button_press(self, width, height, event):
         print "button_press (button=%d, state=%d, x=%d, y=%d)" \
               % (event.button, event.state, event.x, event.y)
-    
+
     def button_release(self, width, height, event):
         print "button_release (button=%d, state=%d, x=%d, y=%d)" \
               % (event.button, event.state, event.x, event.y)
-    
+
     def motion(self, width, height, event):
         print "motion (state=%d, x=%d, y=%d)" \
               % (event.state, event.x, event.y)
+
+    def timeout(self, width, height):
+        print "timeout"
+        self.queue_draw()
 
     def idle(self, width, height):
         print "idle"
@@ -398,16 +470,17 @@ if __name__ == '__main__':
 
     # change default display mode
     #GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
-    
+
     glscene = EmptyScene()
-    
+
     glapp = GLApplication(glscene)
-    
+
     glapp.enable_key_events()
     glapp.enable_button_events()
     glapp.enable_button_motion_events()
     #glapp.enable_pointer_motion_events()
-    glapp.enable_idle()
-    
+    #glapp.enable_idle()
+    glapp.enable_timeout(500)
+
     glapp.run()
-    
+
