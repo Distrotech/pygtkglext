@@ -1,5 +1,8 @@
 2003-08-18  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* examples/font.py: 
+	* examples/button.py: Don't use apputils module.
+
 	* examples/MoveLight.py: 
 	* examples/NeHe6Multi.py: 
 	* examples/Shapes.py: 
