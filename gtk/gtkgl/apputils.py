@@ -78,8 +78,8 @@ class GLScene(GLSceneBase):
         raise NotImplementedError, "must be implemented."
 
 
-class GLSceneKey:
-    """Key events interface."""
+class GLSceneKey(object):
+    """Key events interface mixin."""
 
     def key_press(self, width, height, event):
         """Process key press event.
@@ -94,8 +94,8 @@ class GLSceneKey:
         raise NotImplementedError, "must be implemented."
 
 
-class GLSceneButton:
-    """Button events interface."""
+class GLSceneButton(object):
+    """Button events interface mixin."""
 
     def button_press(self, width, height, event):
         """Process button press event.
@@ -110,8 +110,8 @@ class GLSceneButton:
         raise NotImplementedError, "must be implemented."
 
 
-class GLSceneButtonMotion:
-    """Button motion event interface."""
+class GLSceneButtonMotion(object):
+    """Button motion event interface mixin."""
 
     def button_motion(self, width, height, event):
         """Process button motion event.
@@ -120,8 +120,8 @@ class GLSceneButtonMotion:
         raise NotImplementedError, "must be implemented."
 
 
-class GLScenePointerMotion:
-    """Pointer motion event interface."""
+class GLScenePointerMotion(object):
+    """Pointer motion event interface mixin."""
 
     def pointer_motion(self, width, height, event):
         """Process pointer motion event.
@@ -130,8 +130,8 @@ class GLScenePointerMotion:
         raise NotImplementedError, "must be implemented."
 
 
-class GLSceneTimeout:
-    """Timeout function interface."""
+class GLSceneTimeout(object):
+    """Timeout function interface mixin."""
 
     def __init__(self, interval=30):
         self.timeout_interval = interval
@@ -141,8 +141,8 @@ class GLSceneTimeout:
         raise NotImplementedError, "must be implemented."
 
 
-class GLSceneIdle:
-    """Idle function interface."""
+class GLSceneIdle(object):
+    """Idle function interface mixin."""
 
     def idle(self, width, height):
         """Idle function."""
@@ -291,20 +291,28 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """'button_press_event' signal handler.
         This function invokes glscene.button_press().
         """
+        glcontext = widget.get_gl_context()
+        gldrawable = widget.get_gl_drawable()
+        if not gldrawable.gl_begin(glcontext): return
         # Call glscene.button_press()
         self.glscene.button_press(widget.allocation.width,
                                   widget.allocation.height,
                                   event)
+        gldrawable.gl_end()
         return gtk.TRUE
 
     def __button_release_event(self, widget, event):
         """'button_release_event' signal handler.
         This function invokes glscene.button_release().
         """
+        glcontext = widget.get_gl_context()
+        gldrawable = widget.get_gl_drawable()
+        if not gldrawable.gl_begin(glcontext): return
         # Call glscene.button_release()
         self.glscene.button_release(widget.allocation.width,
                                     widget.allocation.height,
                                     event)
+        gldrawable.gl_end()
         return gtk.TRUE
 
     def __motion_notify_event(self, widget, event):

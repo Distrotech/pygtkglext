@@ -1,5 +1,12 @@
 2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* gtk/gtkgl/apputils.py (GLScene*): Subclassing from built-in
+	object.
+	(GLArea.__button_press_event, GLArea.__button_release_event): Do
+	gl_begin() for selection.
+
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
 	* Makefile.am (EXTRA_DIST): Removed dsextras.py
 
 	* dsextras.py: Removed.
