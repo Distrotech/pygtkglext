@@ -1,0 +1,258 @@
+;; -*- scheme -*-
+; object definitions ...
+
+(define-object Config
+  (in-module "Gdk")
+  (parent "GObject")
+  (c-name "GdkGLConfig")
+  (gtype-id "GDK_TYPE_GL_CONFIG")
+)
+
+(define-object Context
+  (in-module "Gdk")
+  (parent "GObject")
+  (c-name "GdkGLContext")
+  (gtype-id "GDK_TYPE_GL_CONTEXT")
+)
+
+(define-interface Drawable
+  (in-module "Gdk")
+  (c-name "GdkGLDrawable")
+  (gtype-id "GDK_TYPE_GL_DRAWABLE")
+)
+
+(define-object Pixmap
+  (in-module "Gdk")
+  (parent "GdkDrawable")
+  (c-name "GdkGLPixmap")
+  (gtype-id "GDK_TYPE_GL_PIXMAP")
+  (implements "GdkGLDrawable")
+)
+
+(define-object Window
+  (in-module "Gdk")
+  (parent "GdkDrawable")
+  (c-name "GdkGLWindow")
+  (gtype-id "GDK_TYPE_GL_WINDOW")
+  (implements "GdkGLDrawable")
+)
+
+;; Enumerations and flags ...
+
+(define-flags ConfigMode
+  (in-module "Gdk")
+  (c-name "GdkGLConfigMode")
+  (gtype-id "GDK_TYPE_GL_CONFIG_MODE")
+  (values
+    '("rgb" "GDK_GL_MODE_RGB")
+    '("rgba" "GDK_GL_MODE_RGBA")
+    '("index" "GDK_GL_MODE_INDEX")
+    '("single" "GDK_GL_MODE_SINGLE")
+    '("double" "GDK_GL_MODE_DOUBLE")
+    '("stereo" "GDK_GL_MODE_STEREO")
+    '("alpha" "GDK_GL_MODE_ALPHA")
+    '("depth" "GDK_GL_MODE_DEPTH")
+    '("stencil" "GDK_GL_MODE_STENCIL")
+    '("accum" "GDK_GL_MODE_ACCUM")
+    '("multisample" "GDK_GL_MODE_MULTISAMPLE")
+  )
+)
+
+(define-enum ConfigAttrib
+  (in-module "Gdk")
+  (c-name "GdkGLConfigAttrib")
+  (gtype-id "GDK_TYPE_GL_CONFIG_ATTRIB")
+  (values
+    '("use-gl" "GDK_GL_USE_GL")
+    '("buffer-size" "GDK_GL_BUFFER_SIZE")
+    '("level" "GDK_GL_LEVEL")
+    '("rgba" "GDK_GL_RGBA")
+    '("doublebuffer" "GDK_GL_DOUBLEBUFFER")
+    '("stereo" "GDK_GL_STEREO")
+    '("aux-buffers" "GDK_GL_AUX_BUFFERS")
+    '("red-size" "GDK_GL_RED_SIZE")
+    '("green-size" "GDK_GL_GREEN_SIZE")
+    '("blue-size" "GDK_GL_BLUE_SIZE")
+    '("alpha-size" "GDK_GL_ALPHA_SIZE")
+    '("depth-size" "GDK_GL_DEPTH_SIZE")
+    '("stencil-size" "GDK_GL_STENCIL_SIZE")
+    '("accum-red-size" "GDK_GL_ACCUM_RED_SIZE")
+    '("accum-green-size" "GDK_GL_ACCUM_GREEN_SIZE")
+    '("accum-blue-size" "GDK_GL_ACCUM_BLUE_SIZE")
+    '("accum-alpha-size" "GDK_GL_ACCUM_ALPHA_SIZE")
+    '("config-caveat" "GDK_GL_CONFIG_CAVEAT")
+    '("x-visual-type" "GDK_GL_X_VISUAL_TYPE")
+    '("transparent-type" "GDK_GL_TRANSPARENT_TYPE")
+    '("transparent-index-value" "GDK_GL_TRANSPARENT_INDEX_VALUE")
+    '("transparent-red-value" "GDK_GL_TRANSPARENT_RED_VALUE")
+    '("transparent-green-value" "GDK_GL_TRANSPARENT_GREEN_VALUE")
+    '("transparent-blue-value" "GDK_GL_TRANSPARENT_BLUE_VALUE")
+    '("transparent-alpha-value" "GDK_GL_TRANSPARENT_ALPHA_VALUE")
+    '("drawable-type" "GDK_GL_DRAWABLE_TYPE")
+    '("render-type" "GDK_GL_RENDER_TYPE")
+    '("x-renderable" "GDK_GL_X_RENDERABLE")
+    '("fbconfig-id" "GDK_GL_FBCONFIG_ID")
+    '("max-pbuffer-width" "GDK_GL_MAX_PBUFFER_WIDTH")
+    '("max-pbuffer-height" "GDK_GL_MAX_PBUFFER_HEIGHT")
+    '("max-pbuffer-pixels" "GDK_GL_MAX_PBUFFER_PIXELS")
+    '("visual-id" "GDK_GL_VISUAL_ID")
+    '("screen" "GDK_GL_SCREEN")
+    '("sample-buffers" "GDK_GL_SAMPLE_BUFFERS")
+    '("samples" "GDK_GL_SAMPLES")
+  )
+)
+
+(define-enum ConfigCaveat
+  (in-module "Gdk")
+  (c-name "GdkGLConfigCaveat")
+  (gtype-id "GDK_TYPE_GL_CONFIG_CAVEAT")
+  (values
+    '("config-caveat-dont-care" "GDK_GL_CONFIG_CAVEAT_DONT_CARE")
+    '("config-caveat-none" "GDK_GL_CONFIG_CAVEAT_NONE")
+    '("slow-config" "GDK_GL_SLOW_CONFIG")
+    '("non-conformant-config" "GDK_GL_NON_CONFORMANT_CONFIG")
+  )
+)
+
+(define-enum VisualType
+  (in-module "Gdk")
+  (c-name "GdkGLVisualType")
+  (gtype-id "GDK_TYPE_GL_VISUAL_TYPE")
+  (values
+    '("visual-type-dont-care" "GDK_GL_VISUAL_TYPE_DONT_CARE")
+    '("true-color" "GDK_GL_TRUE_COLOR")
+    '("direct-color" "GDK_GL_DIRECT_COLOR")
+    '("pseudo-color" "GDK_GL_PSEUDO_COLOR")
+    '("static-color" "GDK_GL_STATIC_COLOR")
+    '("gray-scale" "GDK_GL_GRAY_SCALE")
+    '("static-gray" "GDK_GL_STATIC_GRAY")
+  )
+)
+
+(define-enum TransparentType
+  (in-module "Gdk")
+  (c-name "GdkGLTransparentType")
+  (gtype-id "GDK_TYPE_GL_TRANSPARENT_TYPE")
+  (values
+    '("none" "GDK_GL_TRANSPARENT_NONE")
+    '("rgb" "GDK_GL_TRANSPARENT_RGB")
+    '("index" "GDK_GL_TRANSPARENT_INDEX")
+  )
+)
+
+(define-flags DrawableTypeMask
+  (in-module "Gdk")
+  (c-name "GdkGLDrawableTypeMask")
+  (gtype-id "GDK_TYPE_GL_DRAWABLE_TYPE_MASK")
+  (values
+    '("window-bit" "GDK_GL_WINDOW_BIT")
+    '("pixmap-bit" "GDK_GL_PIXMAP_BIT")
+    '("pbuffer-bit" "GDK_GL_PBUFFER_BIT")
+  )
+)
+
+(define-flags RenderTypeMask
+  (in-module "Gdk")
+  (c-name "GdkGLRenderTypeMask")
+  (gtype-id "GDK_TYPE_GL_RENDER_TYPE_MASK")
+  (values
+    '("rgba-bit" "GDK_GL_RGBA_BIT")
+    '("color-index-bit" "GDK_GL_COLOR_INDEX_BIT")
+  )
+)
+
+(define-flags BufferMask
+  (in-module "Gdk")
+  (c-name "GdkGLBufferMask")
+  (gtype-id "GDK_TYPE_GL_BUFFER_MASK")
+  (values
+    '("front-left-buffer-bit" "GDK_GL_FRONT_LEFT_BUFFER_BIT")
+    '("front-right-buffer-bit" "GDK_GL_FRONT_RIGHT_BUFFER_BIT")
+    '("back-left-buffer-bit" "GDK_GL_BACK_LEFT_BUFFER_BIT")
+    '("back-right-buffer-bit" "GDK_GL_BACK_RIGHT_BUFFER_BIT")
+    '("aux-buffers-bit" "GDK_GL_AUX_BUFFERS_BIT")
+    '("depth-buffer-bit" "GDK_GL_DEPTH_BUFFER_BIT")
+    '("stencil-buffer-bit" "GDK_GL_STENCIL_BUFFER_BIT")
+    '("accum-buffer-bit" "GDK_GL_ACCUM_BUFFER_BIT")
+  )
+)
+
+(define-enum ConfigError
+  (in-module "Gdk")
+  (c-name "GdkGLConfigError")
+  (gtype-id "GDK_TYPE_GL_CONFIG_ERROR")
+  (values
+    '("bad-screen" "GDK_GL_BAD_SCREEN")
+    '("bad-attribute" "GDK_GL_BAD_ATTRIBUTE")
+    '("no-extension" "GDK_GL_NO_EXTENSION")
+    '("bad-visual" "GDK_GL_BAD_VISUAL")
+    '("bad-context" "GDK_GL_BAD_CONTEXT")
+    '("bad-value" "GDK_GL_BAD_VALUE")
+    '("bad-enum" "GDK_GL_BAD_ENUM")
+  )
+)
+
+(define-enum RenderType
+  (in-module "Gdk")
+  (c-name "GdkGLRenderType")
+  (gtype-id "GDK_TYPE_GL_RENDER_TYPE")
+  (values
+    '("rgba-type" "GDK_GL_RGBA_TYPE")
+    '("color-index-type" "GDK_GL_COLOR_INDEX_TYPE")
+  )
+)
+
+(define-enum DrawableAttrib
+  (in-module "Gdk")
+  (c-name "GdkGLDrawableAttrib")
+  (gtype-id "GDK_TYPE_GL_DRAWABLE_ATTRIB")
+  (values
+    '("preserved-contents" "GDK_GL_PRESERVED_CONTENTS")
+    '("largest-pbuffer" "GDK_GL_LARGEST_PBUFFER")
+    '("width" "GDK_GL_WIDTH")
+    '("height" "GDK_GL_HEIGHT")
+    '("event-mask" "GDK_GL_EVENT_MASK")
+  )
+)
+
+(define-enum PbufferAttrib
+  (in-module "Gdk")
+  (c-name "GdkGLPbufferAttrib")
+  (gtype-id "GDK_TYPE_GL_PBUFFER_ATTRIB")
+  (values
+    '("preserved-contents" "GDK_GL_PBUFFER_PRESERVED_CONTENTS")
+    '("largest-pbuffer" "GDK_GL_PBUFFER_LARGEST_PBUFFER")
+    '("height" "GDK_GL_PBUFFER_HEIGHT")
+    '("width" "GDK_GL_PBUFFER_WIDTH")
+  )
+)
+
+(define-flags EventMask
+  (in-module "Gdk")
+  (c-name "GdkGLEventMask")
+  (gtype-id "GDK_TYPE_GL_EVENT_MASK")
+  (values
+    '("k" "GDK_GL_PBUFFER_CLOBBER_MASK")
+  )
+)
+
+(define-enum EventType
+  (in-module "Gdk")
+  (c-name "GdkGLEventType")
+  (gtype-id "GDK_TYPE_GL_EVENT_TYPE")
+  (values
+    '("damaged" "GDK_GL_DAMAGED")
+    '("saved" "GDK_GL_SAVED")
+  )
+)
+
+(define-enum DrawableType
+  (in-module "Gdk")
+  (c-name "GdkGLDrawableType")
+  (gtype-id "GDK_TYPE_GL_DRAWABLE_TYPE")
+  (values
+    '("window" "GDK_GL_WINDOW")
+    '("pbuffer" "GDK_GL_PBUFFER")
+  )
+)
+

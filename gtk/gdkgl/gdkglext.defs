@@ -1,0 +1,729 @@
+;; -*- scheme -*-
+
+(include "gdkglext-types.defs")
+
+;; From gtkglext/gdk/gdkgl.h
+
+
+
+;; From gtkglext/gdk/gdkglconfig.h
+
+(define-function gdk_gl_config_get_type
+  (c-name "gdk_gl_config_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_config_new
+  (c-name "gdk_gl_config_new")
+  (is-constructor-of "GdkGLConfig")
+  (return-type "GdkGLConfig*")
+  (parameters
+    '("const-int*" "attrib_list")
+  )
+)
+
+(define-function gdk_gl_config_new_for_screen
+  (c-name "gdk_gl_config_new_for_screen")
+  (is-constructor-of "GdkGLConfig")
+  (return-type "GdkGLConfig*")
+  (parameters
+    '("GdkScreen*" "screen")
+    '("const-int*" "attrib_list")
+  )
+)
+
+(define-function gdk_gl_config_new_by_mode
+  (c-name "gdk_gl_config_new_by_mode")
+  (is-constructor-of "GdkGLConfig")
+  (return-type "GdkGLConfig*")
+  (parameters
+    '("GdkGLConfigMode" "mode")
+  )
+)
+
+(define-function gdk_gl_config_new_by_mode_for_screen
+  (c-name "gdk_gl_config_new_by_mode_for_screen")
+  (is-constructor-of "GdkGLConfig")
+  (return-type "GdkGLConfig*")
+  (parameters
+    '("GdkScreen*" "screen")
+    '("GdkGLConfigMode" "mode")
+  )
+)
+
+(define-method get_screen
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_get_screen")
+  (return-type "GdkScreen*")
+)
+
+(define-method get_attrib
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_get_attrib")
+  (return-type "gboolean")
+  (parameters
+    '("int" "attribute")
+    '("int*" "value")
+  )
+)
+
+(define-method get_colormap
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_get_colormap")
+  (return-type "GdkColormap*")
+)
+
+(define-method get_visual
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_get_visual")
+  (return-type "GdkVisual*")
+)
+
+(define-method get_depth
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_get_depth")
+  (return-type "gint")
+)
+
+(define-method get_layer_plane
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_get_layer_plane")
+  (return-type "gint")
+)
+
+(define-method get_n_aux_buffers
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_get_n_aux_buffers")
+  (return-type "gint")
+)
+
+(define-method get_n_sample_buffers
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_get_n_sample_buffers")
+  (return-type "gint")
+)
+
+(define-method is_rgba
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_is_rgba")
+  (return-type "gboolean")
+)
+
+(define-method is_double_buffered
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_is_double_buffered")
+  (return-type "gboolean")
+)
+
+(define-method is_stereo
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_is_stereo")
+  (return-type "gboolean")
+)
+
+(define-method has_alpha
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_has_alpha")
+  (return-type "gboolean")
+)
+
+(define-method has_depth_buffer
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_has_depth_buffer")
+  (return-type "gboolean")
+)
+
+(define-method has_stencil_buffer
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_has_stencil_buffer")
+  (return-type "gboolean")
+)
+
+(define-method has_accum_buffer
+  (of-object "GdkGLConfig")
+  (c-name "gdk_gl_config_has_accum_buffer")
+  (return-type "gboolean")
+)
+
+
+
+;; From gtkglext/gdk/gdkglcontext.h
+
+(define-function gdk_gl_context_get_type
+  (c-name "gdk_gl_context_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_context_new
+  (c-name "gdk_gl_context_new")
+  (is-constructor-of "GdkGLContext")
+  (return-type "GdkGLContext*")
+  (parameters
+    '("GdkGLDrawable*" "gldrawable")
+    '("GdkGLContext*" "share_list" (null-ok) (default "NULL"))
+    '("gboolean" "direct" (default "TRUE"))
+    '("int" "render_type" (default "GDK_GL_RGBA_TYPE"))
+  )
+)
+
+(define-method copy
+  (of-object "GdkGLContext")
+  (c-name "gdk_gl_context_copy")
+  (return-type "gboolean")
+  (parameters
+    '("GdkGLContext*" "src_glcontext")
+    '("unsigned-long" "mask" (default "GL_ALL_ATTRIB_BITS"))
+  )
+)
+
+(define-method get_gl_drawable
+  (of-object "GdkGLContext")
+  (c-name "gdk_gl_context_get_gl_drawable")
+  (return-type "GdkGLDrawable*")
+)
+
+(define-method get_gl_config
+  (of-object "GdkGLContext")
+  (c-name "gdk_gl_context_get_gl_config")
+  (return-type "GdkGLConfig*")
+)
+
+(define-method get_share_list
+  (of-object "GdkGLContext")
+  (c-name "gdk_gl_context_get_share_list")
+  (return-type "GdkGLContext*")
+)
+
+(define-method is_direct
+  (of-object "GdkGLContext")
+  (c-name "gdk_gl_context_is_direct")
+  (return-type "gboolean")
+)
+
+(define-method get_render_type
+  (of-object "GdkGLContext")
+  (c-name "gdk_gl_context_get_render_type")
+  (return-type "int")
+)
+
+(define-function context_get_current
+  (c-name "gdk_gl_context_get_current")
+  (return-type "GdkGLContext*")
+)
+
+
+
+;; From gtkglext/gdk/gdkgldebug.h
+
+
+
+;; From gtkglext/gdk/gdkgldefs.h
+
+
+
+;; From gtkglext/gdk/gdkgldrawable.h
+
+(define-function gdk_gl_drawable_get_type
+  (c-name "gdk_gl_drawable_get_type")
+  (return-type "GType")
+)
+
+(define-method make_current
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_make_current")
+  (return-type "gboolean")
+  (parameters
+    '("GdkGLContext*" "glcontext")
+  )
+)
+
+(define-method is_double_buffered
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_is_double_buffered")
+  (return-type "gboolean")
+)
+
+(define-method swap_buffers
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_swap_buffers")
+  (return-type "none")
+)
+
+(define-method wait_gl
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_wait_gl")
+  (return-type "none")
+)
+
+(define-method wait_gdk
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_wait_gdk")
+  (return-type "none")
+)
+
+(define-method gl_begin
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_gl_begin")
+  (return-type "gboolean")
+  (parameters
+    '("GdkGLContext*" "glcontext")
+  )
+)
+
+(define-method gl_end
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_gl_end")
+  (return-type "none")
+)
+
+(define-method get_gl_config
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_get_gl_config")
+  (return-type "GdkGLConfig*")
+)
+
+(define-method get_size
+  (of-object "GdkGLDrawable")
+  (c-name "gdk_gl_drawable_get_size")
+  (return-type "none")
+  (parameters
+    '("gint*" "width")
+    '("gint*" "height")
+  )
+)
+
+(define-function drawable_get_current
+  (c-name "gdk_gl_drawable_get_current")
+  (return-type "GdkGLDrawable*")
+)
+
+
+
+;; From gtkglext/gdk/gdkglenumtypes.h
+
+(define-function gdk_gl_config_caveat_get_type
+  (c-name "gdk_gl_config_caveat_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_visual_type_get_type
+  (c-name "gdk_gl_visual_type_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_transparent_type_get_type
+  (c-name "gdk_gl_transparent_type_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_drawable_type_mask_get_type
+  (c-name "gdk_gl_drawable_type_mask_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_render_type_mask_get_type
+  (c-name "gdk_gl_render_type_mask_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_buffer_mask_get_type
+  (c-name "gdk_gl_buffer_mask_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_config_error_get_type
+  (c-name "gdk_gl_config_error_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_render_type_get_type
+  (c-name "gdk_gl_render_type_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_drawable_attrib_get_type
+  (c-name "gdk_gl_drawable_attrib_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_pbuffer_attrib_get_type
+  (c-name "gdk_gl_pbuffer_attrib_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_event_mask_get_type
+  (c-name "gdk_gl_event_mask_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_event_type_get_type
+  (c-name "gdk_gl_event_type_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_drawable_type_get_type
+  (c-name "gdk_gl_drawable_type_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_config_mode_get_type
+  (c-name "gdk_gl_config_mode_get_type")
+  (return-type "GType")
+)
+
+
+
+;; From gtkglext/gdk/gdkglext-config.h
+
+
+
+;; From gtkglext/gdk/gdkglfont.h
+
+(define-function font_use_pango_font
+  (c-name "gdk_gl_font_use_pango_font")
+  (return-type "PangoFont*")
+  (parameters
+    '("const-PangoFontDescription*" "font_desc")
+    '("int" "first")
+    '("int" "count")
+    '("int" "list_base")
+  )
+)
+
+(define-function font_use_pango_font_for_display
+  (c-name "gdk_gl_font_use_pango_font_for_display")
+  (return-type "PangoFont*")
+  (parameters
+    '("GdkDisplay*" "display")
+    '("const-PangoFontDescription*" "font_desc")
+    '("int" "first")
+    '("int" "count")
+    '("int" "list_base")
+  )
+)
+
+
+
+;; From gtkglext/gdk/gdkglinit.h
+
+(define-function gdk_gl_parse_args
+  (c-name "gdk_gl_parse_args")
+  (return-type "gboolean")
+  (parameters
+    '("int*" "argc")
+    '("char***" "argv")
+  )
+)
+
+(define-function gdk_gl_init_check
+  (c-name "gdk_gl_init_check")
+  (return-type "gboolean")
+  (parameters
+    '("int*" "argc")
+    '("char***" "argv")
+  )
+)
+
+(define-function gdk_gl_init
+  (c-name "gdk_gl_init")
+  (return-type "none")
+  (parameters
+    '("int*" "argc")
+    '("char***" "argv")
+  )
+)
+
+
+
+;; From gtkglext/gdk/gdkglpixmap.h
+
+(define-function gdk_gl_pixmap_get_type
+  (c-name "gdk_gl_pixmap_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_pixmap_new
+  (c-name "gdk_gl_pixmap_new")
+  (is-constructor-of "GdkGLPixmap")
+  (return-type "GdkGLPixmap*")
+  (parameters
+    '("GdkGLConfig*" "glconfig")
+    '("GdkPixmap*" "pixmap")
+    '("const-int*" "attrib_list" (null-ok) (default "NULL"))
+  )
+)
+
+(define-method get_pixmap
+  (of-object "GdkGLPixmap")
+  (c-name "gdk_gl_pixmap_get_pixmap")
+  (return-type "GdkPixmap*")
+)
+
+(define-function pixmap_set_gl_capability
+  (c-name "gdk_pixmap_set_gl_capability")
+  (return-type "GdkGLPixmap*")
+  (parameters
+    '("GdkPixmap*" "pixmap")
+    '("GdkGLConfig*" "glconfig")
+    '("const-int*" "attrib_list" (null-ok) (default "NULL"))
+  )
+)
+
+(define-function pixmap_unset_gl_capability
+  (c-name "gdk_pixmap_unset_gl_capability")
+  (return-type "none")
+  (parameters
+    '("GdkPixmap*" "pixmap")
+  )
+)
+
+(define-function pixmap_is_gl_capable
+  (c-name "gdk_pixmap_is_gl_capable")
+  (return-type "gboolean")
+  (parameters
+    '("GdkPixmap*" "pixmap")
+  )
+)
+
+(define-function pixmap_get_gl_pixmap
+  (c-name "gdk_pixmap_get_gl_pixmap")
+  (return-type "GdkGLPixmap*")
+  (parameters
+    '("GdkPixmap*" "pixmap")
+  )
+)
+
+(define-function pixmap_get_gl_drawable
+  (c-name "gdk_pixmap_get_gl_drawable")
+  (return-type "GdkGLDrawable*")
+  (parameters
+    '("GdkPixmap*" "pixmap")
+  )
+)
+
+
+
+;; From gtkglext/gdk/gdkglprivate.h
+
+
+
+;; From gtkglext/gdk/gdkglquery.h
+
+(define-function query_extension
+  (c-name "gdk_gl_query_extension")
+  (return-type "gboolean")
+)
+
+(define-function query_extension_for_display
+  (c-name "gdk_gl_query_extension_for_display")
+  (return-type "gboolean")
+  (parameters
+    '("GdkDisplay*" "display")
+  )
+)
+
+(define-function query_version
+  (c-name "gdk_gl_query_version")
+  (return-type "gboolean")
+  (parameters
+    '("int*" "major")
+    '("int*" "minor")
+  )
+)
+
+(define-function query_version_for_display
+  (c-name "gdk_gl_query_version_for_display")
+  (return-type "gboolean")
+  (parameters
+    '("GdkDisplay*" "display")
+    '("int*" "major")
+    '("int*" "minor")
+  )
+)
+
+(define-function query_gl_extension
+  (c-name "gdk_gl_query_gl_extension")
+  (return-type "gboolean")
+  (parameters
+    '("const-char*" "extension")
+  )
+)
+
+(define-function gdk_gl_get_proc_address
+  (c-name "gdk_gl_get_proc_address")
+  (return-type "GdkGLProc")
+  (parameters
+    '("const-char*" "proc_name")
+  )
+)
+
+
+
+;; From gtkglext/gdk/gdkglshapes.h
+
+(define-function draw_cube
+  (c-name "gdk_gl_draw_cube")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+    '("double" "size")
+  )
+)
+
+(define-function draw_sphere
+  (c-name "gdk_gl_draw_sphere")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+    '("double" "radius")
+    '("int" "slices")
+    '("int" "stacks")
+  )
+)
+
+(define-function draw_cone
+  (c-name "gdk_gl_draw_cone")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+    '("double" "base")
+    '("double" "height")
+    '("int" "slices")
+    '("int" "stacks")
+  )
+)
+
+(define-function draw_torus
+  (c-name "gdk_gl_draw_torus")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+    '("double" "inner_radius")
+    '("double" "outer_radius")
+    '("int" "nsides")
+    '("int" "rings")
+  )
+)
+
+(define-function draw_tetrahedron
+  (c-name "gdk_gl_draw_tetrahedron")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+  )
+)
+
+(define-function draw_octahedron
+  (c-name "gdk_gl_draw_octahedron")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+  )
+)
+
+(define-function draw_dodecahedron
+  (c-name "gdk_gl_draw_dodecahedron")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+  )
+)
+
+(define-function draw_icosahedron
+  (c-name "gdk_gl_draw_icosahedron")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+  )
+)
+
+(define-function draw_teapot
+  (c-name "gdk_gl_draw_teapot")
+  (return-type "none")
+  (parameters
+    '("gboolean" "solid")
+    '("double" "scale")
+  )
+)
+
+
+
+;; From gtkglext/gdk/gdkgltokens.h
+
+
+
+;; From gtkglext/gdk/gdkgltypes.h
+
+
+
+;; From gtkglext/gdk/gdkglversion.h
+
+
+
+;; From gtkglext/gdk/gdkglwindow.h
+
+(define-function gdk_gl_window_get_type
+  (c-name "gdk_gl_window_get_type")
+  (return-type "GType")
+)
+
+(define-function gdk_gl_window_new
+  (c-name "gdk_gl_window_new")
+  (is-constructor-of "GdkGLWindow")
+  (return-type "GdkGLWindow*")
+  (parameters
+    '("GdkGLConfig*" "glconfig")
+    '("GdkWindow*" "window")
+    '("const-int*" "attrib_list" (null-ok) (default "NULL"))
+  )
+)
+
+(define-method get_window
+  (of-object "GdkGLWindow")
+  (c-name "gdk_gl_window_get_window")
+  (return-type "GdkWindow*")
+)
+
+(define-function window_set_gl_capability
+  (c-name "gdk_window_set_gl_capability")
+  (return-type "GdkGLWindow*")
+  (parameters
+    '("GdkWindow*" "window")
+    '("GdkGLConfig*" "glconfig")
+    '("const-int*" "attrib_list" (null-ok) (default "NULL"))
+  )
+)
+
+(define-function window_unset_gl_capability
+  (c-name "gdk_window_unset_gl_capability")
+  (return-type "none")
+  (parameters
+    '("GdkWindow*" "window")
+  )
+)
+
+(define-function window_is_gl_capable
+  (c-name "gdk_window_is_gl_capable")
+  (return-type "gboolean")
+  (parameters
+    '("GdkWindow*" "window")
+  )
+)
+
+(define-function window_get_gl_window
+  (c-name "gdk_window_get_gl_window")
+  (return-type "GdkGLWindow*")
+  (parameters
+    '("GdkWindow*" "window")
+  )
+)
+
+(define-function window_get_gl_drawable
+  (c-name "gdk_window_get_gl_drawable")
+  (return-type "GdkGLDrawable*")
+  (parameters
+    '("GdkWindow*" "window")
+  )
+)
+
+

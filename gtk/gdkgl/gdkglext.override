@@ -1,0 +1,290 @@
+/* -*- Mode: C; c-basic-offset: 4 -*- */
+%%
+headers
+#include <Python.h>
+
+#include <pygobject.h>
+#include <pygtk/pygtk.h>
+
+#include <gdk/gdk.h>
+#include <gdk/gdkgl.h>
+
+#include <GL/gl.h>
+%%
+modulename gtk.gdkgl
+%%
+import gobject.GObject as PyGObject_Type
+import gtk.gdk.Drawable as PyGdkDrawable_Type
+import gtk.gdk.Pixmap as PyGdkPixmap_Type
+import gtk.gdk.Window as PyGdkWindow_Type
+%%
+ignore-glob
+  _*
+  *_get_type
+  *_for_display
+  *_for_screen
+  *_get_screen
+%%
+ignore
+  gdk_gl_parse_args
+  gdk_gl_init_check
+  gdk_gl_init
+  gdk_gl_get_proc_address
+%%
+override gdk_gl_query_version noargs
+static PyObject *
+_wrap_gdk_gl_query_version(PyGObject *self)
+{
+    int major;
+    int minor;
+
+    gdk_gl_query_version(&major, &minor);
+
+    return Py_BuildValue("(ii)", major, minor);
+}
+%%
+ignore gdk_gl_config_new_by_mode
+%%
+override gdk_gl_config_new kwargs
+static int
+_wrap_gdk_gl_config_new(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "attrib_list", "mode", NULL };
+    PyObject *py_attrib_list = NULL;
+    PyObject *py_mode = NULL;
+    PyObject *item;
+    int *attrib_list;
+    int i, n;
+    GdkGLConfigMode mode;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+                                     "|OO:GdkGLConfig.__init__",
+                                     kwlist,
+                                     &py_attrib_list,
+                                     &py_mode))
+        return -1;
+
+    if (py_attrib_list) {
+
+        /* Use gdk_gl_config_new() */
+
+        if (!PySequence_Check(py_attrib_list)) {
+            PyErr_SetString(PyExc_TypeError,
+                            "attrib_list must be a sequence");
+            return -1;
+        }
+
+        n = PySequence_Length(py_attrib_list);
+        attrib_list = g_new(int, n+1);
+
+        for (i = 0; i < n; i++) {
+            item = PySequence_GetItem(py_attrib_list, i);
+            if (!PyInt_Check(item)) {
+                PyErr_SetString(PyExc_TypeError,
+                                "attrib_list items must be integers");
+                g_free(attrib_list);
+                Py_DECREF(item);
+                return -1;
+            }
+            attrib_list[i] = PyInt_AsLong(item);
+            Py_DECREF(item);
+        }
+        attrib_list[i] = GDK_GL_ATTRIB_LIST_NONE;
+
+        self->obj = (GObject *)gdk_gl_config_new(attrib_list);
+
+        g_free(attrib_list);
+
+    } else if (py_mode) {
+
+        /* Use gdk_gl_config_new_by_mode() */
+        
+        if (pyg_flags_get_value(GDK_TYPE_GL_CONFIG_MODE, py_mode, (gint *)&mode)) {
+            PyErr_SetString(PyExc_RuntimeError,
+                            "could not get display mode bitmask value");
+            return -1;
+        }
+
+        self->obj = (GObject *)gdk_gl_config_new_by_mode(mode);
+
+    } else {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "attrib_list or mode must be specified");
+        return -1;
+    }
+
+    if (!self->obj) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "could not create GdkGLConfig object");
+        return -1;
+    }
+
+    pygobject_register_wrapper((PyObject *)self);
+
+    return 0;
+}
+%%
+override gdk_gl_config_get_attrib kwargs
+static PyObject *
+_wrap_gdk_gl_config_get_attrib(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "attribute", NULL };
+    int attribute, value;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+                                     "i:GdkGLConfig.get_attrib",
+                                     kwlist,
+                                     &attribute))
+        return NULL;
+
+    gdk_gl_config_get_attrib(GDK_GL_CONFIG(self->obj),
+                             attribute, &value);
+
+    return Py_BuildValue("(i)", value);
+}
+%%
+override gdk_gl_context_copy kwargs
+static PyObject *
+_wrap_gdk_gl_context_copy(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "src_glcontext", "mask", NULL };
+    PyGObject *src_glcontext;
+    PyObject *py_mask = NULL, *py_ret;
+    int ret;
+    unsigned long mask = GL_ALL_ATTRIB_BITS;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+                                     "O!|O!:GdkGLContext.copy",
+                                     kwlist,
+                                     &PyGdkGLContext_Type, &src_glcontext,
+                                     &PyLong_Type, &py_mask))
+        return NULL;
+
+    if (py_mask)
+        mask = PyLong_AsUnsignedLong(py_mask);
+
+    ret = gdk_gl_context_copy(GDK_GL_CONTEXT(self->obj),
+                              GDK_GL_CONTEXT(src_glcontext->obj),
+                              mask);
+
+    py_ret = ret ? Py_True : Py_False;
+    Py_INCREF(py_ret);
+
+    return py_ret;
+}
+%%
+override gdk_gl_drawable_get_size noargs
+static PyObject *
+_wrap_gdk_gl_drawable_get_size(PyGObject *self)
+{
+    gint width;
+    gint height;
+
+    gdk_gl_drawable_get_size(GDK_GL_DRAWABLE(self->obj),
+                             &width, &height);
+
+    return Py_BuildValue("(ii)", width, height);
+}
+%%
+override gdk_gl_pixmap_new kwargs
+static int
+_wrap_gdk_gl_pixmap_new(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "glconfig", "pixmap", NULL };
+    PyGObject *glconfig, *pixmap;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+                                     "O!O!:GdkGLPixmap.__init__",
+                                     kwlist,
+                                     &PyGdkGLConfig_Type, &glconfig,
+                                     &PyGdkPixmap_Type, &pixmap))
+        return -1;
+
+    self->obj = (GObject *)gdk_gl_pixmap_new(GDK_GL_CONFIG(glconfig->obj),
+                                             GDK_PIXMAP(pixmap->obj),
+                                             NULL);
+    if (!self->obj) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "could not create GdkGLPixmap object");
+        return -1;
+    }
+
+    pygobject_register_wrapper((PyObject *)self);
+
+    return 0;
+}
+%%
+override gdk_gl_window_new kwargs
+static int
+_wrap_gdk_gl_window_new(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "glconfig", "window", NULL };
+    PyGObject *glconfig, *window;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+                                     "O!O!:GdkGLWindow.__init__",
+                                     kwlist,
+                                     &PyGdkGLConfig_Type, &glconfig,
+                                     &PyGdkWindow_Type, &window))
+        return -1;
+
+    self->obj = (GObject *)gdk_gl_window_new(GDK_GL_CONFIG(glconfig->obj),
+                                             GDK_WINDOW(window->obj),
+                                             NULL);
+    if (!self->obj) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "could not create GdkGLWindow object");
+        return -1;
+    }
+
+    pygobject_register_wrapper((PyObject *)self);
+
+    return 0;
+}
+%%
+override gdk_pixmap_set_gl_capability kwargs
+static PyObject *
+_wrap_gdk_pixmap_set_gl_capability(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "pixmap", "glconfig", NULL };
+    PyGObject *pixmap, *glconfig;
+    GdkGLPixmap *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+                                     "O!O!:gdk_pixmap_set_gl_capability",
+                                     kwlist,
+                                     &PyGdkPixmap_Type, &pixmap,
+                                     &PyGdkGLConfig_Type, &glconfig))
+        return NULL;
+
+    ret = gdk_pixmap_set_gl_capability(GDK_PIXMAP(pixmap->obj),
+                                       GDK_GL_CONFIG(glconfig->obj),
+                                       NULL);
+
+    /* pygobject_new handles NULL checking */
+    return pygobject_new((GObject *)ret);
+}
+%%
+override gdk_window_set_gl_capability kwargs
+static PyObject *
+_wrap_gdk_window_set_gl_capability(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "window", "glconfig", NULL };
+    PyGObject *window, *glconfig;
+    GdkGLWindow *ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+                                     "O!O!:gdk_window_set_gl_capability",
+                                     kwlist,
+                                     &PyGdkWindow_Type, &window,
+                                     &PyGdkGLConfig_Type, &glconfig))
+        return NULL;
+
+    ret = gdk_window_set_gl_capability(GDK_WINDOW(window->obj),
+                                       GDK_GL_CONFIG(glconfig->obj),
+                                       NULL);
+
+    /* pygobject_new handles NULL checking */
+    return pygobject_new((GObject *)ret);
+}
+%%

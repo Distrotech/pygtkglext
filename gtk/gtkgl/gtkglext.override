@@ -1,0 +1,27 @@
+/* -*- Mode: C; c-basic-offset: 4 -*- */
+%%
+headers
+#include <Python.h>
+
+#include <pygobject.h>
+#include <pygtk/pygtk.h>
+
+#include <gtk/gtk.h>
+#include <gtk/gtkgl.h>
+%%
+modulename gtk.gtkgl
+%%
+import gobject.GObject as PyGObject_Type
+import gtk.Widget as PyGtkWidget_Type
+import gtk.gdkgl.Config as PyGdkGLConfig_Type
+import gtk.gdkgl.Context as PyGdkGLContext_Type
+%%
+ignore-glob
+  _*
+  *_get_type
+%%
+ignore
+  gtk_gl_parse_args
+  gtk_gl_init_check
+  gtk_gl_init
+%%

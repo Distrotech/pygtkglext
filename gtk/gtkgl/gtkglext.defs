@@ -1,0 +1,120 @@
+;; -*- scheme -*-
+
+
+;; From gtkglext/gtk/gtkgl.h
+
+
+
+;; From gtkglext/gtk/gtkgldebug.h
+
+
+
+;; From gtkglext/gtk/gtkgldefs.h
+
+
+
+;; From gtkglext/gtk/gtkglinit.h
+
+(define-function gtk_gl_parse_args
+  (c-name "gtk_gl_parse_args")
+  (return-type "gboolean")
+  (parameters
+    '("int*" "argc")
+    '("char***" "argv")
+  )
+)
+
+(define-function gtk_gl_init_check
+  (c-name "gtk_gl_init_check")
+  (return-type "gboolean")
+  (parameters
+    '("int*" "argc")
+    '("char***" "argv")
+  )
+)
+
+(define-function gtk_gl_init
+  (c-name "gtk_gl_init")
+  (return-type "none")
+  (parameters
+    '("int*" "argc")
+    '("char***" "argv")
+  )
+)
+
+
+
+;; From gtkglext/gtk/gtkglprivate.h
+
+
+
+;; From gtkglext/gtk/gtkglversion.h
+
+
+
+;; From gtkglext/gtk/gtkglwidget.h
+
+(define-function widget_set_gl_capability
+  (c-name "gtk_widget_set_gl_capability")
+  (return-type "gboolean")
+  (parameters
+    '("GtkWidget*" "widget")
+    '("GdkGLConfig*" "glconfig")
+    '("GdkGLContext*" "share_list" (null-ok) (default "NULL"))
+    '("gboolean" "direct" (default "TRUE"))
+    '("int" "render_type" (default "GDK_GL_RGBA_TYPE"))
+  )
+)
+
+(define-function widget_is_gl_capable
+  (c-name "gtk_widget_is_gl_capable")
+  (return-type "gboolean")
+  (parameters
+    '("GtkWidget*" "widget")
+  )
+)
+
+(define-function widget_get_gl_config
+  (c-name "gtk_widget_get_gl_config")
+  (return-type "GdkGLConfig*")
+  (parameters
+    '("GtkWidget*" "widget")
+  )
+)
+
+(define-function widget_create_gl_context
+  (c-name "gtk_widget_create_gl_context")
+  (return-type "GdkGLContext*")
+  (parameters
+    '("GtkWidget*" "widget")
+    '("GdkGLContext*" "share_list" (null-ok) (default "NULL"))
+    '("gboolean" "direct" (default "TRUE"))
+    '("int" "render_type" (default "GDK_GL_RGBA_TYPE"))
+  )
+)
+
+(define-function widget_get_gl_context
+  (c-name "gtk_widget_get_gl_context")
+  (return-type "GdkGLContext*")
+  (parameters
+    '("GtkWidget*" "widget")
+  )
+)
+
+(define-function widget_get_gl_window
+  (c-name "gtk_widget_get_gl_window")
+  (return-type "GdkGLWindow*")
+  (parameters
+    '("GtkWidget*" "widget")
+  )
+)
+
+(define-function widget_get_gl_drawable
+  (c-name "gtk_widget_get_gl_drawable")
+  (return-type "GdkGLDrawable*")
+  (parameters
+    '("GtkWidget*" "widget")
+  )
+)
+
+

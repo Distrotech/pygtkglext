@@ -1,0 +1,158 @@
+dnl -*- mode: autoconf -*-
+AC_PREREQ(2.52)
+
+dnl the pygtkglext version number
+m4_define(pygtkglext_major_version, 0)
+m4_define(pygtkglext_minor_version, 0)
+m4_define(pygtkglext_micro_version, 1)
+m4_define(pygtkglext_version, pygtkglext_major_version.pygtkglext_minor_version.pygtkglext_micro_version)
+m4_define(pygtkglext_api_major_version, 1)
+m4_define(pygtkglext_api_minor_version, 0)
+m4_define(pygtkglext_api_version, pygtkglext_api_major_version.pygtkglext_api_minor_version)
+
+dnl required versions of other packages
+m4_define(pygtk_required_version,             1.99.15)
+m4_define(glib_required_version,              2.0.0)
+m4_define(gtk_required_version,               2.0.0)
+m4_define(gtkglext_required_version,          0.7.0)
+
+AC_INIT(pygtkglext, pygtkglext_version,
+        [gtkglext-develop@lists.sourceforge.net])
+
+AC_DEFINE(PYGTKGLEXT_MAJOR_VERSION, pygtkglext_major_version, [PyGtkGLExt major version])
+AC_DEFINE(PYGTKGLEXT_MINOR_VERSION, pygtkglext_minor_version, [PyGtkGLExt minor version])
+AC_DEFINE(PYGTKGLEXT_MICRO_VERSION, pygtkglext_micro_version, [PyGtkGLExt macro version])
+
+PYGTKGLEXT_API_VERSION=pygtkglext_api_version
+AC_SUBST(PYGTKGLEXT_API_VERSION)
+
+AC_CONFIG_SRCDIR([gtk/gdkgl/gdkglext-types.defs])
+AM_CONFIG_HEADER(config.h)
+
+AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+
+dnl put the ACLOCAL flags in the makefile
+ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
+
+AC_CANONICAL_BUILD
+AC_CANONICAL_HOST
+AC_MSG_CHECKING([for some Win32 platform])
+case "$host" in
+  *-*-mingw*|*-*-cygwin*)
+    platform_win32=yes
+    ;;
+  *)
+    platform_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$platform_win32])
+AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
+
+AC_MSG_CHECKING([for native Win32])
+case "$host" in
+  *-*-mingw*)
+    os_win32=yes
+    ;;
+  *)
+    os_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$os_win32])
+AM_CONDITIONAL(OS_WIN32, test "$os_win32" = "yes")
+
+AC_DISABLE_STATIC
+AC_LIBTOOL_WIN32_DLL
+AC_PROG_LIBTOOL
+
+dnl check for python
+dnl AM_PATH_PYTHON(2.2)
+AM_PATH_PYTHON
+AC_MSG_CHECKING(for python >= 2.2)
+prog="
+import sys, string
+minver = (2,2,0,'final',0)
+if sys.version_info < minver:
+  sys.exit(1)
+sys.exit(0)"
+if $PYTHON -c "$prog" 1>&AC_FD_CC 2>&AC_FD_CC
+then
+  AC_MSG_RESULT(okay)
+else
+  AC_MSG_ERROR(too old)
+fi
+AM_CHECK_PYTHON_HEADERS(,[AC_MSG_ERROR(could not find Python headers)])
+
+dnl check for pygtk
+PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= pygtk_required_version)
+AC_SUBST(PYGTK_CFLAGS)
+AC_PATH_PROG(PYGTK_CODEGEN, pygtk-codegen-2.0, no)
+if test "x$PYGTK_CODEGEN" = xno; then
+  AC_MSG_ERROR(could not find pygtk-codegen-2.0 script)
+fi
+
+AC_MSG_CHECKING(for pygtk defs)
+PYGTK_DEFSDIR=`$PKG_CONFIG --variable=defsdir pygtk-2.0`
+AC_SUBST(PYGTK_DEFSDIR)
+AC_MSG_RESULT($PYGTK_DEFSDIR)
+
+dnl required version substitutions for use in the spec file
+PYGTK_VERSION=pygtk_required_version
+GLIB_VERSION=glib_required_version
+GTK_VERSION=gtk_required_version
+GTKGLEXT_VERSION=gtkglext_required_version
+AC_SUBST(PYGTK_VERSION)
+AC_SUBST(GLIB_VERSION)
+AC_SUBST(GTK_VERSION)
+AC_SUBST(GTKGLEXT_VERSION)
+
+dnl get rid of the -export-dynamic stuff from the configure flags ...
+export_dynamic=`(./libtool --config; echo eval echo \\$export_dynamic_flag_spec) | sh`
+
+dnl check for glib
+AM_PATH_GLIB_2_0(glib_required_version, ,
+                 [AC_MSG_ERROR(GLib 2.0 not found)],
+                 $extra_mods)
+if test -n "$export_dynamic"; then
+  GLIB_LIBS=`echo $GLIB_LIBS | sed -e "s/$export_dynamic//"`
+fi
+
+dnl check to make sure we can find gtk
+AM_PATH_GTK_2_0(gtk_required_version, ,
+                [AC_MSG_ERROR(GTK+ 2.0 not found)],
+                $extra_mods)
+if test -n "$export_dynamic"; then
+  GTK_LIBS=`echo $GTK_LIBS | sed -e "s/$export_dynamic//"`
+fi
+
+dnl check for gtkglext
+AM_PATH_GTKGLEXT_1_0(gtkglext_required_version, ,
+                     [AC_MSG_ERROR(GtkGLExt not found)])
+if test -n "$export_dynamic"; then
+  GTKGLEXT_LIBS=`echo $GTKGLEXT_LIBS | sed -e "s/$export_dynamic//"`
+fi
+
+dnl add debugging options ...
+changequote(,)dnl
+if test "x$GCC" = xyes; then
+  case " $CFLAGS " in
+  *[\	\ ]-Wall[\	\ ]*) ;;
+  *) CFLAGS="$CFLAGS -Wall" ;;
+  esac
+
+  case " $CFLAGS " in
+  *[\	\ ]-std=c9x[\	\ ]*) ;;
+  *) CFLAGS="$CFLAGS -std=c9x" ;;
+  esac
+fi
+changequote([,])dnl
+
+dnl
+AC_CONFIG_FILES(
+  Makefile
+  pygtkglext.pc
+  gtk/Makefile
+  gtk/gdkgl/Makefile
+  gtk/gtkgl/Makefile
+  examples/Makefile)
+
+AC_OUTPUT
