@@ -1,7 +1,11 @@
 2003-08-3  Alif Wahid  <awah005@users.sourceforge.net>
 
+	* configure.in (pygtk_required_version):
+	* setup.py (PYGTK_REQUIRED_VERSION): PyGtkGLExt now depends on
+	release 1.99.17 of the PyGtk library or above.
+
 	* examples/font.py (Font.init): Activated a previously commented
-	out	chunk of code (that was due to dependencies on non-standard 
+	out	chunk of code (that was due to dependencies on non-standard
 	features in the PyGtk library). Now that the PyGtk library release
 	1.99.17 is compatible with the default conventions of Pango,
 	that chunk of code is safe for use.
