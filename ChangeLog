@@ -15,11 +15,10 @@
 	* examples/teapot2.py: Changes for new apputils module.
 
 	* gtk/gtkgl/apputils.py: Rewritten. GLScene has been divided into
-	some protocol classes. e.g. Users can add button action
-	capability to their GLScene by subclassing from GLSceneButton. If
-	given GLScene implements GLSceneButton, GLArea enables mouse
-	button events automatically. GLArea.enable_* functions are no
-	longer needed.
+	some mixin classes. e.g. Users can add button action capability to
+	their GLScene by subclassing from GLSceneButton. If given GLScene
+	implements GLSceneButton, GLArea enables mouse button events
+	automatically. GLArea.enable_* functions are no longer needed.
 
 2003-08-6  Alif Wahid  <awah005@users.sourceforge.net>
 
