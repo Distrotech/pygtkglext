@@ -46,14 +46,14 @@ was using editors that were not sensitive to Python.
 # to have the NeHe6Multi scene rendered.
 
 class NeHe6Multi (GLScene):
-    def __init__ (self, width=300, height=300):
+	def __init__ (self, width=300, height=300):
 		self.rot = 0.0
 		self.deg_rad = pi/180.0
 		self.width = width
 		self.height = height
 		self.has_printed_note = gtk.FALSE
 
-    def __loadTexture (self, fileName):
+	def __loadTexture (self, fileName):
 		# We use gtk.gdk.Pixbuf instead of
 		# the Python Imaging Library (PIL)
 		# to load up the image required
@@ -94,7 +94,7 @@ class NeHe6Multi (GLScene):
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
-    def init(self):
+	def init (self):
 		# Check the extension availability.
 		if not glInitMultitextureARB():
 			print "Help!  No GL_ARB_multitexture"
@@ -121,7 +121,7 @@ class NeHe6Multi (GLScene):
 		gluPerspective(45.0, float(self.width)/float(self.height), 0.1, 100.0)
 		glMatrixMode(GL_MODELVIEW)
 
-    def display(self, width, height):
+	def display (self, width, height):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		glLoadIdentity()
 		glTranslatef(0.0,0.0,-5.0)
@@ -176,7 +176,7 @@ class NeHe6Multi (GLScene):
 
 		glEnd();
 
-    def reshape(self, width, height):
+	def reshape (self, width, height):
 		self.width = width
 		self.height = height
 
@@ -186,45 +186,39 @@ class NeHe6Multi (GLScene):
 		gluPerspective(45.0, float(width)/float(height), 0.1, 100.0)
 		glMatrixMode(GL_MODELVIEW)
 
-    def key_press(self, width, height, event):
-        print "key_press (keyval=%d, state=%d)" \
-              % (event.keyval, event.state)
+	def key_press (self, width, height, event):
+		if event.keyval == gtk.keysyms.i:
+			self.toggle_idle()
+		elif event.keyval == gtk.keysyms.Escape:
+			gtk.main_quit()
 
-    def key_release(self, width, height, event):
-        print "key_release (keyval=%d, state=%d)" \
-              % (event.keyval, event.state)
-        if event.keyval == gtk.keysyms.i:
-            self.toggle_idle()
-        elif event.keyval == gtk.keysyms.Escape:
-            gtk.main_quit()
+	def key_release (self, width, height, event):
+		pass
+		
+	def button_press (self, width, height, event):
+		pass
 
-    def button_press(self, width, height, event):
-        print "button_press (button=%d, state=%d, x=%d, y=%d)" \
-              % (event.button, event.state, event.x, event.y)
+	def button_release (self, width, height, event):
+		pass
 
-    def button_release(self, width, height, event):
-        print "button_release (button=%d, state=%d, x=%d, y=%d)" \
-              % (event.button, event.state, event.x, event.y)
+	def motion (self, width, height, event):
+		pass
 
-    def motion(self, width, height, event):
-        print "motion (state=%d, x=%d, y=%d)" \
-              % (event.state, event.x, event.y)
-
-    def idle(self, width, height):
+	def idle (self, width, height):
 		self.rot = (self.rot + 0.2) % 360
 		self.queue_draw()
 
 
 if __name__ == '__main__':
-    glscene = NeHe6Multi()
+	glscene = NeHe6Multi()
 
-    glapp = GLApplication(glscene)
-    glapp.set_title('NeHe6Multi')
+	glapp = GLApplication(glscene)
+	glapp.set_title('NeHe6Multi')
 
-    glapp.enable_key_events()
-    #glapp.enable_button_events()
-    #glapp.enable_button_motion_events()
-    #glapp.enable_pointer_motion_events()
-    glapp.enable_idle()
+	glapp.enable_key_events()
+	#glapp.enable_button_events()
+	#glapp.enable_button_motion_events()
+	#glapp.enable_pointer_motion_events()
+	glapp.enable_idle()
 
-    glapp.run()
+	glapp.run()

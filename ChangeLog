@@ -1,5 +1,24 @@
+2003-03-21  Alif Wahid	<awah005@users.sourceforge.net>
+
+	Updated remaining example programs that
+	used PyGtkGLTemplate module to now use
+	the gtk.gtkgl.apputils module.
+
+	* examples/Shapes.py
+	* examples/teapot2.py
+
+	Some cleanup of other examples.
+
+	* examples/MoveLight.py
+	* examples/NeHe6Multi.py
+	* examples/SimpleScene.py
+
+	Finally, removed the PyGtkGLTemplate module.
+
+	* examples/PyGtkGLTemplate.py: removed.
+
 2003-03-19  Alif Wahid	<awah005@users.sourceforge.net>
-	
+
 	Updated following example programs to use
 	the gtk.gtkgl.apputils module.
 
@@ -11,8 +30,8 @@
 
 	* examples/teapot.py (realize): Clear color and depth.
 
-	* setup.py.in: 
-	* gtk/gdkgl/Makefile.am: 
+	* setup.py.in:
+	* gtk/gdkgl/Makefile.am:
 	* gtk/gtkgl/Makefile.am: Changed extension module file names to
 	_gdkgl.so and _gtkgl.so.
 

@@ -64,11 +64,11 @@ from gtk.gtkgl.apputils import *
 # to have the MoveLight scene rendered.
 
 class MoveLight (GLScene):
-    def __init__(self):
+	def __init__ (self):
 		GLScene.__init__(self)
 		self.spin = 0
 
-    def init(self):
+	def init (self):
 		glClearColor (0.0, 0.0, 0.0, 0.0)
 		glClearDepth(1.0)
 		glShadeModel (GL_SMOOTH)
@@ -76,7 +76,7 @@ class MoveLight (GLScene):
 		glEnable(GL_LIGHT0)
 		glEnable(GL_DEPTH_TEST)
 
-    def display(self, width, height):
+	def display (self, width, height):
 		position =  [0.0, 0.0, 1.5, 1.0]
 
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -97,7 +97,7 @@ class MoveLight (GLScene):
 		gtk.gdkgl.draw_torus (gtk.TRUE, 0.275, 0.85, 8, 15)
 		glPopMatrix ()
 
-    def reshape(self, width, height):
+	def reshape (self, width, height):
 		glViewport (0, 0, width, height)
 		glMatrixMode (GL_PROJECTION)
 		glLoadIdentity()
@@ -105,48 +105,40 @@ class MoveLight (GLScene):
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
 
-    def key_press(self, width, height, event):
-        print "key_press (keyval=%d, state=%d)" \
-              % (event.keyval, event.state)
+	def key_press (self, width, height, event):
+		pass
 
-    def key_release(self, width, height, event):
-        print "key_release (keyval=%d, state=%d)" \
-              % (event.keyval, event.state)
-        if event.keyval == gtk.keysyms.i:
-            self.toggle_idle()
-        elif event.keyval == gtk.keysyms.Escape:
-            gtk.main_quit()
+	def key_release (self, width, height, event):
+		pass
 
-    def button_press(self, width, height, event):
+	def button_press (self, width, height, event):
 		if event.button == 1:
 			self.spin = (self.spin + 30) % 360
 		elif event.button == 3:
 			self.spin = (self.spin - 30) % 360
+		
 		self.queue_draw()
 
-    def button_release(self, width, height, event):
-        print "button_release (button=%d, state=%d, x=%d, y=%d)" \
-              % (event.button, event.state, event.x, event.y)
+	def button_release (self, width, height, event):
+		pass
 
-    def motion(self, width, height, event):
-        print "motion (state=%d, x=%d, y=%d)" \
-              % (event.state, event.x, event.y)
+	def motion (self, width, height, event):
+		pass
 
-    def idle(self, width, height):
-        print "idle"
-        self.glarea.queue_draw()
+	def idle (self, width, height):
+		pass
 
 
 if __name__ == '__main__':
-    glscene = MoveLight()
+	glscene = MoveLight()
 
-    glapp = GLApplication(glscene)
-    glapp.set_title('MoveLight')
+	glapp = GLApplication(glscene)
+	glapp.set_title('MoveLight')
 
-    #glapp.enable_key_events()
-    glapp.enable_button_events()
-    #glapp.enable_button_motion_events()
-    #glapp.enable_pointer_motion_events()
-    #glapp.enable_idle()
+	#glapp.enable_key_events()
+	glapp.enable_button_events()
+	#glapp.enable_button_motion_events()
+	#glapp.enable_pointer_motion_events()
+	#glapp.enable_idle()
 
-    glapp.run()
+	glapp.run()

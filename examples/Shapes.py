@@ -3,11 +3,11 @@
 '''
 Shapes.py
 
-This program is based upon the Shapes.c demo by Naofumi. This is not a
+This program is based upon the shapes.c demo by Naofumi. This is not a
 straight conversion from C to Python. The original idea of displaying
 different shapes have been retained but here a range of widgets are
 used to demonstrate the use of OpenGL in conjunction with a variety of
-Gtk+ widgets. You can use sliders to rotate the object, change colours
+Gtk+ widgets. You can use sliders to rotate the object and change colours
 for the foreground and background using the standard Gtk+ colour
 selection dialog.
 
@@ -15,13 +15,13 @@ Alif Wahid, March, 2003
 <awah005@users.sourceforge.net>
 '''
 
-from PyGtkGLTemplate import *
+from gtk.gtkgl.apputils import *
 from OpenGL.GLE import *
 
-# Implement the GLSceneInterface
+# Implement the GLScene interface
 # to have a shape rendered.
 
-class Shapes (GLSceneInterface):
+class Shapes (GLScene):
 	def __init__ (self):
 		self.light_ambient =  [0.0, 1.0, 0.0, 1.0]
 		self.light_diffuse =  [1.0, 1.0, 1.0, 1.0]
@@ -118,7 +118,7 @@ class Shapes (GLSceneInterface):
 		gtk.gdkgl.draw_sphere(self.is_solid, 12.0, 30, 30);
 
 	# GLSceneInterface implementation.
-	def realize (self):
+	def init (self):
 		glClearDepth(1.0)
 		glClearColor(self.colourBg[0], self.colourBg[1], self.colourBg[2], 0.0)
 		glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE)
@@ -154,18 +154,7 @@ class Shapes (GLSceneInterface):
 		glEnable(GL_DEPTH_TEST)
 		glEnable(GL_COLOR_MATERIAL)
 
-	def configure (self, width, height):
-		glViewport(0, 0, width, height)
-		glMatrixMode(GL_PROJECTION)
-		glLoadIdentity()
-
-		# Calculate left/right and top/bottom clipping planes based on the smallest square viewport.
-		a = 13.0/min(width, height)
-		clipping_planes = (a*width, a*height)
-		# Setup the projection
-		glFrustum(-clipping_planes[0], clipping_planes[0], -clipping_planes[1], clipping_planes[1], 50.0, 150.0)
-
-	def expose (self, width, height):
+	def display (self, width, height):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
@@ -178,11 +167,25 @@ class Shapes (GLSceneInterface):
 		glColor(self.colourFg)
 		self.__drawShape[self.currentShape]()
 
-	def button_press (self, event, width, height):
+	def reshape (self, width, height):
+		glViewport(0, 0, width, height)
+		glMatrixMode(GL_PROJECTION)
+		glLoadIdentity()
+
+		# Calculate left/right and top/bottom clipping planes based on the smallest square viewport.
+		a = 13.0/min(width, height)
+		clipping_planes = (a*width, a*height)
+		# Setup the projection
+		glFrustum(-clipping_planes[0], clipping_planes[0], -clipping_planes[1], clipping_planes[1], 50.0, 150.0)
+
+	def button_press (self, width, height, event):
 		self.beginx = event.x
 		self.beginy = event.y
 
-	def motion_notify (self, event, width, height):
+	def button_release (self, width, height, event):
+		pass
+
+	def motion (self, width, height, event):
 		if event.state == gtk.gdk.BUTTON1_MASK:
 			self.rotx = self.rotx + ((event.y-self.beginy)/width)*360.0
 			self.roty = self.roty + ((event.x-self.beginx)/height)*360.0
@@ -191,18 +194,23 @@ class Shapes (GLSceneInterface):
 
 		if self.depth > 130.0: self.depth = 130.0;
 		elif self.depth < 80.0: self.depth = 80.0;
-		
+
 		self.beginx = event.x
 		self.beginy = event.y
+		
+		self.queue_draw()
 
-	def key_press (self, event, width, height):
+	def key_press (self, width, height, event):
 		pass
 
-	def visibility_notify (self, event, width, height):
+	def key_release (self, width, height, event):
+		pass
+
+	def idle (self, width, height):
 		pass
 
 # A window to show the Shapes scene
-# in a GtkGLScene widget along with two
+# in a GLArea widget along with two
 # sliders for rotating the shape rendered
 # in the scene. The shape can also be
 # rotated using mouse button drag motion.
@@ -231,13 +239,18 @@ class ShapesWindow (gtk.Window):
 		self.add(self.table)
 
 		# The Shapes scene and the
-		# GtkGLScene widget to
+		# GLArea widget to
 		# display it.
 		self.shape = Shapes()
-		self.glarea = GtkGLScene(self.shape)
+		self.glarea = GLArea(self.shape)
 		self.glarea.set_size_request(300,300)
 		self.glarea.show()
 		self.table.attach(self.glarea, 1, 2, 0, 1)
+
+		# Enable button press and drag motion
+		# events on the drawing area.
+		self.glarea.enable_button_events()
+		self.glarea.enable_button_motion_events()
 
 		# 3 Frames showing rotation sliders
 		self.zframe = gtk.Frame('Z-Axis')
@@ -381,7 +394,7 @@ class ShapesWindow (gtk.Window):
 			# state of OpenGL, thus we have to make sure
 			# that this change of state is realized first
 			# before 'exposing' the scene.
-			self.shape.realize()
+			self.shape.init()
 			self.glarea.queue_draw()
 
 		dialog.destroy()
@@ -413,11 +426,11 @@ class ShapesWindow (gtk.Window):
 		self.shape.roty = yadj.value
 		self.glarea.queue_draw()
 
-	def show (self):
-		gtk.Window.show(self)
+	def run (self):
+		self.show()
 		gtk.main()
 
 
 if __name__ == '__main__':
 	app = ShapesWindow()
-	app.show()
+	app.run()

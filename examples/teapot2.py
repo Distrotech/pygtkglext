@@ -6,22 +6,22 @@ Conversion from gtk.gl module to PyGtkGLExt by Naofumi Yasufuku.
 Implemented an object oriented structure by Alif Wahid.
 '''
 
-from PyGtkGLTemplate import *
+from gtk.gtkgl.apputils import *
 
-# Implement the GLSceneInterface
+# Implement the GLScene interface
 # to have a teapot rendered.
 
-class Teapot (GLSceneInterface):
+class Teapot (GLScene):
 	def __init__ (self):
 		self.rotx = 0
 		self.roty = 0
-		
+
 		self.is_solid = gtk.FALSE
 
 		self.beginx = 0
 		self.beginy = 0
 
-	def realize (self):
+	def init (self):
 		glMaterial(GL_FRONT, GL_AMBIENT,   [0.2, 0.2, 0.2, 1.0])
 		glMaterial(GL_FRONT, GL_DIFFUSE,   [0.8, 0.8, 0.8, 1.0])
 		glMaterial(GL_FRONT, GL_SPECULAR,  [1.0, 0.0, 1.0, 1.0])
@@ -39,7 +39,7 @@ class Teapot (GLSceneInterface):
 		glDepthFunc(GL_LESS)
 		glEnable(GL_DEPTH_TEST)
 
-	def configure (self, width, height):
+	def reshape (self, width, height):
 		glViewport(0, 0, width, height)
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()
@@ -51,7 +51,7 @@ class Teapot (GLSceneInterface):
 			glFrustum( -1.0, 1.0, -h, h, 5.0, 60.0 )
 		glMatrixMode(GL_MODELVIEW)
 
-	def expose (self, width, height):
+	def display (self, width, height):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		glLoadIdentity()
 		glTranslate(0, 0, -10)
@@ -59,26 +59,34 @@ class Teapot (GLSceneInterface):
 		glRotate(self.roty, 0, 1, 0)
 		gtk.gdkgl.draw_teapot(self.is_solid, 1)
 
-	def button_press (self, event, width, height):
+	def button_press (self, width, height, event):
 		self.beginx = event.x
 		self.beginy = event.y
 
-	def motion_notify (self, event, width, height):
+	def button_release (self, width, height, event):
+		pass
+
+	def motion (self, width, height, event):
 		if event.state == gtk.gdk.BUTTON1_MASK:
 			self.rotx = self.rotx + ((event.y-self.beginy)/width)*360.0
 			self.roty = self.roty + ((event.x-self.beginx)/height)*360.0
 
 		self.beginx = event.x
 		self.beginy = event.y
+		
+		self.queue_draw()
 
-	def key_press (self, event, width, height):
+	def key_press (self, width, height, event):
 		pass
 
-	def visibility_notify (self, event, width, height):
+	def key_release (self, width, height, event):
+		pass
+
+	def idle (self, width, height):
 		pass
 
 # A simple window to show the Teapot scene
-# in a GtkGLScene widget along with two
+# in a GLArea widget along with two
 # sliders for rotating the teapot rendered
 # in the scene. The teapot can also be
 # rotated using mouse button drag motion.
@@ -102,13 +110,18 @@ class TeapotWindow (gtk.Window):
 		self.add(self.table)
 
 		# The Teapot scene and the
-		# GtkGLScene widget to
+		# GLArea widget to
 		# display it.
 		self.teapot = Teapot()
-		self.glarea = GtkGLScene(self.teapot)
+		self.glarea = GLArea(self.teapot)
 		self.glarea.set_size_request(300,300)
 		self.glarea.show()
 		self.table.attach(self.glarea, 0, 1, 0, 1)
+		
+		# Enable button press and drag motion
+		# events on the drawing area.
+		self.glarea.enable_button_events()
+		self.glarea.enable_button_motion_events()
 
 		# Rotation sliders
 		self.vadj = gtk.Adjustment(0, -360, 360, 1, 5, 1)
@@ -132,10 +145,6 @@ class TeapotWindow (gtk.Window):
 		self.table.attach(self.button, 0, 2, 2, 3, gtk.FILL, gtk.FILL)
 		self.button.show()
 
-	def show (self):
-		gtk.Window.show(self)
-		gtk.main()
-
 	def vchanged (self, vadj):
 		self.teapot.rotx = vadj.value
 		self.glarea.queue_draw()
@@ -148,7 +157,11 @@ class TeapotWindow (gtk.Window):
 		self.teapot.is_solid = not self.teapot.is_solid
 		self.glarea.queue_draw()
 
+	def run (self):
+		self.show()
+		gtk.main()
+
 
 if __name__ == '__main__':
 	app = TeapotWindow()
-	app.show()
+	app.run()
