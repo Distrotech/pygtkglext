@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.2
+#!/usr/bin/env python
 
 # This program is a mapping of the simple.c program
 # written by Naofumi. It should provide a good test case for the

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.2
+#!/usr/bin/env python
 
 # This is a mapping between the simple-mixed.c program written
 # by Naofumi for GtkGLExt. I've changed that to Python in an

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.2
+#!/usr/bin/env python
 
 '''
 Converted to PyGtkGLExt 3/2003 by Alif Wahid <awah005@users.sourceforge.net>

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.2
+#!/usr/bin/env python
 #
 # This program is based on cone.py that comes with with PyGTK.
 #
