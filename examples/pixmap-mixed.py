@@ -62,8 +62,6 @@ class PixmapMixedDemo(object):
         self.glarea.set_size_request(200, 200)
         self.glarea.set_colormap(self.glconfig.get_colormap())
         self.glarea.set_double_buffered(gtk.FALSE)
-        self.glarea.set_events(gtk.gdk.EXPOSURE_MASK | \
-                               gtk.gdk.BUTTON_PRESS_MASK)
         self.glarea.connect('configure_event', self.__configure_event)
         self.glarea.connect('expose_event', self.__expose_event)
         self.glarea.connect('destroy', self.__print_msg)
@@ -151,8 +149,8 @@ class PixmapMixedDemo(object):
                                        gtk.TRUE,
                                        widget.allocation.width/10,
                                        widget.allocation.height/10,
-                                       widget.allocation.width*4/5,
-                                       widget.allocation.height*4/5)
+                                       widget.allocation.width*8/10,
+                                       widget.allocation.height*8/10)
         
         # Synchronise with GDK before proceeding further.
         self.gldrawable.wait_gdk()

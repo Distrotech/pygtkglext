@@ -11,12 +11,12 @@ EXTRA_DIST = \
 	simple-mixed.py		\
 	pixmap.py		\
 	pixmap-mixed.py 	\
+	share-lists.py		\
 	color.py		\
 	font.py			\
 	SimpleScene.py		\
 	MoveLight.py		\
 	Shapes.py		\
-	share-lists.py     \
 	NeHe6Multi.py		\
 	Wall.png		\
 	NeHe.png

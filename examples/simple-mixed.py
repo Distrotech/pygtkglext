@@ -63,8 +63,6 @@ class SimpleMixedDemo(object):
         # Set OpenGL capability to the drawing area and
         # connect to the relevant signals.
         gtk.gtkgl.widget_set_gl_capability(self.glarea, self.glconfig)
-        self.glarea.set_events(gtk.gdk.EXPOSURE_MASK | \
-                               gtk.gdk.BUTTON_PRESS_MASK)
         self.glarea.connect_after('realize', self.__realize)
         self.glarea.connect('configure_event', self.__configure_event)
         self.glarea.connect('expose_event', self.__expose_event)
@@ -166,8 +164,8 @@ class SimpleMixedDemo(object):
                                   gtk.TRUE,
                                   widget.allocation.width/10,
                                   widget.allocation.height/10,
-                                  widget.allocation.width*4/5,
-                                  widget.allocation.height*4/5)
+                                  widget.allocation.width*8/10,
+                                  widget.allocation.height*8/10)
         
         # Synchronise with GDK before proceeding further.
         gldrawable.wait_gdk()
