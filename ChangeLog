@@ -1,3 +1,15 @@
+2003-03-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	Added new examples programs contributed by Alif Wahid.
+	Thank you, Alif ;-)
+
+	* examples/teapot2.py: Revised version of teapot.py using the
+	template.
+	* examples/MoveLight.py: A demo ported from PyOpenGL and PyGLUT.
+	* examples/SimpleScene.py: A demo ported from PyOpenGL and PyGLUT.
+	* examples/PyGtkGLTemplate.py: Generic interface class and a
+	OpenGL widget.
+
 2003-03-10  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* Version 0.0.2
