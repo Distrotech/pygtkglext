@@ -1,5 +1,9 @@
 2003-05-11  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* Makefile.am (EXTRA_DIST): 
+	* configure.in: 
+	* pygtkglext.spec.in: Added RPM spec file.
+
 	* gtk/gtkgl/apputils.py: 
 	* examples/*.py: Changed '#!/usr/bin/env python2.2' to
 	'#!/usr/bin/env python'.

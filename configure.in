@@ -191,6 +191,7 @@ changequote([,])dnl
 AC_CONFIG_FILES([
 pygtkglext.pc
 setup.py
+pygtkglext.spec
 Makefile
 gtk/Makefile
 gtk/gdkgl/Makefile

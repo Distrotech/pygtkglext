@@ -1,0 +1,63 @@
+# -*- rpm-spec -*-
+
+%define base_version		@PYGTKGLEXT_VERSION@
+%define api_version		@PYGTKGLEXT_API_VERSION@
+%define rel			1
+
+%define gtkglext_req_version	@GTKGLEXT_REQUIRED_VERSION@
+
+Summary: Python Bindings for GtkGLExt
+Name: pygtkglext
+Version: %{base_version}
+Release: %{rel}
+License: LGPL
+Group: Development/Languages
+URL: http://gtkglext.sourceforge.net
+Source0: ftp://ftp.sourceforge.net/pub/sourceforge/gtkglext/%{name}-%{version}.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+
+Requires: gtkglext >= %{gtkglext_req_version}
+Requires: pygtk2
+Requires: gtk2
+Requires: XFree86-libs
+Requires: python >= 2.2
+
+BuildPreReq: gtkglext-devel >= %{gtkglext_req_version}
+BuildPreReq: pygtk2-devel
+BuildPreReq: gtk2-devel
+BuildPreReq: XFree86-devel
+BuildPreReq: python-devel >= 2.2
+
+%description
+PyGtkGLExt is Python language bindings for GtkGLExt, OpenGL Extension to GTK.
+It enables Python programmers to write OpenGL applications with PyGTK2.
+
+%prep
+%setup -q
+
+%build
+[ -x /usr/bin/python2.2 ] && export PYTHON=/usr/bin/python2.2
+%configure
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+%makeinstall
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root,-)
+
+%doc AUTHORS COPYING COPYING.LIB ChangeLog NEWS README
+%{_libdir}/python?.?/site-packages/gtk-2.0/gtk/gdkgl
+%{_libdir}/python?.?/site-packages/gtk-2.0/gtk/gtkgl
+%{_libdir}/pkgconfig/*
+%{_datadir}/pygtk/2.0/defs/*
+
+%changelog
+* Sun May 11 2003 Naofumi Yasufuku <naofumi@users.sourceforge.net> 
+- Initial build.
+
+

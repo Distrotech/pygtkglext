@@ -9,7 +9,9 @@ EXTRA_DIST = \
 	pygtkglext.pc.in	\
 	setup.py.in 		\
 	setup.py 		\
-	dsextras.py
+	dsextras.py		\
+	pygtkglext.spec.in	\
+	pygtkglext.spec
 
 API_VER = @PYGTKGLEXT_API_VERSION@
 
