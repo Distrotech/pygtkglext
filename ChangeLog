@@ -5,6 +5,7 @@
 	extension is used.
 	(CoolWave.idle): Use idle instead of timeout for (my) slow
 	machines.
+	(CoolWave.key_press): Call toggle_idle() instead of toggle_timeout().
 	(CoolWave.__setup_arrays): Suppress python 2.3 deprecation
 	warnings (non-integer arguments for range()).
 

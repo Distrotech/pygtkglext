@@ -216,9 +216,9 @@ class CoolWave (GLScene,
         glViewport(0,0, width, height)
 
     def key_press (self, width, height, event):
-        if event.keyval == gtk.keysyms.t:
+        if event.keyval == gtk.keysyms.i:
             # Toggle animation.
-            self.toggle_timeout()
+            self.toggle_idle()
 
         elif event.keyval == gtk.keysyms.r:
             # Reset the wave shape.
