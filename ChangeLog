@@ -1,3 +1,10 @@
+2004-01-29  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/teapot2.py (Teapot.button_motion): 
+	* examples/coolwave.py (CoolWave.button_motion): 
+	* examples/Shapes.py (Shapes.button_motion): Use '&' instead '=='
+	to check button events' event.state value.
+
 2003-11-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* examples/gears-func.py (idle):

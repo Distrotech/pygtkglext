@@ -79,7 +79,7 @@ class Teapot(GLScene,
         pass
     
     def button_motion(self, width, height, event):
-        if event.state == gtk.gdk.BUTTON1_MASK:
+        if event.state & gtk.gdk.BUTTON1_MASK:
             self.rotx = self.rotx + ((event.y-self.beginy)/width)*360.0
             self.roty = self.roty + ((event.x-self.beginx)/height)*360.0
         
