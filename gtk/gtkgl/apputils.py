@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.2
+#!/usr/bin/env python
 
 # PyGtkGLExt - Python Bindings for GtkGLExt
 # Copyright (C) 2003  Naofumi Yasufuku
