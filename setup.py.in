@@ -57,7 +57,7 @@ class PyGtkGLExtInstallLib(InstallLib):
         self.prepare()
 
         self.install_template_as('pygtkglext.pc.in',
-                                 os.path.join(self.libdir, 'pkgconfig'),
+                                 self.pkgconfigdir,
                                  'pygtkglext-' + API_VERSION + '.pc')
 
         # Modify the base installation dir
