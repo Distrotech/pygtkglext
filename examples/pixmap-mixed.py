@@ -36,7 +36,7 @@ class PixmapMixedDemo (object):
 		try:
 			self.glconfig = gtk.gdkgl.Config(mode=self.display_mode)
 		except gtk.gdkgl.NoMatches:
-			raise SystemError
+			raise SystemExit
 
 		# Create the window for the app.
 		self.win = gtk.Window()
