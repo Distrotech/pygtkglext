@@ -1,3 +1,7 @@
+2003-03-10  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.0.2
+
 2003-03-09  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* examples/teapot.py: Simple example based on cone.py that comes

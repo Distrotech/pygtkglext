@@ -49,13 +49,20 @@ Requirements
 Installation
 ============
 
-To build and install PyGtkGLExt, type follows (use GNU make)
+To build and install PyGtkGLExt, you can use Python Distutils based
+setup.py script or GNU auto-tools based configure script.
 
-  $ ./configure --prefix=/foo/bar (other options...)
-  $ make (or gmake)
-  $ make install
+  * Python Distutils
 
-Please read INSTALL or type "./configure --help" for more details.
+    $ python setup.py install (--prefix /foo/bar)
+
+  * configure script
+
+    $ ./configure --prefix=/foo/bar (other options...)
+    $ make (or gmake)
+    $ make install
+
+    Please read INSTALL or type "./configure --help" for more details.
 
 
 Building the CVS Version of PyGtkGLExt

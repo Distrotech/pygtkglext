@@ -4,7 +4,7 @@ AC_PREREQ([2.52])
 # PyGtkGLExt version number
 m4_define(pygtkglext_major_version, 0)
 m4_define(pygtkglext_minor_version, 0)
-m4_define(pygtkglext_micro_version, 1)
+m4_define(pygtkglext_micro_version, 2)
 m4_define(pygtkglext_version, pygtkglext_major_version.pygtkglext_minor_version.pygtkglext_micro_version)
 m4_define(pygtkglext_api_major_version, 1)
 m4_define(pygtkglext_api_minor_version, 0)
