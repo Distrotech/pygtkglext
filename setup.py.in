@@ -133,7 +133,7 @@ if gdkglext.can_build():
 if gtkglext.can_build():
     ext_modules.append(gtkglext)
     data_files.append((DEFS_DIR, ('gtk/gtkgl/gtkglext.defs',)))
-    py_modules += ['gtk.gtkgl.__init__', 'gtk.gtkgl.widget']
+    py_modules += ['gtk.gtkgl.__init__', 'gtk.gtkgl.widget', 'gtk.gtkgl.apputils']
 
 doclines = __doc__.split("\n")
 

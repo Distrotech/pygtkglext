@@ -135,7 +135,7 @@ INCLUDES = $(PYTHON_INCLUDES) $(PYGTK_CFLAGS)
 @PLATFORM_WIN32_TRUE@common_ldflags = -module -avoid-version -no-undefined
 @PLATFORM_WIN32_FALSE@common_ldflags = -module -avoid-version
 
-pygtkgl_PYTHON = __init__.py widget.py
+pygtkgl_PYTHON = __init__.py widget.py apputils.py
 
 pygtkglexec_LTLIBRARIES = _gtkglmodule.la
 

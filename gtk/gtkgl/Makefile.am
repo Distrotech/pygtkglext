@@ -19,7 +19,7 @@ else
 common_ldflags = -module -avoid-version
 endif
 
-pygtkgl_PYTHON = __init__.py widget.py
+pygtkgl_PYTHON = __init__.py widget.py apputils.py
 
 pygtkglexec_LTLIBRARIES = _gtkglmodule.la
 
