@@ -110,7 +110,7 @@ def hchanged(hadj, glarea):
 
 def toggled(button, glarea):
 	global is_solid
-	is_solid = ~is_solid
+	is_solid = not is_solid
 	glarea.queue_draw()
 
 #

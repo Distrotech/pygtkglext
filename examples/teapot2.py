@@ -145,7 +145,7 @@ class TeapotWindow (gtk.Window):
 		self.glarea.queue_draw()
 
 	def toggled (self, button):
-		self.teapot.is_solid = ~self.teapot.is_solid
+		self.teapot.is_solid = not self.teapot.is_solid
 		self.glarea.queue_draw()
 
 

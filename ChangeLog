@@ -1,6 +1,14 @@
+2003-03-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	Added new example programs contributed by Alif Wahid.
+	Thank you, Alif ;-)
+
+	* examples/NeHe6Multi.py: 
+	* examples/Shapes.py: 
+
 2003-03-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
-	Added new examples programs contributed by Alif Wahid.
+	Added new example programs contributed by Alif Wahid.
 	Thank you, Alif ;-)
 
 	* examples/teapot2.py: Revised version of teapot.py using the

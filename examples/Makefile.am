@@ -8,5 +8,7 @@ EXTRA_DIST = \
 	PyGtkGLTemplate.py	\
 	SimpleScene.py		\
 	MoveLight.py		\
-	teapot2.py
+	teapot2.py		\
+	Shapes.py		\
+	NeHe6Multi.py
 
