@@ -1,5 +1,10 @@
 2003-03-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* gtk/gtkgl/widget.py: Widget subclasses built-in object class,
+	and restricts instantiation.
+
+2003-03-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
 	* gtk/gtkgl/apputils.py: Added new add-on module which is based on
 	PyGtkGLTemplate.py written by Alif. It provides GLScene, GLArea,
 	and GLApplication classes which reduces programmers' work.
