@@ -19,6 +19,7 @@ EXTRA_DIST = \
 	Shapes.py		\
 	NeHe6Multi.py		\
 	scribble-gl.py		\
+	button.py		\
 	Wall.png		\
 	NeHe.png
 
