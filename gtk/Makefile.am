@@ -3,4 +3,3 @@
 
 SUBDIRS = gdkgl gtkgl
 
-EXTRA_DIST = 
