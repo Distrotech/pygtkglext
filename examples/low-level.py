@@ -117,14 +117,10 @@ class LowLevelDemo (object):
 
 	def __realize (self, widget):
 		# We have to realize an OpenGL drawable.
-		self.gldrawable = gtk.gdkgl.window_set_gl_capability(widget.window,
-												   self.glconfig)
+		self.gldrawable = gtk.gdkgl.window_set_gl_capability(widget.window, self.glconfig)
 		# Then create an OpenGL rendering context.
 		if not self.glcontext:
-			self.glcontext = gtk.gdkgl.Context(self.gldrawable,
-									     None,
-										gtk.TRUE,
-										gtk.gdkgl.RGBA_TYPE)
+			self.glcontext = gtk.gdkgl.Context(self.gldrawable, None, gtk.TRUE, gtk.gdkgl.RGBA_TYPE)
 			if self.glcontext:
 				print "OpenGL rendering context is created.\n"
 			else:

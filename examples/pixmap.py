@@ -155,12 +155,9 @@ class PixmapDemo (object):
 		self.pixmap = gtk.gdk.Pixmap(widget.window, width, height, self.glconfig.get_depth())
 		self.gldrawable = gtk.gdkgl.pixmap_set_gl_capability(self.pixmap, self.glconfig)
 
-          # Then create an indirect OpenGL rendering context.
+		# Then create an indirect OpenGL rendering context.
 		if not self.glcontext:
-			self.glcontext = gtk.gdkgl.Context(self.gldrawable,
-									     None,
-										gtk.FALSE,
-										gtk.gdkgl.RGBA_TYPE)
+			self.glcontext = gtk.gdkgl.Context(self.gldrawable, None, gtk.FALSE, gtk.gdkgl.RGBA_TYPE)
 			if self.glcontext:
 				print "OpenGL rendering context is created.\n"
 			else:
