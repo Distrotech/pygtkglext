@@ -1,17 +1,26 @@
+2003-08-21  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* examples/Makefile.am (coolwave.py):
+	* examples/coolwave.py: Added new example program. This is
+	again another mapping from C to Python. The original
+	program 'coolwave.c' comes with GtkGLExt. It's a good
+	example of how to use the latest gtk.gtkgl.apputils
+	module quite extensively.
+
 2003-08-18  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
-	* examples/font.py: 
+	* examples/font.py:
 	* examples/button.py: Don't use apputils module.
 
-	* examples/MoveLight.py: 
-	* examples/NeHe6Multi.py: 
-	* examples/Shapes.py: 
-	* examples/SimpleScene.py: 
-	* examples/button.py: 
-	* examples/font.py: 
-	* examples/scribble-gl.py: 
-	* examples/scribble.py: 
-	* examples/scribbling-worms.py: 
+	* examples/MoveLight.py:
+	* examples/NeHe6Multi.py:
+	* examples/Shapes.py:
+	* examples/SimpleScene.py:
+	* examples/button.py:
+	* examples/font.py:
+	* examples/scribble-gl.py:
+	* examples/scribble.py:
+	* examples/scribbling-worms.py:
 	* examples/teapot2.py: Changes for new apputils module.
 
 	* gtk/gtkgl/apputils.py: Rewritten. GLScene has been divided into
