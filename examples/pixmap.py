@@ -190,7 +190,7 @@ class PixmapDemo (object):
 	def __expose (self, widget, event):
 		# The expose function is rather trivial
 		# since we only have to copy the pixmap
-		# onto the onscreen drawable (gdk.Wsindow).
+		# onto the onscreen drawable (gdk.Window).
 		x, y, width, height = event.area
 		gc = widget.get_style().fg_gc[gtk.STATE_NORMAL]
 		widget.window.draw_drawable(gc, self.pixmap, x, y, x, y, width, height)
