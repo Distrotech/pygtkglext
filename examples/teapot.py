@@ -193,7 +193,7 @@ table.show()
 glarea = gtk.gtkgl.DrawingArea(glconfig)
 glarea.set_size_request(300, 300)
 
-glarea.connect('realize', realize)
+glarea.connect_after('realize', realize)
 glarea.connect('configure_event', configure_event)
 glarea.connect('expose_event', expose_event)
 

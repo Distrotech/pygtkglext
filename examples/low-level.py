@@ -104,7 +104,7 @@ class LowLevelDemo (object):
 		self.glarea.set_colormap(self.glconfig.get_colormap())
 		self.glarea.set_double_buffered(gtk.FALSE)
 		self.glarea.set_events(gtk.gdk.EXPOSURE_MASK | gtk.gdk.BUTTON_PRESS_MASK)
-		self.glarea.connect('realize', self.__realize)
+		self.glarea.connect_after('realize', self.__realize)
 		self.glarea.connect('configure_event', self.__configure)
 		self.glarea.connect('expose_event', self.__expose)
 		self.glarea.connect('unrealize', self.__unrealize)

@@ -62,7 +62,7 @@ class SimpleDemo (object):
 		# connect to the relevant signals.
 		gtk.gtkgl.widget_set_gl_capability(self.glarea, self.glconfig)
 		self.glarea.set_events(gtk.gdk.EXPOSURE_MASK | gtk.gdk.BUTTON_PRESS_MASK)
-		self.glarea.connect('realize', self.__realize)
+		self.glarea.connect_after('realize', self.__realize)
 		self.glarea.connect('configure_event', self.__configure)
 		self.glarea.connect('expose_event', self.__expose)
 		self.glarea.connect('destroy', self.__print_msg)

@@ -1,3 +1,18 @@
+2003-04-30  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py (GLArea.__init__): Use connect_after()
+	instead of connect() to connect 'realize' signal handler.
+
+	* examples/gears-func.py: 
+	* examples/gears-darea.py: 
+	* examples/teapot.py: 
+	* examples/low-level.py (LowLevelDemo.__init__): 
+	* examples/simple.py (SimpleDemo.__init__): 
+	* examples/simple-mixed.py (SimpleMixedDemo.__init__): 
+	* examples/color.py (ColorManagementDemo.__init__): 
+	Use connect_after() instead of connect() to connect 'realize'
+	signal handler.
+
 2003-04-30  Alif Wahid	<awah005@users.sourceforge.net>
 
 	Added new example program color.py, it's a mapping

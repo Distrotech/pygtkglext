@@ -345,7 +345,7 @@ table.show()
 glarea = gtk.gtkgl.DrawingArea(glconfig)
 glarea.set_size_request(300, 300)
 
-glarea.connect('realize', init)
+glarea.connect_after('realize', init)
 glarea.connect('configure_event', reshape)
 glarea.connect('expose_event', draw)
 glarea.connect('map_event', map)

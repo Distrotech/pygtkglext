@@ -84,7 +84,7 @@ class ColorManagementDemo (object):
 		# DrawingArea for OpenGL rendering.
 		glarea = gtk.gtkgl.DrawingArea(glconfig=self.glconfig, render_type=self.render_type)
 		glarea.set_size_request(200, 200)
-		glarea.connect('realize', self.__realize)
+		glarea.connect_after('realize', self.__realize)
 		glarea.connect('configure_event', self.__configure)
 		glarea.connect('expose_event', self.__expose)
 		vbox.pack_start(glarea)

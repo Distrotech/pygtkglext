@@ -119,7 +119,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
                 config = gtk.gdkgl.Config(mode=self.default_display_mode)
             self.set_gl_capability(config, share_list, direct, render_type)
 
-        self.connect('realize',                 self.__realize)
+        self.connect_after('realize',           self.__realize)
         self.connect('configure_event',         self.__configure_event)
         self.connect('expose_event',            self.__expose_event)
         self.connect('button_press_event',      self.__button_press_event)
