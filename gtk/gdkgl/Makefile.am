@@ -21,13 +21,13 @@ endif
 
 pygdkgl_PYTHON = __init__.py
 
-pygdkglexec_LTLIBRARIES = _gdkglmodule.la
+pygdkglexec_LTLIBRARIES = _gdkgl.la
 
-_gdkglmodule_la_CFLAGS = $(GTKGLEXT_CFLAGS)
-_gdkglmodule_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gdkgl
-_gdkglmodule_la_LIBADD = $(GTKGLEXT_LIBS)
-_gdkglmodule_la_SOURCES = gdkglmodule.c
-nodist__gdkglmodule_la_SOURCES = gdkglext.c
+_gdkgl_la_CFLAGS = $(GTKGLEXT_CFLAGS)
+_gdkgl_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gdkgl
+_gdkgl_la_LIBADD = $(GTKGLEXT_LIBS)
+_gdkgl_la_SOURCES = gdkglmodule.c
+nodist__gdkgl_la_SOURCES = gdkglext.c
 BUILT_SOURCES = gdkglext.c
 
 defs_DATA = gdkglext-types.defs gdkglext.defs

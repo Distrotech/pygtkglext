@@ -137,13 +137,13 @@ INCLUDES = $(PYTHON_INCLUDES) $(PYGTK_CFLAGS)
 
 pygtkgl_PYTHON = __init__.py widget.py apputils.py
 
-pygtkglexec_LTLIBRARIES = _gtkglmodule.la
+pygtkglexec_LTLIBRARIES = _gtkgl.la
 
-_gtkglmodule_la_CFLAGS = $(GTKGLEXT_CFLAGS)
-_gtkglmodule_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gtkgl
-_gtkglmodule_la_LIBADD = $(GTKGLEXT_LIBS)
-_gtkglmodule_la_SOURCES = gtkglmodule.c
-nodist__gtkglmodule_la_SOURCES = gtkglext.c
+_gtkgl_la_CFLAGS = $(GTKGLEXT_CFLAGS)
+_gtkgl_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gtkgl
+_gtkgl_la_LIBADD = $(GTKGLEXT_LIBS)
+_gtkgl_la_SOURCES = gtkglmodule.c
+nodist__gtkgl_la_SOURCES = gtkglext.c
 BUILT_SOURCES = gtkglext.c
 
 defs_DATA = gtkglext.defs
@@ -154,11 +154,10 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(pygtkglexec_LTLIBRARIES)
 
-_gtkglmodule_la_DEPENDENCIES =
-am__gtkglmodule_la_OBJECTS = _gtkglmodule_la-gtkglmodule.lo
-nodist__gtkglmodule_la_OBJECTS = _gtkglmodule_la-gtkglext.lo
-_gtkglmodule_la_OBJECTS = $(am__gtkglmodule_la_OBJECTS) \
-	$(nodist__gtkglmodule_la_OBJECTS)
+_gtkgl_la_DEPENDENCIES =
+am__gtkgl_la_OBJECTS = _gtkgl_la-gtkglmodule.lo
+nodist__gtkgl_la_OBJECTS = _gtkgl_la-gtkglext.lo
+_gtkgl_la_OBJECTS = $(am__gtkgl_la_OBJECTS) $(nodist__gtkgl_la_OBJECTS)
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -167,8 +166,8 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/_gtkglmodule_la-gtkglext.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/_gtkglmodule_la-gtkglmodule.Plo
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/_gtkgl_la-gtkglext.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/_gtkgl_la-gtkglmodule.Plo
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
@@ -177,12 +176,12 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-DIST_SOURCES = $(_gtkglmodule_la_SOURCES)
+DIST_SOURCES = $(_gtkgl_la_SOURCES)
 py_compile = $(top_srcdir)/py-compile
 DATA = $(defs_DATA)
 
 DIST_COMMON = $(pygtkgl_PYTHON) Makefile.am Makefile.in
-SOURCES = $(_gtkglmodule_la_SOURCES) $(nodist__gtkglmodule_la_SOURCES)
+SOURCES = $(_gtkgl_la_SOURCES) $(nodist__gtkgl_la_SOURCES)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -222,10 +221,10 @@ clean-pygtkglexecLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-_gtkglmodule_la-gtkglmodule.lo: gtkglmodule.c
-_gtkglmodule_la-gtkglext.lo: gtkglext.c
-_gtkglmodule.la: $(_gtkglmodule_la_OBJECTS) $(_gtkglmodule_la_DEPENDENCIES) 
-	$(LINK) -rpath $(pygtkglexecdir) $(_gtkglmodule_la_LDFLAGS) $(_gtkglmodule_la_OBJECTS) $(_gtkglmodule_la_LIBADD) $(LIBS)
+_gtkgl_la-gtkglmodule.lo: gtkglmodule.c
+_gtkgl_la-gtkglext.lo: gtkglext.c
+_gtkgl.la: $(_gtkgl_la_OBJECTS) $(_gtkgl_la_DEPENDENCIES) 
+	$(LINK) -rpath $(pygtkglexecdir) $(_gtkgl_la_LDFLAGS) $(_gtkgl_la_OBJECTS) $(_gtkgl_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -233,8 +232,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_gtkglmodule_la-gtkglext.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_gtkglmodule_la-gtkglmodule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_gtkgl_la-gtkglext.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_gtkgl_la-gtkglmodule.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -257,41 +256,41 @@ distclean-depend:
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCOMPILE) -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
 
-_gtkglmodule_la-gtkglmodule.o: gtkglmodule.c
-@AMDEP_TRUE@	source='gtkglmodule.c' object='_gtkglmodule_la-gtkglmodule.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkglmodule_la-gtkglmodule.Po' tmpdepfile='$(DEPDIR)/_gtkglmodule_la-gtkglmodule.TPo' @AMDEPBACKSLASH@
+_gtkgl_la-gtkglmodule.o: gtkglmodule.c
+@AMDEP_TRUE@	source='gtkglmodule.c' object='_gtkgl_la-gtkglmodule.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkgl_la-gtkglmodule.Po' tmpdepfile='$(DEPDIR)/_gtkgl_la-gtkglmodule.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gtkglmodule_la-gtkglmodule.o `test -f 'gtkglmodule.c' || echo '$(srcdir)/'`gtkglmodule.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkgl_la_CFLAGS) $(CFLAGS) -c -o _gtkgl_la-gtkglmodule.o `test -f 'gtkglmodule.c' || echo '$(srcdir)/'`gtkglmodule.c
 
-_gtkglmodule_la-gtkglmodule.obj: gtkglmodule.c
-@AMDEP_TRUE@	source='gtkglmodule.c' object='_gtkglmodule_la-gtkglmodule.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkglmodule_la-gtkglmodule.Po' tmpdepfile='$(DEPDIR)/_gtkglmodule_la-gtkglmodule.TPo' @AMDEPBACKSLASH@
+_gtkgl_la-gtkglmodule.obj: gtkglmodule.c
+@AMDEP_TRUE@	source='gtkglmodule.c' object='_gtkgl_la-gtkglmodule.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkgl_la-gtkglmodule.Po' tmpdepfile='$(DEPDIR)/_gtkgl_la-gtkglmodule.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gtkglmodule_la-gtkglmodule.obj `cygpath -w gtkglmodule.c`
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkgl_la_CFLAGS) $(CFLAGS) -c -o _gtkgl_la-gtkglmodule.obj `cygpath -w gtkglmodule.c`
 
-_gtkglmodule_la-gtkglmodule.lo: gtkglmodule.c
-@AMDEP_TRUE@	source='gtkglmodule.c' object='_gtkglmodule_la-gtkglmodule.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkglmodule_la-gtkglmodule.Plo' tmpdepfile='$(DEPDIR)/_gtkglmodule_la-gtkglmodule.TPlo' @AMDEPBACKSLASH@
+_gtkgl_la-gtkglmodule.lo: gtkglmodule.c
+@AMDEP_TRUE@	source='gtkglmodule.c' object='_gtkgl_la-gtkglmodule.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkgl_la-gtkglmodule.Plo' tmpdepfile='$(DEPDIR)/_gtkgl_la-gtkglmodule.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gtkglmodule_la-gtkglmodule.lo `test -f 'gtkglmodule.c' || echo '$(srcdir)/'`gtkglmodule.c
+	$(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkgl_la_CFLAGS) $(CFLAGS) -c -o _gtkgl_la-gtkglmodule.lo `test -f 'gtkglmodule.c' || echo '$(srcdir)/'`gtkglmodule.c
 
-_gtkglmodule_la-gtkglext.o: gtkglext.c
-@AMDEP_TRUE@	source='gtkglext.c' object='_gtkglmodule_la-gtkglext.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkglmodule_la-gtkglext.Po' tmpdepfile='$(DEPDIR)/_gtkglmodule_la-gtkglext.TPo' @AMDEPBACKSLASH@
+_gtkgl_la-gtkglext.o: gtkglext.c
+@AMDEP_TRUE@	source='gtkglext.c' object='_gtkgl_la-gtkglext.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkgl_la-gtkglext.Po' tmpdepfile='$(DEPDIR)/_gtkgl_la-gtkglext.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gtkglmodule_la-gtkglext.o `test -f 'gtkglext.c' || echo '$(srcdir)/'`gtkglext.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkgl_la_CFLAGS) $(CFLAGS) -c -o _gtkgl_la-gtkglext.o `test -f 'gtkglext.c' || echo '$(srcdir)/'`gtkglext.c
 
-_gtkglmodule_la-gtkglext.obj: gtkglext.c
-@AMDEP_TRUE@	source='gtkglext.c' object='_gtkglmodule_la-gtkglext.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkglmodule_la-gtkglext.Po' tmpdepfile='$(DEPDIR)/_gtkglmodule_la-gtkglext.TPo' @AMDEPBACKSLASH@
+_gtkgl_la-gtkglext.obj: gtkglext.c
+@AMDEP_TRUE@	source='gtkglext.c' object='_gtkgl_la-gtkglext.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkgl_la-gtkglext.Po' tmpdepfile='$(DEPDIR)/_gtkgl_la-gtkglext.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gtkglmodule_la-gtkglext.obj `cygpath -w gtkglext.c`
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkgl_la_CFLAGS) $(CFLAGS) -c -o _gtkgl_la-gtkglext.obj `cygpath -w gtkglext.c`
 
-_gtkglmodule_la-gtkglext.lo: gtkglext.c
-@AMDEP_TRUE@	source='gtkglext.c' object='_gtkglmodule_la-gtkglext.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkglmodule_la-gtkglext.Plo' tmpdepfile='$(DEPDIR)/_gtkglmodule_la-gtkglext.TPlo' @AMDEPBACKSLASH@
+_gtkgl_la-gtkglext.lo: gtkglext.c
+@AMDEP_TRUE@	source='gtkglext.c' object='_gtkgl_la-gtkglext.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gtkgl_la-gtkglext.Plo' tmpdepfile='$(DEPDIR)/_gtkgl_la-gtkglext.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gtkglmodule_la-gtkglext.lo `test -f 'gtkglext.c' || echo '$(srcdir)/'`gtkglext.c
+	$(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gtkgl_la_CFLAGS) $(CFLAGS) -c -o _gtkgl_la-gtkglext.lo `test -f 'gtkglext.c' || echo '$(srcdir)/'`gtkglext.c
 CCDEPMODE = @CCDEPMODE@
 
 mostlyclean-libtool:

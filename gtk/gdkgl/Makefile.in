@@ -137,13 +137,13 @@ INCLUDES = $(PYTHON_INCLUDES) $(PYGTK_CFLAGS)
 
 pygdkgl_PYTHON = __init__.py
 
-pygdkglexec_LTLIBRARIES = _gdkglmodule.la
+pygdkglexec_LTLIBRARIES = _gdkgl.la
 
-_gdkglmodule_la_CFLAGS = $(GTKGLEXT_CFLAGS)
-_gdkglmodule_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gdkgl
-_gdkglmodule_la_LIBADD = $(GTKGLEXT_LIBS)
-_gdkglmodule_la_SOURCES = gdkglmodule.c
-nodist__gdkglmodule_la_SOURCES = gdkglext.c
+_gdkgl_la_CFLAGS = $(GTKGLEXT_CFLAGS)
+_gdkgl_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gdkgl
+_gdkgl_la_LIBADD = $(GTKGLEXT_LIBS)
+_gdkgl_la_SOURCES = gdkglmodule.c
+nodist__gdkgl_la_SOURCES = gdkglext.c
 BUILT_SOURCES = gdkglext.c
 
 defs_DATA = gdkglext-types.defs gdkglext.defs
@@ -154,11 +154,10 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(pygdkglexec_LTLIBRARIES)
 
-_gdkglmodule_la_DEPENDENCIES =
-am__gdkglmodule_la_OBJECTS = _gdkglmodule_la-gdkglmodule.lo
-nodist__gdkglmodule_la_OBJECTS = _gdkglmodule_la-gdkglext.lo
-_gdkglmodule_la_OBJECTS = $(am__gdkglmodule_la_OBJECTS) \
-	$(nodist__gdkglmodule_la_OBJECTS)
+_gdkgl_la_DEPENDENCIES =
+am__gdkgl_la_OBJECTS = _gdkgl_la-gdkglmodule.lo
+nodist__gdkgl_la_OBJECTS = _gdkgl_la-gdkglext.lo
+_gdkgl_la_OBJECTS = $(am__gdkgl_la_OBJECTS) $(nodist__gdkgl_la_OBJECTS)
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -167,8 +166,8 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/_gdkglmodule_la-gdkglext.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/_gdkglmodule_la-gdkglmodule.Plo
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/_gdkgl_la-gdkglext.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/_gdkgl_la-gdkglmodule.Plo
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
@@ -177,12 +176,12 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-DIST_SOURCES = $(_gdkglmodule_la_SOURCES)
+DIST_SOURCES = $(_gdkgl_la_SOURCES)
 py_compile = $(top_srcdir)/py-compile
 DATA = $(defs_DATA)
 
 DIST_COMMON = $(pygdkgl_PYTHON) Makefile.am Makefile.in
-SOURCES = $(_gdkglmodule_la_SOURCES) $(nodist__gdkglmodule_la_SOURCES)
+SOURCES = $(_gdkgl_la_SOURCES) $(nodist__gdkgl_la_SOURCES)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -222,10 +221,10 @@ clean-pygdkglexecLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-_gdkglmodule_la-gdkglmodule.lo: gdkglmodule.c
-_gdkglmodule_la-gdkglext.lo: gdkglext.c
-_gdkglmodule.la: $(_gdkglmodule_la_OBJECTS) $(_gdkglmodule_la_DEPENDENCIES) 
-	$(LINK) -rpath $(pygdkglexecdir) $(_gdkglmodule_la_LDFLAGS) $(_gdkglmodule_la_OBJECTS) $(_gdkglmodule_la_LIBADD) $(LIBS)
+_gdkgl_la-gdkglmodule.lo: gdkglmodule.c
+_gdkgl_la-gdkglext.lo: gdkglext.c
+_gdkgl.la: $(_gdkgl_la_OBJECTS) $(_gdkgl_la_DEPENDENCIES) 
+	$(LINK) -rpath $(pygdkglexecdir) $(_gdkgl_la_LDFLAGS) $(_gdkgl_la_OBJECTS) $(_gdkgl_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -233,8 +232,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_gdkglmodule_la-gdkglext.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_gdkglmodule_la-gdkglmodule.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_gdkgl_la-gdkglext.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_gdkgl_la-gdkglmodule.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -257,41 +256,41 @@ distclean-depend:
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCOMPILE) -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
 
-_gdkglmodule_la-gdkglmodule.o: gdkglmodule.c
-@AMDEP_TRUE@	source='gdkglmodule.c' object='_gdkglmodule_la-gdkglmodule.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkglmodule_la-gdkglmodule.Po' tmpdepfile='$(DEPDIR)/_gdkglmodule_la-gdkglmodule.TPo' @AMDEPBACKSLASH@
+_gdkgl_la-gdkglmodule.o: gdkglmodule.c
+@AMDEP_TRUE@	source='gdkglmodule.c' object='_gdkgl_la-gdkglmodule.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkgl_la-gdkglmodule.Po' tmpdepfile='$(DEPDIR)/_gdkgl_la-gdkglmodule.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gdkglmodule_la-gdkglmodule.o `test -f 'gdkglmodule.c' || echo '$(srcdir)/'`gdkglmodule.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkgl_la_CFLAGS) $(CFLAGS) -c -o _gdkgl_la-gdkglmodule.o `test -f 'gdkglmodule.c' || echo '$(srcdir)/'`gdkglmodule.c
 
-_gdkglmodule_la-gdkglmodule.obj: gdkglmodule.c
-@AMDEP_TRUE@	source='gdkglmodule.c' object='_gdkglmodule_la-gdkglmodule.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkglmodule_la-gdkglmodule.Po' tmpdepfile='$(DEPDIR)/_gdkglmodule_la-gdkglmodule.TPo' @AMDEPBACKSLASH@
+_gdkgl_la-gdkglmodule.obj: gdkglmodule.c
+@AMDEP_TRUE@	source='gdkglmodule.c' object='_gdkgl_la-gdkglmodule.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkgl_la-gdkglmodule.Po' tmpdepfile='$(DEPDIR)/_gdkgl_la-gdkglmodule.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gdkglmodule_la-gdkglmodule.obj `cygpath -w gdkglmodule.c`
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkgl_la_CFLAGS) $(CFLAGS) -c -o _gdkgl_la-gdkglmodule.obj `cygpath -w gdkglmodule.c`
 
-_gdkglmodule_la-gdkglmodule.lo: gdkglmodule.c
-@AMDEP_TRUE@	source='gdkglmodule.c' object='_gdkglmodule_la-gdkglmodule.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkglmodule_la-gdkglmodule.Plo' tmpdepfile='$(DEPDIR)/_gdkglmodule_la-gdkglmodule.TPlo' @AMDEPBACKSLASH@
+_gdkgl_la-gdkglmodule.lo: gdkglmodule.c
+@AMDEP_TRUE@	source='gdkglmodule.c' object='_gdkgl_la-gdkglmodule.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkgl_la-gdkglmodule.Plo' tmpdepfile='$(DEPDIR)/_gdkgl_la-gdkglmodule.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gdkglmodule_la-gdkglmodule.lo `test -f 'gdkglmodule.c' || echo '$(srcdir)/'`gdkglmodule.c
+	$(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkgl_la_CFLAGS) $(CFLAGS) -c -o _gdkgl_la-gdkglmodule.lo `test -f 'gdkglmodule.c' || echo '$(srcdir)/'`gdkglmodule.c
 
-_gdkglmodule_la-gdkglext.o: gdkglext.c
-@AMDEP_TRUE@	source='gdkglext.c' object='_gdkglmodule_la-gdkglext.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkglmodule_la-gdkglext.Po' tmpdepfile='$(DEPDIR)/_gdkglmodule_la-gdkglext.TPo' @AMDEPBACKSLASH@
+_gdkgl_la-gdkglext.o: gdkglext.c
+@AMDEP_TRUE@	source='gdkglext.c' object='_gdkgl_la-gdkglext.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkgl_la-gdkglext.Po' tmpdepfile='$(DEPDIR)/_gdkgl_la-gdkglext.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gdkglmodule_la-gdkglext.o `test -f 'gdkglext.c' || echo '$(srcdir)/'`gdkglext.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkgl_la_CFLAGS) $(CFLAGS) -c -o _gdkgl_la-gdkglext.o `test -f 'gdkglext.c' || echo '$(srcdir)/'`gdkglext.c
 
-_gdkglmodule_la-gdkglext.obj: gdkglext.c
-@AMDEP_TRUE@	source='gdkglext.c' object='_gdkglmodule_la-gdkglext.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkglmodule_la-gdkglext.Po' tmpdepfile='$(DEPDIR)/_gdkglmodule_la-gdkglext.TPo' @AMDEPBACKSLASH@
+_gdkgl_la-gdkglext.obj: gdkglext.c
+@AMDEP_TRUE@	source='gdkglext.c' object='_gdkgl_la-gdkglext.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkgl_la-gdkglext.Po' tmpdepfile='$(DEPDIR)/_gdkgl_la-gdkglext.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gdkglmodule_la-gdkglext.obj `cygpath -w gdkglext.c`
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkgl_la_CFLAGS) $(CFLAGS) -c -o _gdkgl_la-gdkglext.obj `cygpath -w gdkglext.c`
 
-_gdkglmodule_la-gdkglext.lo: gdkglext.c
-@AMDEP_TRUE@	source='gdkglext.c' object='_gdkglmodule_la-gdkglext.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkglmodule_la-gdkglext.Plo' tmpdepfile='$(DEPDIR)/_gdkglmodule_la-gdkglext.TPlo' @AMDEPBACKSLASH@
+_gdkgl_la-gdkglext.lo: gdkglext.c
+@AMDEP_TRUE@	source='gdkglext.c' object='_gdkgl_la-gdkglext.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/_gdkgl_la-gdkglext.Plo' tmpdepfile='$(DEPDIR)/_gdkgl_la-gdkglext.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkglmodule_la_CFLAGS) $(CFLAGS) -c -o _gdkglmodule_la-gdkglext.lo `test -f 'gdkglext.c' || echo '$(srcdir)/'`gdkglext.c
+	$(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(_gdkgl_la_CFLAGS) $(CFLAGS) -c -o _gdkgl_la-gdkglext.lo `test -f 'gdkglext.c' || echo '$(srcdir)/'`gdkglext.c
 CCDEPMODE = @CCDEPMODE@
 
 mostlyclean-libtool:

@@ -21,13 +21,13 @@ endif
 
 pygtkgl_PYTHON = __init__.py widget.py apputils.py
 
-pygtkglexec_LTLIBRARIES = _gtkglmodule.la
+pygtkglexec_LTLIBRARIES = _gtkgl.la
 
-_gtkglmodule_la_CFLAGS = $(GTKGLEXT_CFLAGS)
-_gtkglmodule_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gtkgl
-_gtkglmodule_la_LIBADD = $(GTKGLEXT_LIBS)
-_gtkglmodule_la_SOURCES = gtkglmodule.c
-nodist__gtkglmodule_la_SOURCES = gtkglext.c
+_gtkgl_la_CFLAGS = $(GTKGLEXT_CFLAGS)
+_gtkgl_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gtkgl
+_gtkgl_la_LIBADD = $(GTKGLEXT_LIBS)
+_gtkgl_la_SOURCES = gtkglmodule.c
+nodist__gtkgl_la_SOURCES = gtkglext.c
 BUILT_SOURCES = gtkglext.c
 
 defs_DATA = gtkglext.defs

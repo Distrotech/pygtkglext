@@ -1,3 +1,10 @@
+2003-03-19  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* setup.py.in: 
+	* gtk/gdkgl/Makefile.am: 
+	* gtk/gtkgl/Makefile.am: Changed extension module file names to
+	_gdkgl.so and _gtkgl.so.
+
 2003-03-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* gtk/gtkgl/widget.py: Widget subclasses built-in object class,
