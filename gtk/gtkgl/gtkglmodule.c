@@ -15,7 +15,7 @@ void pygtkglext_register_classes(PyObject *d);
 extern PyMethodDef pygtkglext_functions[];
 
 DL_EXPORT(void)
-init_gtkgl (void)
+init_gtkgl(void)
 {
     PyObject *m, *d, *tuple;
     PyObject *av;
@@ -24,7 +24,7 @@ init_gtkgl (void)
 
     /* initialize GObject */
 
-    init_pygobject ();
+    init_pygobject();
 
     /* initialize GtkGLExt */
 
@@ -56,30 +56,31 @@ init_gtkgl (void)
 	g_free(argv);
     }
 
-    /* initialize pygtkglext module */
+    /* initialize gtk.gtkgl module */
 
     m = Py_InitModule("_gtkgl", pygtkglext_functions);
     d = PyModule_GetDict(m);
 
     /* GtkGLExt version */
-    tuple = Py_BuildValue ("(iii)",
-                           gtkglext_major_version,
-                           gtkglext_minor_version,
-			   gtkglext_micro_version);
+    tuple = Py_BuildValue("(iii)",
+                          gtkglext_major_version,
+                          gtkglext_minor_version,
+                          gtkglext_micro_version);
     PyDict_SetItemString(d, "gtkglext_version", tuple);    
     Py_DECREF(tuple);
 
     /* PyGtkGLExt version */
-    tuple = Py_BuildValue ("(iii)",
-                           PYGTKGLEXT_MAJOR_VERSION,
-                           PYGTKGLEXT_MINOR_VERSION,
-			   PYGTKGLEXT_MICRO_VERSION);
+    tuple = Py_BuildValue("(iii)",
+                          PYGTKGLEXT_MAJOR_VERSION,
+                          PYGTKGLEXT_MINOR_VERSION,
+                          PYGTKGLEXT_MICRO_VERSION);
     PyDict_SetItemString(d, "pygtkglext_version", tuple);
     Py_DECREF(tuple);
 
+    /* register classes */
     pygtkglext_register_classes(d);
 
     if (PyErr_Occurred()) {
-	Py_FatalError ("can't initialize module gtk.gtkgl");
+	Py_FatalError("can't initialize module gtk.gtkgl");
     }
 }
