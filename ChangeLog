@@ -1,3 +1,10 @@
+2003-09-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/pixmap.py (PixmapDrawingArea._on_configure_event): 
+	* examples/pixmap-mixed.py
+	(PixmapMixedDrawingArea._on_configure_event): depth argument is
+	not needed.
+
 2003-09-08  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* Version 0.99.2

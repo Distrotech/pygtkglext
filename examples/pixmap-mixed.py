@@ -81,8 +81,7 @@ class PixmapMixedDrawingArea(gtk.DrawingArea):
         # Create gtk.gdk.Pixmap with OpenGL extension API support.
         self.pixmap = gtk.gdkgl.ext(gtk.gdk.Pixmap(self.window,
                                                    self.allocation.width,
-                                                   self.allocation.height,
-                                                   self.glconfig.get_depth()))
+                                                   self.allocation.height))
 
         # Add OpenGL-capability to the pixmap.
         gldrawable = self.pixmap.set_gl_capability(self.glconfig)
