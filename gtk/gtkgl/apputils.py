@@ -39,6 +39,12 @@ class GLSceneBase(object):
     def queue_draw(self):
         self.glarea.queue_draw()
 
+    def invalidate(self):
+        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
+
+    def update(self):
+        self.glarea.window.process_updates(gtk.FALSE)
+
     def timeout_is_enabled(self):
         return self.glarea.timeout_is_enabled()
 

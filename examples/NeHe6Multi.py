@@ -268,7 +268,10 @@ class NeHe6Multi(GLScene,
 
     def timeout(self, width, height):
         self.rot = (self.rot + 0.2) % 360
-        self.queue_draw()
+        # Invalidate whole window.
+        self.invalidate()
+        # Update window synchronously (fast).
+        self.update()
 
 
 if __name__ == '__main__':

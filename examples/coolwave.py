@@ -232,7 +232,7 @@ class CoolWave (GLScene,
             # Zoom out.
             self.__sdepth += 2.0
 
-        self.queue_draw()
+        self.invalidate()
 
     def key_release (self, width, height, event):
         pass
@@ -254,13 +254,16 @@ class CoolWave (GLScene,
         self.__beginX = event.x
         self.__beginY = event.y
 
-        self.queue_draw()
+        self.invalidate()
 
     def idle (self, width, height):
         self.__getforce(self.__grid)
         self.__getveloc(self.__grid, self.__dt)
         self.__getposit(self.__grid)
-        self.queue_draw()
+        # Invalidate whole window.
+        self.invalidate()
+        # Update window synchronously (fast).
+        self.update()
 
 
 if __name__ == '__main__':

@@ -1,3 +1,27 @@
+2003-11-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/gears-func.py (idle):
+	* examples/gears-darea.py (idle): 
+	* examples/teapot.py (vchanged, hchanged, toggled): 
+	* examples/teapot2.py (Teapot.button_motion) 
+	(TeapotWindow.vchanged, TeapotWindow.hchanged) 
+	(TeapotWindow.toggled): 
+	* examples/MoveLight.py (MoveLight.button_press): 
+	* examples/NeHe6Multi.py (NeHe6Multi.timeout): 
+	* examples/button.py (ButtonDemo.__timeout) 
+	(ButtonDemo.toggle_animation): 
+	* examples/coolwave.py (CoolWave.idle, CoolWave.button_motion):
+	Use window.invalidate_rect() + window.process_updates() instead of
+	widget.queue_draw().
+
+	* gtk/gtkgl/apputils.py (GLSceneBase.invalidate): Added new method
+	which invalidates whole GL window.
+	(GLSceneBase.update): Added new method which updates invalidated
+	window synchronously.
+
+	* examples/low-level.py (LowLevelDrawingArea._on_size_allocate): 
+	Added "size_allocate" signal handler.
+
 2003-09-15  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* ==== Released 1.0.0 ====
