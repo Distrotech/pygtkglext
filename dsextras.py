@@ -92,11 +92,20 @@ class InstallLib(install_lib):
     local_inputs = []
     template_options = {}
     def prepare(self):
-        self.prefix = os.sep.join(self.install_dir.split(os.sep)[:-4])
+        if os.name == "nt":
+            self.prefix = os.sep.join(self.install_dir.split(os.sep)[:-3])
+        else:
+            # default: os.name == "posix"
+            self.prefix = os.sep.join(self.install_dir.split(os.sep)[:-4])
+        
         self.exec_prefix = os.path.join(self.prefix, 'bin')
         self.includedir = os.path.join(self.prefix, 'include')
         self.libdir = os.path.join(self.prefix, 'lib')
         self.datadir = os.path.join(self.prefix, 'share')
+        if os.name == "nt":
+            self.pkgconfigdir = os.path.join(self.prefix, 'pkgconfig')
+        else:
+            self.pkgconfigdir = os.path.join(self.libdir, 'pkgconfig')
         
         self.add_template_option('prefix', self.prefix)        
         self.add_template_option('exec_prefix', self.exec_prefix)        

@@ -3,15 +3,15 @@
 
 TODO: Write a good long description"""
 
-from commands import getoutput
 from distutils.command.build import build
 from distutils.core import setup
 import os
 import sys
 
-from dsextras import list_files, have_pkgconfig, GLOBAL_INC, GLOBAL_MACROS
-from dsextras import InstallLib, BuildExt, PkgConfigExtension
-from dsextras import Template, TemplateExtension, pkgc_version_check
+from dsextras import GLOBAL_INC, GLOBAL_MACROS
+from dsextras import getoutput, have_pkgconfig, list_files, pkgc_version_check
+from dsextras import BuildExt, InstallLib, PkgConfigExtension
+from dsextras import Template, TemplateExtension
 
 MAJOR_VERSION = 0
 MINOR_VERSION = 0
@@ -57,7 +57,7 @@ class PyGtkGLExtInstallLib(InstallLib):
         self.prepare()
 
         self.install_template_as('pygtkglext.pc.in',
-                                 os.path.join(self.libdir, 'pkgconfig'),
+                                 self.pkgconfigdir,
                                  'pygtkglext-' + API_VERSION + '.pc')
 
         # Modify the base installation dir
@@ -100,6 +100,11 @@ except ImportError:
     raise SystemExit, \
 'Could not find code generator in %s, do you have installed pygtk correctly?'
 
+if sys.platform == 'win32':
+    extra_compile_args = ['-mms-bitfields']
+else:
+    extra_compile_args = None
+
 gdkglext = TemplateExtension(name='gdkglext',
                              pkc_name=GTKGLEXT_PKG,
                              pkc_version=GTKGLEXT_REQUIRED_VERSION,
@@ -108,7 +113,8 @@ gdkglext = TemplateExtension(name='gdkglext',
                              sources=['gtk/gdkgl/gdkglmodule.c',
                                       'gtk/gdkgl/gdkglext.c'],
                              register=GTKDEFS,
-                             override='gtk/gdkgl/gdkglext.override')
+                             override='gtk/gdkgl/gdkglext.override',
+                             extra_compile_args=extra_compile_args)
 
 gtkglext = TemplateExtension(name='gtkglext',
                              pkc_name=GTKGLEXT_PKG,
@@ -118,7 +124,8 @@ gtkglext = TemplateExtension(name='gtkglext',
                              sources=['gtk/gtkgl/gtkglmodule.c',
                                       'gtk/gtkgl/gtkglext.c'],
                              register=GTKDEFS + ['gtk/gdkgl/gdkglext-types.defs'],
-                             override='gtk/gtkgl/gtkglext.override')
+                             override='gtk/gtkgl/gtkglext.override',
+                             extra_compile_args=extra_compile_args)
 
 data_files = []
 ext_modules = []
