@@ -1,9 +1,11 @@
 2003-04-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* README.win32: Added.
+	
+	* Makefile.am (EXTRA_DIST): Added README.win32.
+
 	* gtk/gdkgl/gdkglext.override: Include <windows.h> on Win32 to
 	build using MSVC.
-
-2003-04-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* dsextras.py (BuildExt.init_extra_compile_args) 
 	(BuildExt.build_extensions, BuildExt.build_extension): Now MSVC

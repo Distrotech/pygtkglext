@@ -7,6 +7,7 @@ SUBDIRS = gtk
 DIST_SUBDIRS = $(SUBDIRS) examples
 
 EXTRA_DIST = \
+	README.win32		\
 	pygtkglext.pc.in	\
 	setup.py.in 		\
 	setup.py 		\
