@@ -76,7 +76,7 @@ def pkgc_version_check(name, longname, req_version):
     else:
         print "Warning: Too old version of %s" % longname
         print "         Need %s, but %s is installed" % \
-              (self.pkc_version, orig_version)
+              (pkc_version, orig_version)
         self.can_build_ok = 0
         return 0
 
@@ -149,7 +149,7 @@ class InstallLib(install_lib):
         
     def add_template_option(self, name, value):
         self.template_options['@%s@' % name] = value
-        
+
     def install_template(self, filename, install_dir):
         """Install template filename into target directory install_dir."""
         output_file = os.path.split(filename)[-1][:-3]
@@ -157,7 +157,7 @@ class InstallLib(install_lib):
         template = open(filename).read()
         for key, value in self.template_options.items():
             template = template.replace(key, value)
-
+        
         output = os.path.join(install_dir, output_file)
         self.mkpath(install_dir)
         open(output, 'w').write(template)
