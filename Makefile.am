@@ -8,6 +8,7 @@ DIST_SUBDIRS = $(SUBDIRS) examples
 
 EXTRA_DIST = \
 	pygtkglext.pc.in	\
+	setup.py.in 		\
 	setup.py 		\
 	dsextras.py
 

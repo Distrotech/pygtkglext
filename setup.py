@@ -27,8 +27,10 @@ API_MINOR_VERSION = 0
 API_VERSION = "%d.%d" % (API_MAJOR_VERSION,
                          API_MINOR_VERSION)
 
-PYGTK_REQUIRED_VERSION    = '1.99.15'
+GTKGLEXT_PKG = 'gtkglext-1.0'
 GTKGLEXT_REQUIRED_VERSION = '0.7.0'
+
+PYGTK_REQUIRED_VERSION = '1.99.15'
 
 PYGTK_SUFFIX = '2.0'
 PYGTK_SUFFIX_LONG = 'gtk-' + PYGTK_SUFFIX
@@ -37,11 +39,6 @@ GLOBAL_INC += ['.', 'gtk/gdkgl', 'gtk/gtkgl']
 GLOBAL_MACROS += [('PYGTKGLEXT_MAJOR_VERSION', MAJOR_VERSION),
                   ('PYGTKGLEXT_MINOR_VERSION', MINOR_VERSION),
                   ('PYGTKGLEXT_MICRO_VERSION', MICRO_VERSION)]
-
-if sys.platform == 'win32':
-    GLOBAL_MACROS.append(('VERSION', '\\\"%s\\\"' % VERSION))
-else:
-    GLOBAL_MACROS.append(('VERSION', '"%s"' % VERSION))
 
 DEFS_DIR    = os.path.join('share', 'pygtk', PYGTK_SUFFIX, 'defs')
 CODEGEN_DIR = os.path.join('share', 'pygtk', PYGTK_SUFFIX, 'codegen')
@@ -90,10 +87,12 @@ codegendir = getoutput('pkg-config --variable codegendir pygtk-2.0')
 defsdir = getoutput('pkg-config --variable defsdir pygtk-2.0')
 
 GLOBAL_INC.append(pygtkincludedir)
+
 GTKDEFS = [os.path.join(defsdir, 'pango-types.defs'),
            os.path.join(defsdir, 'atk-types.defs'),
            os.path.join(defsdir, 'gdk-types.defs'),
            os.path.join(defsdir, 'gtk-types.defs')]
+
 sys.path.append(codegendir)
 try:
     from override import Overrides
@@ -102,7 +101,7 @@ except ImportError:
 'Could not find code generator in %s, do you have installed pygtk correctly?'
 
 gdkglext = TemplateExtension(name='gdkglext',
-                             pkc_name='gtkglext-1.0',
+                             pkc_name=GTKGLEXT_PKG,
                              pkc_version=GTKGLEXT_REQUIRED_VERSION,
                              output='gtk.gdkgl._gdkglmodule',
                              defs='gtk/gdkgl/gdkglext.defs',
@@ -112,7 +111,7 @@ gdkglext = TemplateExtension(name='gdkglext',
                              override='gtk/gdkgl/gdkglext.override')
 
 gtkglext = TemplateExtension(name='gtkglext',
-                             pkc_name='gtkglext-1.0',
+                             pkc_name=GTKGLEXT_PKG,
                              pkc_version=GTKGLEXT_REQUIRED_VERSION,
                              output='gtk.gtkgl._gtkglmodule',
                              defs='gtk/gtkgl/gtkglext.defs',
