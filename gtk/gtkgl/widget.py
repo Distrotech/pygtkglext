@@ -18,10 +18,10 @@
 import gtk
 from _gtkgl import *
 
-### base class for creating an OpenGL-capable widget
+### Mixin class for OpenGL-capable widgets
 
 class Widget(object):
-    """Base class for creating an OpenGL-capable widget.
+    """Mixin class for OpenGL-capable widgets.
     """
     
     def __init__(self):
