@@ -12,9 +12,9 @@ Version: %{base_version}
 Release: %{rel}
 License: LGPL
 Group: Development/Languages
-URL: http://gtkglext.sourceforge.net
-Source0: ftp://ftp.sourceforge.net/pub/sourceforge/gtkglext/%{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+URL: http://gtkglext.sourceforge.net/
+Source0: ftp://ftp.sourceforge.net/pub/sourceforge/gtkglext/pygtkglext-%{version}.tar.gz
+BuildRoot: %{_tmppath}/pygtkglext-%{PACKAGE_VERSION}-root
 
 Requires: gtkglext >= %{gtkglext_req_version}
 Requires: pygtk2
@@ -22,18 +22,19 @@ Requires: gtk2
 Requires: XFree86-libs
 Requires: python >= 2.2
 
-BuildPreReq: gtkglext-devel >= %{gtkglext_req_version}
-BuildPreReq: pygtk2-devel
-BuildPreReq: gtk2-devel
-BuildPreReq: XFree86-devel
-BuildPreReq: python-devel >= 2.2
+BuildRequires: pkgconfig
+BuildRequires: gtkglext-devel >= %{gtkglext_req_version}
+BuildRequires: pygtk2-devel
+BuildRequires: gtk2-devel
+BuildRequires: XFree86-devel
+BuildRequires: python-devel >= 2.2
 
 %description
 PyGtkGLExt is Python language bindings for GtkGLExt, OpenGL Extension to GTK.
 It enables Python programmers to write OpenGL applications with PyGTK2.
 
 %prep
-%setup -q
+%setup -q -n pygtkglext-%{version}
 
 %build
 [ -x /usr/bin/python2.2 ] && export PYTHON=/usr/bin/python2.2
