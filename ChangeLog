@@ -1,3 +1,6 @@
+2003-03-19  Alif Wahid	<awah005@users.sourceforge.net>
+	* examples/MoveLight.py: Updated to use the gtk.gtkgl.apputils module.
+
 2003-03-19  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* examples/teapot.py (realize): Clear color and depth.
