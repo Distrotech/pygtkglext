@@ -134,10 +134,10 @@ _gdkglmodule_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gdkgl
 _gdkglmodule_la_LIBADD = $(GTKGLEXT_LIBS)
 _gdkglmodule_la_SOURCES = gdkglmodule.c
 nodist__gdkglmodule_la_SOURCES = gdkglext.c
+BUILT_SOURCES = gdkglext.c
 
 defs_DATA = gdkglext-types.defs gdkglext.defs
-BUILT_SOURCES = gdkglext.c
-CLEANFILES = gdkglext.c
+CLEANFILES = $(srcdir)/gdkglext.c
 subdir = gtk/gdkgl
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h

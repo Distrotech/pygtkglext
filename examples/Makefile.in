@@ -113,9 +113,9 @@ pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 
 EXTRA_DIST = \
-	cone.py		\
-	gears.py	\
-	gears-darea.py
+	gears-func.py	\
+	gears-darea.py	\
+	cone.py
 
 subdir = examples
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs

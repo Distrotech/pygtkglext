@@ -1,12 +1,15 @@
 ## -*- Makefile -*-
 ## Makefile.am for pygtkglext
 
-AUTOMAKE_OPTIONS = 1.6
+AUTOMAKE_OPTIONS = 1.6 dist-bzip2 dist-zip
 
 SUBDIRS = gtk
 DIST_SUBDIRS = $(SUBDIRS) examples
 
-EXTRA_DIST = 
+EXTRA_DIST = \
+	pygtkglext.pc.in	\
+	setup.py 		\
+	dsextras.py
 
 API_VER = @PYGTKGLEXT_API_VERSION@
 

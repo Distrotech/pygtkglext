@@ -28,13 +28,13 @@ _gdkglmodule_la_LDFLAGS = $(common_ldflags) -export-symbols-regex init_gdkgl
 _gdkglmodule_la_LIBADD = $(GTKGLEXT_LIBS)
 _gdkglmodule_la_SOURCES = gdkglmodule.c
 nodist__gdkglmodule_la_SOURCES = gdkglext.c
+BUILT_SOURCES = gdkglext.c
 
 defs_DATA = gdkglext-types.defs gdkglext.defs
 EXTRA_DIST += $(defs_DATA) gdkglext.override
 
 $(srcdir)/gdkglext.c: $(defs_DATA) gdkglext.override Makefile
-BUILT_SOURCES = gdkglext.c
-CLEANFILES = gdkglext.c
+CLEANFILES = $(srcdir)/gdkglext.c
 
 .defs.c:
 	(cd $(srcdir) \
