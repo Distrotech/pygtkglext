@@ -1,4 +1,9 @@
 2003-03-22  Alif Wahid	<awah005@users.sourceforge.net>
+	
+	Added some basic instruction for building using
+	python and distutil on Win32 platforms.
+
+2003-03-22  Alif Wahid	<awah005@users.sourceforge.net>
 
 	Added new example programs. These are a mappings of the
 	programs that Naofumi wrote for GtkGLExt in C. These
