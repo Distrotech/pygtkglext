@@ -25,10 +25,11 @@ from OpenGL.GLU import *
 
 import sys
 
-### base class for OpenGL scene
 
-class GLScene(object):
-    """Base class for creating OpenGL scene."""
+### Base classes for OpenGL scene
+
+class GLSceneBase(object):
+    """Base class for GLScene."""
 
     def __init__(self):
         # self.glarea is set by GLArea
@@ -37,11 +38,26 @@ class GLScene(object):
     def queue_draw(self):
         self.glarea.queue_draw()
 
+    def timeout_is_enabled(self):
+        return self.glarea.timeout_is_enabled()
+
     def toggle_timeout(self):
         self.glarea.toggle_timeout()
 
+    def idle_is_enabled(self):
+        return self.glarea.idle_is_enabled()
+
     def toggle_idle(self):
         self.glarea.toggle_idle()
+
+
+class GLScene(GLSceneBase):
+    """Base class for creating OpenGL scene."""
+
+    def __init__(self, display_mode=gtk.gdkgl.MODE_RGB | gtk.gdkgl.MODE_DOUBLE):
+        GLSceneBase.__init__(self)
+
+        self.display_mode = display_mode
 
     def init(self):
         """Initialize OpenGL rendering context.
@@ -61,6 +77,10 @@ class GLScene(object):
         """
         raise NotImplementedError, "must be implemented."
 
+
+class GLSceneKey:
+    """Key events interface."""
+
     def key_press(self, width, height, event):
         """Process key press event.
         This function is invoked on 'key_press_event' signal.
@@ -72,6 +92,10 @@ class GLScene(object):
         This function is invoked on 'key_release_event' signal.
         """
         raise NotImplementedError, "must be implemented."
+
+
+class GLSceneButton:
+    """Button events interface."""
 
     def button_press(self, width, height, event):
         """Process button press event.
@@ -85,94 +109,120 @@ class GLScene(object):
         """
         raise NotImplementedError, "must be implemented."
 
-    def motion(self, width, height, event):
+
+class GLSceneButtonMotion:
+    """Button motion event interface."""
+
+    def button_motion(self, width, height, event):
+        """Process button motion event.
+        This function is invoked on 'motion_notify_event' signal.
+        """
+        raise NotImplementedError, "must be implemented."
+
+
+class GLScenePointerMotion:
+    """Pointer motion event interface."""
+
+    def pointer_motion(self, width, height, event):
         """Process pointer motion event.
         This function is invoked on 'motion_notify_event' signal.
         """
         raise NotImplementedError, "must be implemented."
 
-    def idle(self, width, height):
-        """Idle function."""
-        raise NotImplementedError, "must be implemented."
+
+class GLSceneTimeout:
+    """Timeout function interface."""
+
+    def __init__(self, interval=30):
+        self.timeout_interval = interval
 
     def timeout(self, width, height):
         """Timeout function."""
         raise NotImplementedError, "must be implemented."
+
+
+class GLSceneIdle:
+    """Idle function interface."""
+
+    def idle(self, width, height):
+        """Idle function."""
+        raise NotImplementedError, "must be implemented."
+
 
 ### OpenGL drawing area widget
 
 class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
     """OpenGL drawing area widget."""
 
-    # default display mode (may be overridden)
-    default_display_mode = gtk.gdkgl.MODE_RGB | gtk.gdkgl.MODE_DOUBLE
-
-    # default timeout interval used to provide
-    # an iterative update of frames (in ms). It
-    # may also be overriden.
-    default_timeout_interval = 30
-
     def __init__(self, glscene, glconfig=None, share_list=None,
                  direct=gtk.TRUE, render_type=gtk.gdkgl.RGBA_TYPE):
         gtk.DrawingArea.__init__(self)
 
+        assert isinstance(glscene, GLScene), "glscene must be GLScene"
         self.glscene = glscene;
         self.glscene.glarea = self;
-
-        self.__enable_timeout = gtk.FALSE
-        self.__timeout_interval = self.default_timeout_interval
-        self.__timeout_id = 0
-
-        self.__enable_idle = gtk.FALSE
-        self.__idle_id = 0
 
         if glconfig:
             self.set_gl_capability(glconfig, share_list, direct, render_type)
         else:
             try:
-                config = gtk.gdkgl.Config(mode=self.default_display_mode)
+                config = gtk.gdkgl.Config(mode=self.glscene.display_mode)
             except gtk.gdkgl.NoMatches:
-                self.default_display_mode &= ~gtk.gdkgl.MODE_DOUBLE
-                config = gtk.gdkgl.Config(mode=self.default_display_mode)
+                self.glscene.display_mode &= ~gtk.gdkgl.MODE_DOUBLE
+                config = gtk.gdkgl.Config(mode=self.glscene.display_mode)
             self.set_gl_capability(config, share_list, direct, render_type)
 
-        self.connect_after('realize',           self.__realize)
-        self.connect('configure_event',         self.__configure_event)
-        self.connect('expose_event',            self.__expose_event)
-        self.connect('button_press_event',      self.__button_press_event)
-        self.connect('button_release_event',    self.__button_release_event)
-        self.connect('motion_notify_event',     self.__motion_notify_event)
+        self.connect_after('realize',   self.__realize)
+        self.connect('configure_event', self.__configure_event)
+        self.connect('expose_event',    self.__expose_event)
+
+        # Add button events
+        if isinstance(self.glscene, GLSceneButton):
+            self.connect('button_press_event',   self.__button_press_event)
+            self.connect('button_release_event', self.__button_release_event)
+            self.add_events(gtk.gdk.BUTTON_PRESS_MASK   |
+                            gtk.gdk.BUTTON_RELEASE_MASK)
+
+        # Add motion events
+        self.__motion_events = 0
+        if isinstance(self.glscene, GLSceneButtonMotion):
+            self.__motion_events |= gtk.gdk.BUTTON_MOTION_MASK
+        if isinstance(self.glscene, GLScenePointerMotion):
+            self.__motion_events |= gtk.gdk.POINTER_MOTION_MASK
+        if self.__motion_events:
+            self.connect('motion_notify_event', self.__motion_notify_event)
+            self.add_events(self.__motion_events)
+
+        # Enable timeout
+        if isinstance(self.glscene, GLSceneTimeout):
+            self.__enable_timeout = gtk.TRUE
+            self.__timeout_interval = self.glscene.timeout_interval
+        else:
+            self.__enable_timeout = gtk.FALSE
+            self.__timeout_interval = 30
+        self.__timeout_id = 0
+
+        # Enable idle
+        if isinstance(self.glscene, GLSceneIdle):
+            self.__enable_idle = gtk.TRUE
+        else:
+            self.__enable_idle = gtk.FALSE
+        self.__idle_id = 0
+
         self.connect('map_event',               self.__map_event)
         self.connect('unmap_event',             self.__unmap_event)
         self.connect('visibility_notify_event', self.__visibility_notify_event)
-
         self.add_events(gtk.gdk.VISIBILITY_NOTIFY_MASK)
 
-    def enable_key_events(self, focus_window):
-        focus_window.connect('key_press_event',   self.__key_press_event)
-        focus_window.connect('key_release_event', self.__key_release_event)
-        focus_window.add_events(gtk.gdk.KEY_PRESS_MASK   |
-                                gtk.gdk.KEY_RELEASE_MASK)
+    def register_key_events(self, focus_window):
+        # Add key events to focus_window
+        if isinstance(self.glscene, GLSceneKey):
+            focus_window.connect('key_press_event',   self.__key_press_event)
+            focus_window.connect('key_release_event', self.__key_release_event)
+            focus_window.add_events(gtk.gdk.KEY_PRESS_MASK   |
+                                    gtk.gdk.KEY_RELEASE_MASK)
 
-    def enable_button_events(self):
-        self.add_events(gtk.gdk.BUTTON_PRESS_MASK   |
-                        gtk.gdk.BUTTON_RELEASE_MASK)
-
-    def enable_button_motion_events(self):
-        self.add_events(gtk.gdk.BUTTON_MOTION_MASK)
-
-    def enable_pointer_motion_events(self):
-        self.add_events(gtk.gdk.POINTER_MOTION_MASK)
-
-    def enable_timeout(self, interval=None):
-        self.__enable_timeout = gtk.TRUE
-        if interval:
-        	self.__timeout_interval = interval
-
-    def enable_idle(self):
-        self.__enable_idle = gtk.TRUE
-
-    ## signal handlers
+    ## Signal handlers
 
     def __realize(self, widget):
         """'realize' signal handler.
@@ -181,7 +231,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         glcontext = widget.get_gl_context()
         gldrawable = widget.get_gl_drawable()
         if not gldrawable.gl_begin(glcontext): return
-        # call glscene.init()
+        # Call glscene.init()
         self.glscene.init()
         gldrawable.gl_end()
         return gtk.TRUE
@@ -193,7 +243,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         glcontext = widget.get_gl_context()
         gldrawable = widget.get_gl_drawable()
         if not gldrawable.gl_begin(glcontext): return
-        # call glscene.reshape()
+        # Call glscene.reshape()
         self.glscene.reshape(widget.allocation.width,
                              widget.allocation.height)
         gldrawable.gl_end()
@@ -206,10 +256,10 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         glcontext = widget.get_gl_context()
         gldrawable = widget.get_gl_drawable()
         if not gldrawable.gl_begin(glcontext): return
-        # call glscene.display()
+        # Call glscene.display()
         self.glscene.display(widget.allocation.width,
                              widget.allocation.height)
-        # swap buffers
+        # Swap buffers
         if gldrawable.is_double_buffered():
             gldrawable.swap_buffers()
         else:
@@ -221,7 +271,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """'key_press_event' signal handler.
         This function invokes glscene.key_press().
         """
-        # call glscene.key_press()
+        # Call glscene.key_press()
         self.glscene.key_press(widget.allocation.width,
                                widget.allocation.height,
                                event)
@@ -231,7 +281,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """'key_release_event' signal handler.
         This function invokes glscene.key_release().
         """
-        # call glscene.key_release()
+        # Call glscene.key_release()
         self.glscene.key_release(widget.allocation.width,
                                  widget.allocation.height,
                                  event)
@@ -241,7 +291,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """'button_press_event' signal handler.
         This function invokes glscene.button_press().
         """
-        # call glscene.button_press()
+        # Call glscene.button_press()
         self.glscene.button_press(widget.allocation.width,
                                   widget.allocation.height,
                                   event)
@@ -251,7 +301,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """'button_release_event' signal handler.
         This function invokes glscene.button_release().
         """
-        # call glscene.button_release()
+        # Call glscene.button_release()
         self.glscene.button_release(widget.allocation.width,
                                     widget.allocation.height,
                                     event)
@@ -261,120 +311,145 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """'motion_notify_event' signal handler.
         This function invokes glscene.motion().
         """
-        # call glscene.motion()
-        self.glscene.motion(widget.allocation.width,
-                            widget.allocation.height,
-                            event)
+        button_mask = gtk.gdk.BUTTON1_MASK | \
+                      gtk.gdk.BUTTON2_MASK | \
+                      gtk.gdk.BUTTON3_MASK | \
+                      gtk.gdk.BUTTON4_MASK | \
+                      gtk.gdk.BUTTON5_MASK
+        if self.__motion_events & gtk.gdk.BUTTON_MOTION_MASK and \
+           event.state & button_mask:
+            # Call glscene.button_motion()
+            self.glscene.button_motion(widget.allocation.width,
+                                       widget.allocation.height,
+                                       event)
+        if self.__motion_events & gtk.gdk.POINTER_MOTION_MASK:
+            # Call glscene.pointer_motion()
+            self.glscene.pointer_motion(widget.allocation.width,
+                                        widget.allocation.height,
+                                        event)
         return gtk.TRUE
 
-    ## timeout function management
+    ## Timeout function management
 
     def __timeout(self, widget):
         """Timeout callback function.
         This function invokes glscene.timeout().
-        """
-        
-        # call glscene.timeout()
+        """        
+        # Call glscene.timeout()
         self.glscene.timeout(widget.allocation.width,
                              widget.allocation.height)
         return gtk.TRUE
 
-    def timeout_add(self):
+    def __timeout_add(self):
         """Add timeout function.
         """
-        if self.__timeout_id == 0:
-            self.__timeout_id = gtk.timeout_add(self.__timeout_interval,
-			                                    self.__timeout,
-												self)
+        if isinstance(self.glscene, GLSceneTimeout):
+            if self.__timeout_id == 0:
+                self.__timeout_id = gtk.timeout_add(self.__timeout_interval,
+                                                    self.__timeout,
+                                                    self)
 
-    def timeout_remove(self):
+    def __timeout_remove(self):
         """Remove timeout function.
         """
         if self.__timeout_id != 0:
             gtk.timeout_remove(self.__timeout_id)
             self.__timeout_id = 0
 
+    def timeout_is_enabled(self):
+        """Timeout is enabled?
+        """
+        return self.__enable_timeout
+
     def toggle_timeout(self):
         """Toggle timeout function.
         """
         self.__enable_timeout = not self.__enable_timeout;
         if self.__enable_timeout:
-            self.timeout_add()
+            self.__timeout_add()
         else:
-            self.timeout_remove()
+            self.__timeout_remove()
             self.queue_draw()
 
-	## idle function management
+    ## Idle function management
 
     def __idle(self, widget):
         """Idle callback function.
         This function invokes glscene.idle().
         """
-        # call glscene.idle()
+        # Call glscene.idle()
         self.glscene.idle(widget.allocation.width,
                           widget.allocation.height)
         return gtk.TRUE
 
-    def idle_add(self):
+    def __idle_add(self):
         """Add idle function.
         """
-        if self.__idle_id == 0:
-            self.__idle_id = gtk.idle_add(self.__idle, self)
+        if isinstance(self.glscene, GLSceneIdle):
+            if self.__idle_id == 0:
+                self.__idle_id = gtk.idle_add(self.__idle, self)
 
-    def idle_remove(self):
+    def __idle_remove(self):
         """Remove idle function.
         """
         if self.__idle_id != 0:
             gtk.idle_remove(self.__idle_id)
             self.__idle_id = 0
 
+    def idle_is_enabled(self):
+        """Idle is enabled?
+        """
+        return self.__enable_idle
+
     def toggle_idle(self):
         """Toggle idle function.
         """
         self.__enable_idle = not self.__enable_idle;
         if self.__enable_idle:
-            self.idle_add()
+            self.__idle_add()
         else:
-            self.idle_remove()
+            self.__idle_remove()
             self.queue_draw()
+
+    ## Signal handlers for timeout and idle
 
     def __map_event(self, widget, event):
         """'map_event' signal handler.
         """
-        if self.__enable_idle:
-            self.idle_add()
-
         if self.__enable_timeout:
-            self.timeout_add()
+            self.__timeout_add()
+
+        if self.__enable_idle:
+            self.__idle_add()
 
         return gtk.TRUE
 
     def __unmap_event(self, widget, event):
         """'unmap_event' signal handler.
         """
-        self.idle_remove()
-        self.timeout_remove()
+        self.__timeout_remove()
+        self.__idle_remove()
         return gtk.TRUE
 
     def __visibility_notify_event(self, widget, event):
         """'visibility_notify_event' signal handler.
         """
-        if self.__enable_idle:
-            if event.state == gtk.gdk.VISIBILITY_FULLY_OBSCURED:
-                self.idle_remove()
-            else:
-                self.idle_add()
-
         if self.__enable_timeout:
             if event.state == gtk.gdk.VISIBILITY_FULLY_OBSCURED:
-                self.timeout_remove()
+                self.__timeout_remove()
             else:
-                self.timeout_add()
+                self.__timeout_add()
+
+        if self.__enable_idle:
+            if event.state == gtk.gdk.VISIBILITY_FULLY_OBSCURED:
+                self.__idle_remove()
+            else:
+                self.__idle_add()
 
         return gtk.TRUE
 
 
-### simple OpenGL application driver
+### Simple OpenGL application driver
 
 class GLApplication(gtk.Window):
 
@@ -389,24 +464,8 @@ class GLApplication(gtk.Window):
 
         self.glarea = GLArea(glscene)
         self.glarea.set_size_request(300, 300)
-
-    def enable_key_events(self):
-        self.glarea.enable_key_events(self)
-
-    def enable_button_events(self):
-        self.glarea.enable_button_events()
-
-    def enable_button_motion_events(self):
-        self.glarea.enable_button_motion_events()
-
-    def enable_pointer_motion_events(self):
-        self.glarea.enable_pointer_motion_events()
-
-    def enable_idle(self):
-        self.glarea.enable_idle()
-
-    def enable_timeout(self, interval=None):
-        self.glarea.enable_timeout(interval)
+        # Register glarea's key event handlers
+        self.glarea.register_key_events(self)
 
     def run(self):
         self.add(self.glarea)
@@ -415,12 +474,17 @@ class GLApplication(gtk.Window):
         gtk.main()
 
 
-### empty OpenGL scene
+### Empty OpenGL scene
 
-class EmptyScene(GLScene):
+class EmptyScene(GLScene,
+                 GLSceneKey,
+                 GLSceneButton,
+                 GLSceneButtonMotion,
+                 GLSceneTimeout):
 
     def __init__(self):
-        GLScene.__init__(self)
+        GLScene.__init__(self) # Use default display_mode
+        GLSceneTimeout.__init__(self, 500) # interval = 500ms
 
     def init(self):
         print "init"
@@ -442,8 +506,8 @@ class EmptyScene(GLScene):
     def key_release(self, width, height, event):
         print "key_release (keyval=%d, state=%d)" \
               % (event.keyval, event.state)
-        if event.keyval == gtk.keysyms.i:
-            self.toggle_idle()
+        if event.keyval == gtk.keysyms.t:
+            self.toggle_timeout()
         elif event.keyval == gtk.keysyms.Escape:
             gtk.main_quit()
 
@@ -455,36 +519,21 @@ class EmptyScene(GLScene):
         print "button_release (button=%d, state=%d, x=%d, y=%d)" \
               % (event.button, event.state, event.x, event.y)
 
-    def motion(self, width, height, event):
-        print "motion (state=%d, x=%d, y=%d)" \
+    def button_motion(self, width, height, event):
+        print "button_motion (state=%d, x=%d, y=%d)" \
               % (event.state, event.x, event.y)
 
     def timeout(self, width, height):
         print "timeout"
         self.queue_draw()
 
-    def idle(self, width, height):
-        print "idle"
-        self.queue_draw()
 
-
-### test code
+### Test code
 
 if __name__ == '__main__':
-
-    # change default display mode
-    #GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
 
     glscene = EmptyScene()
 
     glapp = GLApplication(glscene)
-
-    glapp.enable_key_events()
-    glapp.enable_button_events()
-    glapp.enable_button_motion_events()
-    #glapp.enable_pointer_motion_events()
-    #glapp.enable_idle()
-    glapp.enable_timeout(500)
-
     glapp.run()
 

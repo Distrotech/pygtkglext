@@ -48,8 +48,17 @@ was using editors that were not sensitive to Python.
 # Implement the GLScene interface
 # to have the NeHe6Multi scene rendered.
 
-class NeHe6Multi(GLScene):
+class NeHe6Multi(GLScene,
+                 GLSceneKey,
+                 GLSceneTimeout):
+
     def __init__(self, width=300, height=300):
+        GLScene.__init__(self,
+                         gtk.gdkgl.MODE_RGB   |
+                         gtk.gdkgl.MODE_DEPTH |
+                         gtk.gdkgl.MODE_DOUBLE)
+        GLSceneTimeout.__init__(self, 10)
+        
         self.rot = 0.0
         self.deg_rad = pi/180.0
         self.width = width
@@ -172,7 +181,7 @@ class NeHe6Multi(GLScene):
         glMatrixMode(GL_MODELVIEW)
 
     def key_press(self, width, height, event):
-        if event.keyval == gtk.keysyms.i:
+        if event.keyval == gtk.keysyms.t:
             self.toggle_timeout()
         elif event.keyval == gtk.keysyms.Escape:
             gtk.main_quit()
@@ -180,37 +189,14 @@ class NeHe6Multi(GLScene):
     def key_release(self, width, height, event):
         pass
 
-    def button_press(self, width, height, event):
-        pass
-
-    def button_release(self, width, height, event):
-        pass
-
-    def motion(self, width, height, event):
-        pass
-
     def timeout(self, width, height):
         self.rot = (self.rot + 0.2) % 360
         self.queue_draw()
 
-    def idle(self, width, height):
-        pass
-
 
 if __name__ == '__main__':
-    # add MODE_DEPTH to the default display mode
-    GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
-
     glscene = NeHe6Multi()
 
     glapp = GLApplication(glscene)
     glapp.set_title('NeHe6Multi')
-
-    glapp.enable_key_events()
-    #glapp.enable_button_events()
-    #glapp.enable_button_motion_events()
-    #glapp.enable_pointer_motion_events()
-    #glapp.enable_idle()
-    glapp.enable_timeout(10)
-
     glapp.run()

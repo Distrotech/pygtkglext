@@ -47,8 +47,6 @@ class ScribbleGLDemo (gtk.Window):
 		self.scene = Scribble()
 		self.glarea = GLArea(self.scene)
 		self.glarea.set_size_request(250,200)
-		self.glarea.enable_button_events()
-		self.glarea.enable_button_motion_events()
 		self.vbox.pack_start(self.glarea)
 		self.glarea.show()
 
@@ -78,8 +76,5 @@ class ScribbleGLDemo (gtk.Window):
 
 
 if __name__ == '__main__':
-	# Add MODE_DEPTH to the default display mode
-	GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
-
 	glapp = ScribbleGLDemo()
 	glapp.run()

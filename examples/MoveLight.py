@@ -65,9 +65,13 @@ from gtk.gtkgl.apputils import *
 # Implement the GLScene interface
 # to have the MoveLight scene rendered.
 
-class MoveLight(GLScene):
+class MoveLight(GLScene,
+                GLSceneButton):
     def __init__(self):
-        GLScene.__init__(self)
+        GLScene.__init__(self,
+                         gtk.gdkgl.MODE_RGB   |
+                         gtk.gdkgl.MODE_DEPTH |
+                         gtk.gdkgl.MODE_DOUBLE)
         self.spin = 0
     
     def init(self):
@@ -107,12 +111,6 @@ class MoveLight(GLScene):
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
     
-    def key_press(self, width, height, event):
-        pass
-    
-    def key_release(self, width, height, event):
-        pass
-    
     def button_press(self, width, height, event):
         if event.button == 1:
             self.spin = (self.spin + 30) % 360
@@ -123,31 +121,11 @@ class MoveLight(GLScene):
     
     def button_release(self, width, height, event):
         pass
-    
-    def motion(self, width, height, event):
-        pass
-    
-    def timeout(self, width, height):
-        pass
-
-    def idle(self, width, height):
-        pass
 
 
 if __name__ == '__main__':
-    # add MODE_DEPTH to the default display mode
-    GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
-
     glscene = MoveLight()
 
     glapp = GLApplication(glscene)
     glapp.set_title('MoveLight')
-
-    #glapp.enable_key_events()
-    glapp.enable_button_events()
-    #glapp.enable_button_motion_events()
-    #glapp.enable_pointer_motion_events()
-    #glapp.enable_idle()
-    #glapp.enable_timeout()
-
     glapp.run()

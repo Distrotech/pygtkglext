@@ -21,7 +21,9 @@ import gtk.gtkgl
 from gtk.gtkgl.apputils import *
 
 
-class Scribble (GLScene):
+class Scribble (GLScene,
+		GLSceneButton,
+		GLSceneButtonMotion):
 	''' Implements the GLScene interface to
 	render a Scribble scene in this case.
 	'''
@@ -58,7 +60,7 @@ class Scribble (GLScene):
 		# Draw the complete list of brush strokes.
 		for coord in self.__brushStrokeList:
 			# Draw a rectangle as the brush stroke.
-			glRecti(coord[0]+coord[2], coord[1]-coord[2], coord[0]-coord[2], coord[1]+coord[2])
+			glRectf(coord[0]+coord[2], coord[1]-coord[2], coord[0]-coord[2], coord[1]+coord[2])
 
 	def reshape (self, width, height):
 		# Handle the OpenGL viewport resizing.
@@ -69,39 +71,21 @@ class Scribble (GLScene):
 		glMatrixMode (GL_MODELVIEW)
 		glLoadIdentity ()
 
-	# It's necessary to realise that the following methods are
-	# not allowed to call OpenGL commands directly as they don't
-	# hold a valid OpenGL rendering context. These methods are used
-	# to capture user-interaction data only and then the above methods
-	# will do the actual rendering based on the captured data.
-
-	def key_press (self, width, height, event):
-		pass
-
-	def key_release (self, width, height, event):
-		pass
-
-	def button_release (self, width, height, event):
-		pass
-
 	def button_press (self, width, height, event):
 		# On left mouse button click, append one brush stroke
 		# that needs to be drawn.
 		if event.button == 1:
 			self.queue_brush_stroke_draw(event.x, height-event.y, self.thickness)
 
-	def motion (self, width, height, event):
+	def button_release (self, width, height, event):
+		pass
+
+	def button_motion (self, width, height, event):
 		# Append subsequent strokes to the list due to drag motion.
 		if event.state & gtk.gdk.BUTTON1_MASK:
 			self.queue_brush_stroke_draw(event.x, height-event.y, self.thickness)
 
-	def idle (self, width, height):
-		pass
-
-	def timeout (self, width, height):
-		pass
-
-    # Two extra functions to give a nice API for
+	# Two extra functions to give a nice API for
 	# embedding this class in other applications.
 
 	def queue_brush_stroke_draw (self, *args):

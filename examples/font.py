@@ -75,27 +75,6 @@ class Font(GLScene):
         
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-    
-    def key_press(self, width, height, event):
-        pass
-    
-    def key_release(self, width, height, event):
-        pass
-    
-    def button_press(self, width, height, event):
-        pass
-    
-    def button_release(self, width, height, event):
-        pass
-    
-    def motion(self, width, height, event):
-        pass
-    
-    def idle(self, width, height):
-        pass
-
-    def timeout(self, width, height):
-        pass
 
 if __name__ == '__main__':
     glscene = Font()
@@ -103,12 +82,4 @@ if __name__ == '__main__':
     glapp = GLApplication(glscene)
     glapp.set_size_request(640, 200)
     glapp.set_title('Font')
-
-    #glapp.enable_key_events()
-    #glapp.enable_button_events()
-    #glapp.enable_button_motion_events()
-    #glapp.enable_pointer_motion_events()
-    #glapp.enable_idle()
-    #glapp.enable_timeout()
-
     glapp.run()

@@ -15,8 +15,15 @@ import sys
 # Implement the GLScene interface
 # to have a teapot rendered.
 
-class Teapot(GLScene):
+class Teapot(GLScene,
+             GLSceneButton,
+             GLSceneButtonMotion):
     def __init__(self):
+        GLScene.__init__(self,
+                         gtk.gdkgl.MODE_RGB   |
+                         gtk.gdkgl.MODE_DEPTH |
+                         gtk.gdkgl.MODE_DOUBLE)
+        
         self.rotx = 0
         self.roty = 0
         
@@ -70,7 +77,7 @@ class Teapot(GLScene):
     def button_release(self, width, height, event):
         pass
     
-    def motion(self, width, height, event):
+    def button_motion(self, width, height, event):
         if event.state == gtk.gdk.BUTTON1_MASK:
             self.rotx = self.rotx + ((event.y-self.beginy)/width)*360.0
             self.roty = self.roty + ((event.x-self.beginx)/height)*360.0
@@ -79,18 +86,6 @@ class Teapot(GLScene):
         self.beginy = event.y
         
         self.queue_draw()
-    
-    def key_press(self, width, height, event):
-        pass
-    
-    def key_release(self, width, height, event):
-        pass
-    
-    def idle(self, width, height):
-        pass
-
-    def timeout(self, width, height):
-        pass
 
 # A simple window to show the Teapot scene
 # in a GLArea widget along with two
@@ -121,16 +116,10 @@ class TeapotWindow(gtk.Window):
         # GLArea widget to
         # display it.
         self.teapot = Teapot()
-        GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
         self.glarea = GLArea(self.teapot)
         self.glarea.set_size_request(300,300)
         self.glarea.show()
         self.table.attach(self.glarea, 0, 1, 0, 1)
-        
-        # Enable button press and drag motion
-        # events on the drawing area.
-        self.glarea.enable_button_events()
-        self.glarea.enable_button_motion_events()
         
         # Rotation sliders
         self.vadj = gtk.Adjustment(0, -360, 360, 1, 5, 1)

@@ -60,6 +60,11 @@ from gtk.gtkgl.apputils import *
 
 class Simple(GLScene):
     def __init__(self):
+        GLScene.__init__(self,
+                         gtk.gdkgl.MODE_RGB   |
+                         gtk.gdkgl.MODE_DEPTH |
+                         gtk.gdkgl.MODE_DOUBLE)
+        
         self.light_ambient = [0.0, 0.0, 0.0, 1.0]
         self.light_diffuse = [1.0, 1.0, 1.0, 1.0]
         self.light_specular = [1.0, 1.0, 1.0, 1.0]
@@ -114,43 +119,11 @@ class Simple(GLScene):
             glOrtho(-2.5*width/height,2.5*width/height, -2.5, 2.5, -10.0, 10.0)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-    
-    def key_press(self, width, height, event):
-        pass
-    
-    def key_release(self, width, height, event):
-        pass
-    
-    def button_press(self, width, height, event):
-        pass
-    
-    def button_release(self, width, height, event):
-        pass
-    
-    def motion(self, width, height, event):
-        pass
-    
-    def idle(self, width, height):
-        pass
-
-    def timeout(self, width, height):
-        pass
 
 
 if __name__ == '__main__':
-    # add MODE_DEPTH to the default display mode
-    GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
-    
     glscene = Simple()
     
     glapp = GLApplication(glscene)
     glapp.set_title('SimpleScene')
-    
-    #glapp.enable_key_events()
-    glapp.enable_button_events()
-    glapp.enable_button_motion_events()
-    #glapp.enable_pointer_motion_events()
-    #glapp.enable_idle()
-    #glapp.enable_timeout()
-    
     glapp.run()

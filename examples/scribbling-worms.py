@@ -51,6 +51,7 @@ except:
 import gtk.gtkgl
 from gtk.gtkgl.apputils import *
 
+import math
 import time
 import gc
 
@@ -95,7 +96,7 @@ class ScribblingWorm (Thread):
 
 		# The loop iterations.
 		self.sleep_time = 0.10
-		self.iterations = duration / self.sleep_time
+		self.iterations = int (duration / self.sleep_time)
 
 	def run (self):
 		''' Overrides the run method of the
@@ -183,8 +184,6 @@ class ScribblingWormsDemo (gtk.Window, Thread):
 		self.scene.colourFg = [1.0, 0.0, 0.0, 0.0]		# Foreground colour is red.
 		self.glarea = GLArea(self.scene)
 		self.glarea.set_size_request(250,200)
-		self.glarea.enable_button_events()
-		self.glarea.enable_button_motion_events()
 		hbox = gtk.HBox()		# Add a hbox for a border width around the drawable.
 		hbox.set_border_width(5)
 		hbox.pack_start(self.glarea)
@@ -274,10 +273,6 @@ if __name__ == '__main__':
 	a separate GUI thread and waits for that
 	to finish.
 	'''
-
-	# Add MODE_DEPTH to the default display mode
-	GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
-
 	glapp = ScribblingWormsDemo()
 	glapp.start()
 	glapp.join()

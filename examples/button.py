@@ -18,9 +18,15 @@ from gtk.gtkgl.apputils import *
 
 # Implement the GLScene interface to
 # render a BouncingTorus in this case.
-class BouncingTorus (GLScene):
+class BouncingTorus (GLScene,
+		     GLSceneTimeout):
+
 	def __init__ (self):
-		GLScene.__init__(self)
+		GLScene.__init__(self,
+				 gtk.gdkgl.MODE_RGB   |
+				 gtk.gdkgl.MODE_DEPTH |
+				 gtk.gdkgl.MODE_DOUBLE)
+		GLSceneTimeout.__init__(self, 10)
 
 		self.angle = 0.0
 		self.pos_y = 0.0
@@ -84,37 +90,18 @@ class BouncingTorus (GLScene):
 
 		glMatrixMode (GL_MODELVIEW)
 
-	# It's necessary to realise that the following methods are
-	# not allowed to call OpenGL commands directly as they don't
-	# hold a valid OpenGL rendering context. These methods are used
-	# to capture user-interaction data only and then the above methods
-	# will do the actual rendering based on the captured data.
-
-	def key_press (self, width, height, event):
-		pass
-
-	def key_release (self, width, height, event):
-		pass
-
-	def button_release (self, width, height, event):
-		pass
-
-	def button_press (self, width, height, event):
-		pass
-
-	def motion (self, width, height, event):
-		pass
-
 	def timeout (self, width, height):
-		self.angle += 1.0
+		self.angle += 3.0
 		if (self.angle >= 360.0):
-			self.angle = 0
+			self.angle -= 360.0
 
-		self.pos_y = math.sin (self.angle * math.pi / 180.0)
+		t = self.angle * math.pi / 180.0
+		if t > math.pi:
+			t = 2.0 * math.pi - t
+
+		self.pos_y = 2.0 * (math.sin (t) + 0.4 * math.sin (3.0*t)) - 1.0
+		
 		self.queue_draw()
-
-	def idle (self, width, height):
-		pass
 
 
 # Simple window holding a toggle button
@@ -130,19 +117,15 @@ class ButtonDemo (gtk.Window):
 		# The BouncingTorus scene and the GLArea
 		# widget to display it.
 		self.scene = BouncingTorus()
-		GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
 		self.glarea = GLArea(self.scene)
 		self.glarea.set_size_request(200,200)
 		self.glarea.show()
 
-        # Enable the timeout callback for animation.
-		self.glarea.enable_timeout(10)
-
-        # A label to accompany the bouncing torus.
+		# A label to accompany the bouncing torus.
 		self.label = gtk.Label('Toggle Animation')
 		self.label.show()
 
-        # A VBox to pack the glarea and label.
+		# A VBox to pack the glarea and label.
 		self.vbox = gtk.VBox()
 		self.vbox.set_border_width(10)
 		self.vbox.pack_start(self.glarea)

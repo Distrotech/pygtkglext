@@ -25,8 +25,16 @@ import sys
 # Implement the GLScene interface
 # to have a shape rendered.
 
-class Shapes(GLScene):
+class Shapes(GLScene,
+             GLSceneButton,
+             GLSceneButtonMotion):
+    
     def __init__(self):
+        GLScene.__init__(self,
+                         gtk.gdkgl.MODE_RGB   |
+                         gtk.gdkgl.MODE_DEPTH |
+                         gtk.gdkgl.MODE_DOUBLE)
+        
         self.light_ambient = [0.0, 1.0, 0.0, 1.0]
         self.light_diffuse = [1.0, 1.0, 1.0, 1.0]
         self.light_specular = [1.0, 1.0, 1.0, 1.0]
@@ -196,7 +204,7 @@ class Shapes(GLScene):
     def button_release(self, width, height, event):
         pass
     
-    def motion(self, width, height, event):
+    def button_motion(self, width, height, event):
         if event.state == gtk.gdk.BUTTON1_MASK:
             self.rotx = self.rotx + ((event.y-self.beginy)/width)*360.0
             self.roty = self.roty + ((event.x-self.beginx)/height)*360.0
@@ -210,18 +218,6 @@ class Shapes(GLScene):
         self.beginy = event.y
         
         self.queue_draw()
-    
-    def key_press(self, width, height, event):
-        pass
-    
-    def key_release(self, width, height, event):
-        pass
-
-	def timeout(self, width, height):
-		pass
-
-	def idle(self, width, height):
-		pass
 
 # A window to show the Shapes scene
 # in a GLArea widget along with two
@@ -253,16 +249,10 @@ class ShapesWindow(gtk.Window):
         # GLArea widget to
         # display it.
         self.shape = Shapes()
-        GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
         self.glarea = GLArea(self.shape)
         self.glarea.set_size_request(300,300)
         self.glarea.show()
         self.table.attach(self.glarea, 1, 2, 0, 1)
-        
-        # Enable button press and drag motion
-        # events on the drawing area.
-        self.glarea.enable_button_events()
-        self.glarea.enable_button_motion_events()
         
         # 3 Frames showing rotation sliders
         self.zframe = gtk.Frame('Z-Axis')
