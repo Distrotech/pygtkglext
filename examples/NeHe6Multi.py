@@ -54,7 +54,6 @@ class NeHe6Multi(GLScene):
         self.deg_rad = pi/180.0
         self.width = width
         self.height = height
-        self.has_printed_note = gtk.FALSE
 
     def __loadTexture(self, fileName):
         # We use gtk.gdk.Pixbuf instead of
@@ -65,25 +64,8 @@ class NeHe6Multi(GLScene):
         pixels = image.get_pixels()
         ix = image.get_width()
         iy = image.get_height()
-
-        if not self.has_printed_note:
-            self.has_printed_note = ~self.has_printed_note
-            print '''
-            Line 72
-
-            *** FIXME NOTE ***
-            *
-            * The image loaded with gdk.Pixbuf
-            * seems to produce a texturemap
-            * that's inverted. I don't think
-            * the internal structure of gdk.Pixbuf
-            * is quite what OpenGL expected when
-            * we got hold of the image data in
-            * memory as a string through the
-            * method get_pixels() of a gdk.Pixbuf.
-            *
-            *** FIXME NOTE ***
-            '''
+        
+        # Create Texture
         id = glGenTextures(1)
         glBindTexture(GL_TEXTURE_2D, id)   # 2d texture (x and y size)
 
@@ -142,40 +124,40 @@ class NeHe6Multi(GLScene):
         glBegin(GL_QUADS)
 
         # Front Face (note that the texture's corners have to match the quad's corners)
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0,  1.0)    # Top Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0,  1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0,  1.0,  1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0,  1.0,  1.0)    # Top Left Of The Texture and Quad
 
         # Back Face
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0, -1.0)    # Bottom Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0, -1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0, -1.0, -1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0, -1.0, -1.0)    # Bottom Left Of The Texture and Quad
 
         # Top Face
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0,  1.0,  1.0)    # Bottom Left Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0,  1.0,  1.0)    # Bottom Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0,  1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0,  1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
 
         # Bottom Face
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0, -1.0, -1.0)    # Top Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0, -1.0, -1.0)    # Top Left Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0, -1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0, -1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
 
         # Right face
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0, -1.0, -1.0)    # Bottom Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0,  1.0,  1.0)    # Top Left Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f( 1.0, -1.0, -1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f( 1.0,  1.0, -1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f( 1.0,  1.0,  1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f( 1.0, -1.0,  1.0)    # Bottom Left Of The Texture and Quad
 
         # Left Face
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0, -1.0, -1.0)    # Bottom Left Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0,  1.0,  1.0)    # Top Right Of The Texture and Quad
-        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 1.0); glVertex3f(-1.0, -1.0, -1.0)    # Bottom Left Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 1.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 1.0); glVertex3f(-1.0, -1.0,  1.0)    # Bottom Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 1.0, 0.0); glVertex3f(-1.0,  1.0,  1.0)    # Top Right Of The Texture and Quad
+        glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0.0, 0.0); glMultiTexCoord2fARB(GL_TEXTURE1_ARB, 0.0, 0.0); glVertex3f(-1.0,  1.0, -1.0)    # Top Left Of The Texture and Quad
 
         glEnd();
 
