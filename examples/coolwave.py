@@ -246,10 +246,10 @@ class CoolWave (GLScene,
         pass
 
     def button_motion (self, width, height, event):
-        if event.state == gtk.gdk.BUTTON1_MASK:
+        if event.state & gtk.gdk.BUTTON1_MASK:
             self.__sphi += (event.x - self.__beginX)/4.0
             self.__stheta += (self.__beginY - event.y)/4.0
-        elif event.state == gtk.gdk.BUTTON2_MASK:
+        elif event.state & gtk.gdk.BUTTON2_MASK:
             self.__sdepth += (self.__beginY - event.y)/10.0
         self.__beginX = event.x
         self.__beginY = event.y
