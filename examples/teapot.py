@@ -70,7 +70,7 @@ def configure_event(glarea, event):
 	
 	return gtk.TRUE
 
-def expose_event(glarea, event=None):
+def expose_event(glarea, event):
 	# get GLContext and GLDrawable
 	glcontext = glarea.get_gl_context()
 	gldrawable = glarea.get_gl_drawable()
