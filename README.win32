@@ -1,0 +1,117 @@
+
+
+  P y G t k G L E x t
+
+  - Python Bindings for GtkGLExt
+
+
+General Information
+===================
+
+PyGtkGLExt is Python language bindings for GtkGLExt, OpenGL Extension to GTK.
+
+The official web site is:
+  http://gtkglext.sourceforge.net/
+
+The official download & development information site is:
+  http://sourceforge.net/projects/gtkglext/
+
+
+Licensing
+=========
+
+PyGtkGLExt modules are released under the terms of the GNU Lesser
+General Public License (GNU LGPL). While components and programs
+included with this release are licensed under the terms of the GNU
+General Public License (GNU GPL).
+
+
+Requirements
+============
+
+  * Python 2.2 (http://www.python.org/)
+
+  * PyOpenGL (http://pyopengl.sourceforge.net/)
+
+  * PyGTK 2 (http://www.daa.com.au/~james/software/pygtk/)
+
+  * GTK 2 (http://www.gtk.org/)
+
+  * GtkGLExt (http://gtkglext.sourceforge.net/)
+
+  * OpenGL or Mesa (http://www.mesa3d.org/)
+
+  * MinGW (http://www.mingw.org/) or Microsoft Visual C++
+
+
+Building PyGtkGLExt on Win32
+============================
+
+To build and install PyGtkGLExt, you can use Python Distutils based
+setup.py script. (See http://www.python.org/doc/current/inst/ for more
+details.)
+
+  * Build using Microsoft Visual C++
+
+    $ python setup.py build
+    $ python setup.py bdist_wininst
+
+  * Build using MinGW
+
+    $ python setup.py build --compiler=mingw32
+    $ python setup.py bdist_wininst
+
+Personally I use the following instructions to build PyGTK and
+PyGtkGLExt.
+
+  pre-1) Apply a win32 build patch to PyGTK.
+         (see http://bugzilla.gnome.org/show_bug.cgi?id=110619)
+
+    $ cd pygtk (latest CVS HEAD of PyGTK)
+    $ patch -p0 < pygtk-win32-build.patch
+
+  1) Build and install PyGTK.
+     I don't use the built distribution because it doesn't install
+     pygtk-2.0.pc pkg-config file. pygtk-2.0.pc is needed to build
+     PyGtkGLExt.
+
+    $ cd pygtk
+    $ python setup.py build --compiler=mingw32
+    $ python setup.py install --prefix='c:\pygtk'
+    $ export PYTHONPATH="c:\pygtk\Lib\site-packages\gtk-2.0;${PYTHONPATH}"
+    $ export PKG_CONFIG_PATH="c:\pygtk\Lib\pkgconfig;${PKG_CONFIG_PATH}"
+
+  2) Build and install PyGtkGLExt.
+
+    $ cd pygtkglext-x.y.z
+    $ python setup.py build --compiler=mingw32
+    $ python setup.py install --prefix='c:\pygtk'
+
+  3) Create bdist for convenience
+
+    $ python setup.py bdist_wininst
+
+
+Building the CVS Version of PyGtkGLExt
+======================================
+
+PyGtkGLExt's SourceForge CVS repository can be checked out through
+anonymous (pserver) CVS with the following instruction set.
+When prompted for a password for anonymous, simply press the Enter key. 
+
+  $ cvs \
+      -d:pserver:anonymous@cvs.gtkglext.sourceforge.net:/cvsroot/gtkglext \
+      login
+  $ cvs -z3 \
+      -d:pserver:anonymous@cvs.gtkglext.sourceforge.net:/cvsroot/gtkglext \
+      co pygtkglext
+
+
+Contact
+=======
+
+Any patches, bug fixes and improvements are always welcome ;-)
+
+  Naofumi Yasufuku (ˆÀ•Ÿ ®•¶)  <naofumi@users.sourceforge.net>
+
+
