@@ -86,7 +86,7 @@ class Teapot(GLScene,
         self.beginx = event.x
         self.beginy = event.y
         
-        self.queue_draw()
+        self.invalidate()
 
 
 # A simple window to show the Teapot scene
@@ -147,15 +147,15 @@ class TeapotWindow(gtk.Window):
     
     def vchanged(self, vadj):
         self.teapot.rotx = vadj.value
-        self.glarea.queue_draw()
+        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
     
     def hchanged(self, hadj):
         self.teapot.roty = hadj.value
-        self.glarea.queue_draw()
+        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
     
     def toggled(self, button):
         self.teapot.is_solid = not self.teapot.is_solid
-        self.glarea.queue_draw()
+        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
     
     def run(self):
         self.show()

@@ -118,7 +118,7 @@ class MoveLight(GLScene,
         elif event.button == 3:
             self.spin = (self.spin - 30) % 360
         
-        self.queue_draw()
+        self.invalidate()
 
     def button_release(self, width, height, event):
         pass

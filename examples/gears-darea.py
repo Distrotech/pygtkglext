@@ -256,7 +256,10 @@ def init(glarea):
 def idle(glarea):
     global angle
     angle = angle + 2.0
-    glarea.queue_draw()
+    # Invalidate whole window.
+    glarea.window.invalidate_rect(glarea.allocation, gtk.FALSE)
+    # Update window synchronously (fast).
+    glarea.window.process_updates(gtk.FALSE)
     return gtk.TRUE
 
 def map(glarea, event):

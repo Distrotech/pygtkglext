@@ -41,6 +41,7 @@ class LowLevelDrawingArea(gtk.DrawingArea):
 
         # Connect the relevant signals.
         self.connect_after('realize',   self._on_realize)
+        self.connect('size_allocate',   self._on_size_allocate)
         self.connect('configure_event', self._on_configure_event)
         self.connect('expose_event',    self._on_expose_event)
         self.connect('unrealize',       self._on_unrealize)
@@ -97,6 +98,12 @@ class LowLevelDrawingArea(gtk.DrawingArea):
 
         # OpenGL end
         self.gldrawable.gl_end()
+
+    def _on_size_allocate(self, *args):
+        print "_on_size_allocate()"
+
+        if self.gldrawable:
+            self.gldrawable.wait_gdk()
 
     def _on_configure_event(self, *args):
         print "_on_configure_event()"

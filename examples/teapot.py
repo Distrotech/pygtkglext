@@ -111,19 +111,19 @@ def expose_event(glarea, event):
 def vchanged(vadj, glarea):
     global rotx
     rotx = vadj.value
-    glarea.queue_draw()
+    glarea.window.invalidate_rect(glarea.allocation, gtk.FALSE)
 
 
 def hchanged(hadj, glarea):
     global roty
     roty = hadj.value
-    glarea.queue_draw()
+    glarea.window.invalidate_rect(glarea.allocation, gtk.FALSE)
 
 
 def toggled(button, glarea):
     global is_solid
     is_solid = not is_solid
-    glarea.queue_draw()
+    glarea.window.invalidate_rect(glarea.allocation, gtk.FALSE)
 
 
 #

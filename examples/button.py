@@ -193,7 +193,10 @@ class ButtonDemo (object):
 
         self.pos_y = 2.0 * (math.sin (t) + 0.4 * math.sin (3.0*t)) - 1.0
 
-        self.glarea.queue_draw()
+        # Invalidate whole window.
+        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
+        # Update window synchronously (fast).
+        self.glarea.window.process_updates(gtk.FALSE)
 
         return gtk.TRUE
 
@@ -231,7 +234,8 @@ class ButtonDemo (object):
             self.__timeout_add()
         else:
             self.__timeout_remove()
-            self.glarea.queue_draw()
+            self.glarea.window.invalidate_rect(self.glarea.allocation,
+                                               gtk.FALSE)
 
     def run (self):
         self.win.show()
