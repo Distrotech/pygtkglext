@@ -1,3 +1,12 @@
+2003-03-09  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/teapot.py: Simple example based on cone.py that comes
+	with PyGTK.
+
+	* examples/cone.py: Removed.
+
+	* examples/gears-*.py: Rewritten.
+
 2003-03-07  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* examples/*.py: Check gtk.gdkgl.NoMatches exception and try

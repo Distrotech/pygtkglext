@@ -4,5 +4,5 @@
 EXTRA_DIST = \
 	gears-func.py	\
 	gears-darea.py	\
-	cone.py
+	teapot.py
 
