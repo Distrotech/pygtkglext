@@ -16,6 +16,7 @@ EXTRA_DIST = \
 	SimpleScene.py		\
 	MoveLight.py		\
 	Shapes.py		\
+	share-lists.py     \
 	NeHe6Multi.py		\
 	Wall.png		\
 	NeHe.png

@@ -1,11 +1,17 @@
 2003-05-10  Alif Wahid  <awah005@users.sourceforge.net>
 
+    * examples/share-lists.py: Added new example program. Another 
+    mapping from C to Python. Original C program written by
+    Noafumi for GtkGLExt.
+
+2003-05-10  Alif Wahid  <awah005@users.sourceforge.net>
+
     * examples/color.py (ColorManagementDemo.__init__): Put in
     place exception handling. So now if PyGtk raises an exception
     on not being able to allocate a specific colour from the
     colourmap, we just switch to RGB mode rather than staying
     in Colour Index mode.
-    
+
     * examples/color.py (ColorManagementDemo.__realize): Prints
     out the OpenGL vendor, renderer, version and extensions strings
     as switching between RGB and Index modes in above case also
