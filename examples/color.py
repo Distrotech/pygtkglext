@@ -6,6 +6,8 @@
 #
 # Alif Wahid.
 
+import sys 
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -13,8 +15,6 @@ import gtk.gtkgl
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-
-import sys 
 
 class ColorManagementDemo(object):
 

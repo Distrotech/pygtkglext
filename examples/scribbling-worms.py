@@ -16,7 +16,7 @@ giving the impression of scribbling worms.
 Main requirement is a threading enabled PyGtk library.
 The locks provided by PyGtk in serialising access to
 Gtk from multiple threads are vital. They ensure that
-PyGtkGLExt is also protected even though it doesn't
+PyGtkGLExt is also protected even though it does not
 explicitly have any notion of thread support.
 
 The main application window is a separate thread that
@@ -31,6 +31,12 @@ same time as the other threads are scribbling!
 Alif Wahid, <awah005@users.sourceforge.net>
 August 2003.
 '''
+
+import math
+import time
+import gc
+from threading import Thread, Event
+from random import randint
 
 import pygtk
 pygtk.require('2.0')
@@ -51,12 +57,6 @@ except:
 import gtk.gtkgl
 from gtk.gtkgl.apputils import *
 
-import math
-import time
-import gc
-
-from threading import Thread, Event
-from random import randint
 from scribble import Scribble
 
 

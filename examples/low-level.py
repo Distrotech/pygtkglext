@@ -6,6 +6,10 @@
 #
 # Alif Wahid, March 2003.
 
+import sys
+import string
+import gc
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -13,10 +17,6 @@ import gtk.gdkgl
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-
-import sys
-import string
-import gc
 
 # Due to the low level nature of this
 # program, I think aggregating Gtk

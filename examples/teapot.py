@@ -5,6 +5,8 @@
 # Conversion from gtk.gl module to PyGtkGLExt by Naofumi Yasufuku
 #
 
+import sys
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -12,8 +14,6 @@ import gtk.gtkgl
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
-
-import sys
 
 rotx = 0
 roty = 0
@@ -67,10 +67,10 @@ def configure_event(glarea, event):
     glLoadIdentity()
     if width > height:
         w = float(width) / float(height)
-        glFrustum( -w, w, -1.0, 1.0, 5.0, 60.0 )
+        glFrustum(-w, w, -1.0, 1.0, 5.0, 60.0)
     else:
         h = float(height) / float(width)
-        glFrustum( -1.0, 1.0, -h, h, 5.0, 60.0 )
+        glFrustum(-1.0, 1.0, -h, h, 5.0, 60.0)
     
     glMatrixMode(GL_MODELVIEW)
     

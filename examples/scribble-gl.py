@@ -12,11 +12,11 @@ Alif Wahid, <awah005@users.sourceforge.net>
 August 2003.
 '''
 
+import gc
+
 import pygtk
 pygtk.require('2.0')
 from gtk.gtkgl.apputils import *
-
-import gc
 
 from scribble import Scribble
 

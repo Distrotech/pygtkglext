@@ -6,11 +6,11 @@ Conversion from gtk.gl module to PyGtkGLExt by Naofumi Yasufuku.
 Implemented an object oriented structure by Alif Wahid.
 '''
 
+import sys
+
 import pygtk
 pygtk.require('2.0')
 from gtk.gtkgl.apputils import *
-
-import sys
 
 # Implement the GLScene interface
 # to have a teapot rendered.
@@ -57,10 +57,10 @@ class Teapot(GLScene,
         glLoadIdentity()
         if width > height:
             w = float(width) / float(height)
-            glFrustum( -w, w, -1.0, 1.0, 5.0, 60.0 )
+            glFrustum(-w, w, -1.0, 1.0, 5.0, 60.0)
         else:
             h = float(height) / float(width)
-            glFrustum( -1.0, 1.0, -h, h, 5.0, 60.0 )
+            glFrustum(-1.0, 1.0, -h, h, 5.0, 60.0)
         glMatrixMode(GL_MODELVIEW)
     
     def display(self, width, height):

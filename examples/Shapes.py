@@ -15,12 +15,13 @@ Alif Wahid, March, 2003
 <awah005@users.sourceforge.net>
 '''
 
+import sys
+
 import pygtk
 pygtk.require('2.0')
 from gtk.gtkgl.apputils import *
-from OpenGL.GLE import *
 
-import sys
+from OpenGL.GLE import *
 
 # Implement the GLScene interface
 # to have a shape rendered.
