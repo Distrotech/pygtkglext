@@ -1,3 +1,7 @@
+2003-05-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* configure.in: Require GtkGLExt 1.0.0.
+
 2003-05-12  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* gtk/gdkgl/gdkglext.override (_wrap_gdk_gl_context_copy): 
