@@ -29,7 +29,7 @@ General Public License (GNU GPL).
 Requirements
 ============
 
-  * Python 2.2 (http://www.python.org/)
+  * Python 2.2 and above (http://www.python.org/)
 
   * PyOpenGL (http://pyopengl.sourceforge.net/)
 
@@ -63,12 +63,6 @@ details.)
 
 Personally I use the following instructions to build PyGTK and
 PyGtkGLExt.
-
-  pre-1) Apply a win32 build patch to PyGTK.
-         (see http://bugzilla.gnome.org/show_bug.cgi?id=110619)
-
-    $ cd pygtk (latest CVS HEAD of PyGTK)
-    $ patch -p0 < pygtk-win32-build.patch
 
   1) Build and install PyGTK.
      I don't use the built distribution because it doesn't install

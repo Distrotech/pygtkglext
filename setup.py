@@ -15,7 +15,7 @@ from dsextras import Template, TemplateExtension
 
 MAJOR_VERSION = 0
 MINOR_VERSION = 99
-MICRO_VERSION = 0
+MICRO_VERSION = 1
 
 VERSION = "%d.%d.%d" % (MAJOR_VERSION,
                         MINOR_VERSION,

@@ -29,7 +29,7 @@ General Public License (GNU GPL).
 Requirements
 ============
 
-  * Python 2.2 (http://www.python.org/)
+  * Python 2.2 and above (http://www.python.org/)
 
   * PyOpenGL (http://pyopengl.sourceforge.net/)
 
@@ -93,7 +93,7 @@ macros used in configure.in.
 I use the following versions of the GNU autotools.
 
   autoconf 2.57
-  automake 1.7.4
+  automake 1.7.x
   libtool  1.5
 
 

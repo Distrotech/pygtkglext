@@ -21,7 +21,7 @@ EXTRA_DIST = \
 	scribble-gl.py		\
 	button.py		\
 	scribble.py		\
-	scribbling-worms.py		\
+	scribbling-worms.py	\
 	coolwave.py		\
 	Wall.png		\
 	NeHe.png

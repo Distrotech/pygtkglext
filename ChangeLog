@@ -1,3 +1,11 @@
+2003-08-23  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* Version 0.99.1
+
+	* configure.in: Bumped version.
+
+	* README.win32: Removed old PyGTK installtion instruction.
+
 2003-08-21  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* examples/coolwave.py (CoolWave.init): Check GL_VERSION_1_1.
