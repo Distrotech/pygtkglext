@@ -25,10 +25,6 @@ import gtk.gtkgl
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-__all__ = ["GLScene", "GLSceneKey", "GLSceneButton", "GLSceneButtonMotion",
-           "GLScenePointerMotion", "GLSceneTimeout", "GLSceneIdle",
-           "GLArea", "GLApplication"]
-
 ### Base classes for OpenGL scene
 
 class GLSceneBase(object):
