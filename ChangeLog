@@ -1,19 +1,24 @@
+2003-05-01  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py (GLApplication.__init__): Don't set
+	resize_mode RESIZE_IMMEDIATE on Win32.
+
 2003-04-30  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* gtk/gtkgl/apputils.py (GLArea.__init__): Use connect_after()
 	instead of connect() to connect 'realize' signal handler.
 
-	* examples/gears-func.py: 
-	* examples/gears-darea.py: 
-	* examples/teapot.py: 
-	* examples/low-level.py (LowLevelDemo.__init__): 
-	* examples/simple.py (SimpleDemo.__init__): 
-	* examples/simple-mixed.py (SimpleMixedDemo.__init__): 
-	* examples/color.py (ColorManagementDemo.__init__): 
+	* examples/gears-func.py:
+	* examples/gears-darea.py:
+	* examples/teapot.py:
+	* examples/low-level.py (LowLevelDemo.__init__):
+	* examples/simple.py (SimpleDemo.__init__):
+	* examples/simple-mixed.py (SimpleMixedDemo.__init__):
+	* examples/color.py (ColorManagementDemo.__init__):
 	Use connect_after() instead of connect() to connect 'realize'
 	signal handler.
 
-2003-04-30  Alif Wahid	<awah005@users.sourceforge.net>
+2003-04-30  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Added new example program color.py, it's a mapping
 	from C to Python of the color.c program written by
@@ -75,19 +80,19 @@
 2003-04-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* README.win32: Added.
-	
+
 	* Makefile.am (EXTRA_DIST): Added README.win32.
 
 	* gtk/gdkgl/gdkglext.override: Include <windows.h> on Win32 to
 	build using MSVC.
 
-	* dsextras.py (BuildExt.init_extra_compile_args) 
+	* dsextras.py (BuildExt.init_extra_compile_args)
 	(BuildExt.build_extensions, BuildExt.build_extension): Now MSVC
 	compatible struct GCC option is automatically added by BuildExt.
 
 	* setup.py.in: extra_compile_args parameter is no longer needed.
 
-2003-04-13  Alif Wahid	<awah005@users.sourceforge.net>
+2003-04-13  Alif Wahid  <awah005@users.sourceforge.net>
 
 	* setup.py.in
 	* setup.py: Extra predicate added to ensure that MSVC compatible
@@ -102,7 +107,7 @@
 	* gtk/gdkgl/gdkglmodule.c (init_gdkgl): Initialize GdkGLExt
 	library. Added version information.
 
-2003-04-13  Alif Wahid	<awah005@users.sourceforge.net>
+2003-04-13  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Win32 build fix to take account of GCC version to
 	provide proper MSVC compatible struct packing.
@@ -115,7 +120,7 @@
 	* dsextras.py:
 	* setup.py.in: Win32 build fix.
 
-2003-04-04  Alif Wahid	<awah005@users.sourceforge.net>
+2003-04-04  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Fixed bug in the font.py example program, however
 	it won't be apparent yet. This is because we're waiting
@@ -124,7 +129,7 @@
 	the code will be activated manually. So for now it's
 	fixed in the background only.
 
-2003-03-30  Alif Wahid	<awah005@users.sourceforge.net>
+2003-03-30  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Added new example programs. Another set of straight
 	conversion from C to Python based on Naofumi's programs
@@ -134,7 +139,7 @@
 	* examples/simple-mixed.py: Tests the mixing of GDK and
 	OpenGL calls using a DrawingArea widget.
 
-2003-03-30  Alif Wahid	<awah005@users.sourceforge.net>
+2003-03-30  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Added example program. Another straight conversion from
 	C to Python based on Naofumi's program in C.
@@ -142,13 +147,13 @@
 	* examples/pixmap-mixed.py: Tests the mixing of GDK and
 	OpenGL calls using a GdkPixmap.
 
-2003-03-22  Alif Wahid	<awah005@users.sourceforge.net>
+2003-03-22  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Added some basic instruction for building using
 	python and distutil on Win32 platforms. See the
 	WIN32_BUILD file.
 
-2003-03-22  Alif Wahid	<awah005@users.sourceforge.net>
+2003-03-22  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Added new example programs. These are a mappings of the
 	programs that Naofumi wrote for GtkGLExt in C. These
@@ -159,7 +164,7 @@
 	* examples/low-level.py
 	* examples/pixmap.py
 
-2003-03-21  Alif Wahid	<awah005@users.sourceforge.net>
+2003-03-21  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Updated remaining example programs that
 	used PyGtkGLTemplate module to now use
@@ -178,7 +183,7 @@
 
 	* examples/PyGtkGLTemplate.py: removed.
 
-2003-03-19  Alif Wahid	<awah005@users.sourceforge.net>
+2003-03-19  Alif Wahid  <awah005@users.sourceforge.net>
 
 	Updated following example programs to use
 	the gtk.gtkgl.apputils module.
