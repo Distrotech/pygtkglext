@@ -5,6 +5,8 @@
 # Conversion from gtk.gl module to PyGtkGLExt by Naofumi Yasufuku
 #
 
+import sys
+
 import gtk
 import gtk.gtkgl
 
@@ -165,7 +167,8 @@ print "gtk.gdkgl.DEPTH_SIZE = %d"   % glconfig.get_attrib(gtk.gdkgl.DEPTH_SIZE)
 win = gtk.Window()
 win.set_title("Teapot")
 
-win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
+if sys.platform != 'win32':
+	win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 win.set_reallocate_redraws(gtk.TRUE)
 
 win.connect('destroy', gtk.mainquit)

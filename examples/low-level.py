@@ -6,6 +6,8 @@
 #
 # Alif Wahid, March 2003.
 
+import sys
+
 import gtk
 import gtk.gdk
 import gtk.gdkgl
@@ -44,7 +46,8 @@ class LowLevelDemo (object):
 		self.win = gtk.Window()
 		self.win.set_title('low-level')
 		self.win.set_colormap(self.glconfig.get_colormap())
-		self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
+		if sys.platform != 'win32':
+			self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 		self.win.set_reallocate_redraws(gtk.TRUE)
 
 		# In the low-level.c program you'll find that the

@@ -1,3 +1,16 @@
+2003-04-27  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/gears-func.py: 
+	* examples/gears-darea.py: 
+	* examples/teapot.py: 
+	* examples/teapot2.py (TeapotWindow.__init__): 
+	* examples/low-level.py (LowLevelDemo.__init__): 
+	* examples/simple.py (SimpleDemo.__init__): 
+	* examples/simple-mixed.py (SimpleMixedDemo.__init__): 
+	* examples/pixmap.py (PixmapDemo.__init__): 
+	* examples/pixmap-mixed.py (PixmapMixedDemo.__init__): Don't set
+	resize_mode RESIZE_IMMEDIATE on Win32.
+
 2003-04-26  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* gtk/gdkgl/gdkglext.defs (gdk_gl_context_destroy)

@@ -6,6 +6,8 @@ Conversion from gtk.gl module to PyGtkGLExt by Naofumi Yasufuku.
 Implemented an object oriented structure by Alif Wahid.
 '''
 
+import sys
+
 from gtk.gtkgl.apputils import *
 
 # Implement the GLScene interface
@@ -97,7 +99,8 @@ class TeapotWindow (gtk.Window):
 
 		# Set self attfibutes.
 		self.set_title('Teapot')
-		self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
+		if sys.platform != 'win32':
+			self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 		self.set_reallocate_redraws(gtk.TRUE)
 		self.connect('destroy', lambda quit: gtk.main_quit())
 
