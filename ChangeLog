@@ -1,9 +1,30 @@
+2003-05-01  Alif Wahid  <awah005@users.sourceforge.net>
+
+	BUG FIXES
+
+	* examples/Makefile.am: added the two texturemap images
+	for NeHe6Multi.py example program, that's Wall.png and
+	NeHe.png. They didn't get packaged	with the official
+	source tarball release of 0.0.3 since I forgot to add
+	them to this Makefile.am initially.
+
+	* examples/Shapes.py (ShapesWindow.changeColourBg):
+	Fixed a rather serious un-noticed bug by making sure all
+	OpenGL calls were made while having a valid context! There
+	are also changes to the Shapes.display method due to this.
+
+	CLEAN UP
+
+	* examples/Shapes.py (ShapesWindow.__init__): Don't set
+	resize_mode RESIZE_IMMEDIATE on Win32 and got rid of
+	redundant FIXME notes.
+
 2003-05-01  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
-	* examples/teapot2.py (TeapotWindow.__init__): 
-	* examples/Shapes.py (ShapesWindow.__init__): 
-	* examples/SimpleScene.py: 
-	* examples/MoveLight.py: 
+	* examples/teapot2.py (TeapotWindow.__init__):
+	* examples/Shapes.py (ShapesWindow.__init__):
+	* examples/SimpleScene.py:
+	* examples/MoveLight.py:
 	* examples/NeHe6Multi.py: Add gtk.gdkgl.MODE_DEPTH to the default
 	display mode.
 

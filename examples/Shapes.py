@@ -20,6 +20,8 @@ pygtk.require('2.0')
 from gtk.gtkgl.apputils import *
 from OpenGL.GLE import *
 
+import sys
+
 # Implement the GLScene interface
 # to have a shape rendered.
 
@@ -157,7 +159,12 @@ class Shapes (GLScene):
 		glEnable(GL_COLOR_MATERIAL)
 
 	def display (self, width, height):
+		# Set the background colour first as the user has
+		# the option of changing it, so we need to take that
+		# into account during every expose event.
+		glClearColor(self.colourBg[0], self.colourBg[1], self.colourBg[2], 0.0)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+		
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
 		glTranslatef(0.0, 0.0, -self.depth)
@@ -165,7 +172,9 @@ class Shapes (GLScene):
 		glRotate(self.roty, 0, 1, 0)
 		glRotate(self.rotz, 0, 0, 1)
 
-		# Set colour for the shape and draw.
+		# Set the foreground colour as the user has
+		# the option of changing it, so we need to take that
+		# into account during every expose event.
 		glColor(self.colourFg)
 		self.__drawShape[self.currentShape]()
 
@@ -225,11 +234,8 @@ class ShapesWindow (gtk.Window):
 		self.set_title('Shapes')
 		self.set_position(gtk.WIN_POS_CENTER_ALWAYS)
 		self.connect('destroy', lambda quit: gtk.main_quit())
-		#*** FIXME NOTE***
-		#*
-		#* self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-		#*
-		#*** FIXME See below in line 321 ***
+		if sys.platform != 'win32':
+			self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
 		self.set_reallocate_redraws(gtk.TRUE)
 
 		# Create the table that will hold everything.
@@ -336,24 +342,6 @@ class ShapesWindow (gtk.Window):
 
 		# This is the option menu that lets the
 		# user change the shape.
-
-		# *** FIXME NOTE***
-		# *
-		# * This OptionMenu doesn't seem to
-		# * display the name of the current
-		# * shape after the very first time
-		# * it's created and displayed. Once
-		# * the window is resized (configured)
-		# * it seems to display then but goes
-		# * blank again after it's changed.
-		# *
-		# * The cause of this bug is line 220
-		# * above, which is commented out. The
-		# * call to gtk.Container.set_resize_mode
-		# * does something weird on my Windows
-		# * XP machine to cause this.
-		# *
-		# *** FIXME START***
 		self.shapeMenu = gtk.Menu()
 		for shape in self.shape.availableShapes:
 			item = gtk.MenuItem(shape)
@@ -366,7 +354,6 @@ class ShapesWindow (gtk.Window):
 		self.shapeOptions.connect('changed', self.shapeChanged)
 		self.shapeOptions.show()
 		self.fbox2.pack_start(self.shapeOptions, expand=gtk.TRUE, padding=5)
-		# *** FIXME FINISH***
 
 		self.solidButton = gtk.CheckButton('Solid Shape')
 		self.solidButton.connect('toggled', self.shapeSolidityToggled)
@@ -392,12 +379,6 @@ class ShapesWindow (gtk.Window):
 		if response == gtk.RESPONSE_OK:
 			colour = colorsel.get_current_color()
 			self.shape.colourBg = [colour.red/65535.0, colour.green/65535.0, colour.blue/65535.0]
-			# Here it's essential to call the 'realize'
-			# method of the scene as we've just changed a
-			# state of OpenGL, thus we have to make sure
-			# that this change of state is realized first
-			# before 'exposing' the scene.
-			self.shape.init()
 			self.glarea.queue_draw()
 
 		dialog.destroy()

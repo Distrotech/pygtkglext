@@ -16,5 +16,7 @@ EXTRA_DIST = \
 	pixmap-mixed.py 	\
 	simple.py		\
 	simple-mixed.py	\
-	color.py
+	color.py			\
+	Wall.png			\
+	NeHe.png
 
