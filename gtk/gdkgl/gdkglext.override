@@ -20,7 +20,9 @@
 headers
 #include <Python.h>
 
+#define NO_IMPORT_PYGOBJECT
 #include <pygobject.h>
+#define NO_IMPORT_PYGTK
 #include <pygtk/pygtk.h>
 
 #include <gdk/gdk.h>

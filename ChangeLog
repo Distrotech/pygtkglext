@@ -1,3 +1,12 @@
+2003-08-01  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/gdkglext.override: 
+	* gtk/gtkgl/gtkglext.override: Define NO_IMPORT_PYGOBJECT before
+	#include <pygobject.h>. Define NO_IMPORT_PYGTK before #include
+	<pygtk/pygtk.h>.
+
+	* dsextras.py: Updated to the latest PyGTK version of dsextras.py.
+
 2003-07-19  Alif Wahid  <awah005@users.sourceforge.net>
 
 	* examples/button.py: New example program added. Mapped
