@@ -10,12 +10,11 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.gtkgl
-import gtk.gdkgl
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-import sys, string
+import sys
 
 # Due to the low level nature of this
 # program, I think aggregating Gtk
@@ -29,9 +28,6 @@ class ShareListsDemo(object):
         self.display_mode = gtk.gdkgl.MODE_RGB    | \
                             gtk.gdkgl.MODE_DEPTH  | \
                             gtk.gdkgl.MODE_DOUBLE
-
-        # Query the OpenGL extension version.
-        print "OpenGL extension version - %d.%d\n" % gtk.gdkgl.query_version()
 
         # Try to create a double buffered framebuffer,
         # if not successful then create a single
@@ -132,16 +128,8 @@ class ShareListsDemo(object):
         glcontext = widget.get_gl_context()
         gldrawable = widget.get_gl_drawable()
 
-        # GL calls
-        if not gldrawable.gl_begin(glcontext): return
-
         # OpenGL begin.
-        print "GL_VENDOR\t= %s" % (glGetString(GL_VENDOR))
-        print "GL_RENDERER\t= %s" % (glGetString(GL_RENDERER))
-        print "GL_VERSION\t= %s" % (glGetString(GL_VERSION))
-        print "GL_EXTENSIONS\t="
-        for extension in (string.split(glGetString(GL_EXTENSIONS))):
-            print "\t\t%s" % (extension)
+        if not gldrawable.gl_begin(glcontext): return
 
         # Create display list #1.
         qobj = gluNewQuadric()

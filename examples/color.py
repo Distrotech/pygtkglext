@@ -10,13 +10,11 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.gtkgl
-import gtk.gdkgl
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import sys 
-import string
 
 class ColorManagementDemo(object):
     def __init__(self):
@@ -108,16 +106,8 @@ class ColorManagementDemo(object):
         glcontext = widget.get_gl_context()
         gldrawable = widget.get_gl_drawable()
 
-        # GL calls
-        if not gldrawable.gl_begin(glcontext): return
-
         # OpenGL begin.
-        print "GL_VENDOR\t= %s" % (glGetString(GL_VENDOR))
-        print "GL_RENDERER\t= %s" % (glGetString(GL_RENDERER))
-        print "GL_VERSION\t= %s" % (glGetString(GL_VERSION))
-        print "GL_EXTENSIONS\t="
-        for extension in (string.split(glGetString(GL_EXTENSIONS))):
-            print "\t\t%s" % (extension)
+        if not gldrawable.gl_begin(glcontext): return
 
         glClearColor(0.0, 0.0, 0.0, 0.0)
         

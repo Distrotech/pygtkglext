@@ -14,8 +14,7 @@ import gtk.gdkgl
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-import sys
-import gc
+import sys, string, gc
 
 # Due to the low level nature of this
 # program, I think aggregating Gtk
@@ -121,9 +120,11 @@ class LowLevelDemo(object):
         self.button.show()
     
     def __realize(self, widget):
+        # Add OpenGL API support to widget.window
+        gtk.gdkgl.ext(widget.window)
         # Add OpenGL-capability to widget.window, and get the OpenGL drawable.
-        self.gldrawable = gtk.gdkgl.window_set_gl_capability(widget.window,
-                                                             self.glconfig)
+        self.gldrawable = widget.window.set_gl_capability(self.glconfig)
+        
         # Then create an OpenGL rendering context.
         if not self.glcontext:
             self.glcontext = gtk.gdkgl.Context(self.gldrawable,
@@ -141,6 +142,13 @@ class LowLevelDemo(object):
             return
         
         # OpenGL begin.
+
+        print "GL_VENDOR\t= %s" % (glGetString(GL_VENDOR))
+        print "GL_RENDERER\t= %s" % (glGetString(GL_RENDERER))
+        print "GL_VERSION\t= %s" % (glGetString(GL_VERSION))
+        print "GL_EXTENSIONS\t="
+        for extension in (string.split(glGetString(GL_EXTENSIONS))):
+            print "\t\t%s" % (extension)
         
         light_diffuse = [1.0, 0.0, 0.0, 1.0]
         light_position = [1.0, 1.0, 1.0, 0.0]
@@ -212,7 +220,7 @@ class LowLevelDemo(object):
     
     def __unrealize(self, widget):
         # Remove OpenGL-capability from widget.window
-        gtk.gdkgl.window_unset_gl_capability(widget.window)
+        widget.window.unset_gl_capability()
         # Destroy rendering context
         self.glcontext = None
         gc.collect()

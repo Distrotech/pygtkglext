@@ -7,7 +7,6 @@
 # Alif Wahid, March 2003.
 
 import sys
-import string
 
 import pygtk
 pygtk.require('2.0')

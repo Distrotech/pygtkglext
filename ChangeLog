@@ -1,5 +1,13 @@
 2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* examples/low-level.py: 
+	* examples/color.py: 
+	* examples/share-lists.py: Removed unnecessary code.
+
+	* examples/coolwave.py: import pygtk.
+
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
 	* gtk/gtkgl/apputils.py (GLScene*): Subclassing from built-in
 	object.
 	(GLArea.__button_press_event, GLArea.__button_release_event): Do

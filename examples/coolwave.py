@@ -11,7 +11,9 @@
 # Alif Wahid, <awah005@users.sourceforge.net>
 # August 2003.
 
-import math, array
+import pygtk
+pygtk.require('2.0')
+from gtk.gtkgl.apputils import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -20,10 +22,7 @@ try:
 except:
     from OpenGL.GL.EXT.polygon_offset import *
 
-import gtk
-import gtk.gtkgl
-
-from gtk.gtkgl.apputils import *
+import math, array
 
 # Some constants.
 MAXGRID = 64
