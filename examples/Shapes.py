@@ -27,10 +27,10 @@ import sys
 
 class Shapes(GLScene):
     def __init__(self):
-        self.light_ambient =  [0.0, 1.0, 0.0, 1.0]
-        self.light_diffuse =  [1.0, 1.0, 1.0, 1.0]
-        self.light_specular =  [1.0, 1.0, 1.0, 1.0]
-        self.light_position =  [1.0, 1.0, 1.5, 0.0]
+        self.light_ambient = [0.0, 1.0, 0.0, 1.0]
+        self.light_diffuse = [1.0, 1.0, 1.0, 1.0]
+        self.light_specular = [1.0, 1.0, 1.0, 1.0]
+        self.light_position = [1.0, 1.0, 1.5, 0.0]
         
         self.mat_ambient = [0.2, 0.2, 0.2, 1.0]
         self.mat_diffuse = [0.8, 0.8, 0.8, 1.0]

@@ -60,11 +60,11 @@ from gtk.gtkgl.apputils import *
 
 class Simple(GLScene):
     def __init__(self):
-        self.light_ambient =  [0.0, 0.0, 0.0, 1.0]
-        self.light_diffuse =  [1.0, 1.0, 1.0, 1.0]
-        self.light_specular =  [1.0, 1.0, 1.0, 1.0]
+        self.light_ambient = [0.0, 0.0, 0.0, 1.0]
+        self.light_diffuse = [1.0, 1.0, 1.0, 1.0]
+        self.light_specular = [1.0, 1.0, 1.0, 1.0]
         # light_position is NOT default value
-        self.light_position =  [1.0, 1.0, 1.0, 0.0]
+        self.light_position = [1.0, 1.0, 1.0, 0.0]
     
     #  Initialize material property, light source,
     # lighting model, and depth buffer.

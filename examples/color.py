@@ -86,8 +86,8 @@ class ColorManagementDemo(object):
                                        render_type=self.render_type)
         glarea.set_size_request(200, 200)
         glarea.connect_after('realize', self.__realize)
-        glarea.connect('configure_event', self.__configure)
-        glarea.connect('expose_event', self.__expose)
+        glarea.connect('configure_event', self.__configure_event)
+        glarea.connect('expose_event', self.__expose_event)
         vbox.pack_start(glarea)
         glarea.show()
         
@@ -112,7 +112,7 @@ class ColorManagementDemo(object):
         # OpenGL end
         gldrawable.gl_end()
     
-    def __configure(self, widget, event):
+    def __configure_event(self, widget, event):
         # Get GLContext and GLDrawable
         glcontext = widget.get_gl_context()
         gldrawable = widget.get_gl_drawable()
@@ -129,7 +129,7 @@ class ColorManagementDemo(object):
         
         return gtk.TRUE
     
-    def __expose(self, widget, event):
+    def __expose_event(self, widget, event):
         # Get GLContext and GLDrawable
         glcontext = widget.get_gl_context()
         gldrawable = widget.get_gl_drawable()

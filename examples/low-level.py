@@ -108,8 +108,8 @@ class LowLevelDemo(object):
         self.glarea.set_events(gtk.gdk.EXPOSURE_MASK | \
                                gtk.gdk.BUTTON_PRESS_MASK)
         self.glarea.connect_after('realize', self.__realize)
-        self.glarea.connect('configure_event', self.__configure)
-        self.glarea.connect('expose_event', self.__expose)
+        self.glarea.connect('configure_event', self.__configure_event)
+        self.glarea.connect('expose_event', self.__expose_event)
         self.glarea.connect('unrealize', self.__unrealize)
         self.glarea.connect('destroy', self.__print_msg)
         self.vbox.pack_start(self.glarea)
@@ -122,7 +122,7 @@ class LowLevelDemo(object):
         self.button.show()
     
     def __realize(self, widget):
-        # We have to realize an OpenGL drawable.
+        # Add OpenGL-capability to widget.window, and get the OpenGL drawable.
         self.gldrawable = gtk.gdkgl.window_set_gl_capability(widget.window,
                                                              self.glconfig)
         # Then create an OpenGL rendering context.
@@ -176,7 +176,7 @@ class LowLevelDemo(object):
         
         # OpenGL end
     
-    def __configure(self, widget, event):
+    def __configure_event(self, widget, event):
         # GtkDrawingArea sends a configure event
         # when it's being realized. So we'll
         # wait till it's been fully realized.
@@ -193,7 +193,7 @@ class LowLevelDemo(object):
         
         return gtk.TRUE
     
-    def __expose(self, widget, event):
+    def __expose_event(self, widget, event):
         if not self.gldrawable.make_current(self.glcontext):
             return gtk.FALSE
         
@@ -212,9 +212,8 @@ class LowLevelDemo(object):
         return gtk.TRUE
     
     def __unrealize(self, widget):
-        # Unrealize the OpenGL visual.
-        if widget.window:
-            gtk.gdkgl.window_unset_gl_capability(widget.window)
+        # Remove OpenGL-capability from widget.window
+        gtk.gdkgl.window_unset_gl_capability(widget.window)
     
     def __print_msg(self, widget):
         print "Destroying %s" % (widget.get_name())

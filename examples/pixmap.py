@@ -108,8 +108,8 @@ class PixmapDemo(object):
         self.glarea.set_double_buffered(gtk.FALSE)
         self.glarea.set_events(gtk.gdk.EXPOSURE_MASK | \
                                gtk.gdk.BUTTON_PRESS_MASK)
-        self.glarea.connect('configure_event', self.__configure)
-        self.glarea.connect('expose_event', self.__expose)
+        self.glarea.connect('configure_event', self.__configure_event)
+        self.glarea.connect('expose_event', self.__expose_event)
         self.glarea.connect('destroy', self.__print_msg)
         self.vbox.pack_start(self.glarea)
         self.glarea.show()
@@ -155,7 +155,7 @@ class PixmapDemo(object):
         
         # OpenGL end
     
-    def __configure(self, widget, event):
+    def __configure_event(self, widget, event):
         # We have to realize an offscreen OpenGL drawable.
         width, height = widget.window.get_size()
         self.pixmap = gtk.gdk.Pixmap(widget.window, width, height,
@@ -198,7 +198,7 @@ class PixmapDemo(object):
         
         return gtk.TRUE
     
-    def __expose(self, widget, event):
+    def __expose_event(self, widget, event):
         # The expose function is rather trivial
         # since we only have to copy the pixmap
         # onto the onscreen drawable (gdk.Window).

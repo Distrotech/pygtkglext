@@ -66,8 +66,8 @@ class SimpleMixedDemo(object):
         self.glarea.set_events(gtk.gdk.EXPOSURE_MASK | \
                                gtk.gdk.BUTTON_PRESS_MASK)
         self.glarea.connect_after('realize', self.__realize)
-        self.glarea.connect('configure_event', self.__configure)
-        self.glarea.connect('expose_event', self.__expose)
+        self.glarea.connect('configure_event', self.__configure_event)
+        self.glarea.connect('expose_event', self.__expose_event)
         self.glarea.connect('destroy', self.__print_msg)
         self.vbox.pack_start(self.glarea)
         self.glarea.show()
@@ -124,7 +124,7 @@ class SimpleMixedDemo(object):
         
         gldrawable.gl_end()
     
-    def __configure(self, widget, event):
+    def __configure_event(self, widget, event):
         # Obtain a reference to the OpenGL drawable
         # and rendering context.
         gldrawable = gtk.gtkgl.widget_get_gl_drawable(widget)
@@ -144,7 +144,7 @@ class SimpleMixedDemo(object):
         
         return gtk.TRUE
     
-    def __expose(self, widget, event):
+    def __expose_event(self, widget, event):
         # Obtain a reference to the OpenGL drawable
         # and rendering context.
         gldrawable = gtk.gtkgl.widget_get_gl_drawable(widget)
