@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 
-# A simple example to demonstrate the use of PyGtkGLExt library.
-# This program is functionally equivalent to the PyGtk program
-# scribble.py except all the drawing here is done using OpenGL.
-# Hence the name scribble-gl.py.
-#
-# Alif Wahid, <awah005@users.sourceforge.net>
-# May 2003.
+'''
+scribble-gl.py
+
+A simple example to demonstrate the use of PyGtkGLExt library.
+This program is functionally equivalent to the PyGtk program
+scribble.py except all the drawing here is done using OpenGL.
+Hence the name scribble-gl.py.
+
+Alif Wahid, <awah005@users.sourceforge.net>
+August 2003.
+'''
 
 import gc
 
@@ -17,100 +21,65 @@ import gtk.gtkgl
 
 from gtk.gtkgl.apputils import *
 
-# Implement the GLScene interface to
-# render the Scribble scene in this case.
-class Scribble (GLScene):
+from scribble import Scribble
+
+
+class ScribbleGLDemo (gtk.Window):
+	''' A window enabling the user to
+	scribble on a white background.
+	'''
 	def __init__ (self):
-		GLScene.__init__(self)
+		gtk.Window.__init__(self)
 
-		# The list of brush strokes to be drawn. The coordinates are
-		# the centre of each brush stroke drawn along with the thickness,
-		# in the form of (x,y,thickness).
-		self.brushStrokeList = []
+		# Some gtk.Window properties.
+		self.set_title('Scribble-GL')
+		self.set_position(gtk.WIN_POS_CENTER)
+		self.set_border_width(5)
+		self.connect("destroy", self.__quit_cb)
 
-		# The thickness can be adjusted by the user.
-		self.thickness = 5
+		# A VBox to pack everything.
+		self.vbox = gtk.VBox(spacing=3)
+		self.vbox.show()
+		self.add(self.vbox)
 
-	def init (self):
-		# Set the background colour to white.
-		glClearColor(1.0, 1.0, 1.0, 1.0)
-		glClearDepth(1.0)
+		# The Scribble scene and the GLArea
+		# widget to display it.
+		self.scene = Scribble()
+		self.glarea = GLArea(self.scene)
+		self.glarea.set_size_request(250,200)
+		self.glarea.enable_button_events()
+		self.glarea.enable_button_motion_events()
+		self.vbox.pack_start(self.glarea)
+		self.glarea.show()
 
-	def display (self, width, height):
-		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+		# A button for clearing the screen.
+		self.cls_button = gtk.Button("Clear Screen")
+		self.vbox.pack_start(self.cls_button, expand=gtk.FALSE, fill=gtk.FALSE)
+		self.cls_button.connect("clicked", self.__clear_screen)
+		self.cls_button.show()
 
-		# Set the foreground colour to black.
-		glColor3f(0.0, 0.0, 0.0)
+		# A quit button.
+		self.quit_button = gtk.Button("Quit")
+		self.vbox.pack_start(self.quit_button, expand=gtk.FALSE, fill=gtk.FALSE)
+		self.quit_button.connect("clicked", lambda quit: self.destroy())
+		self.quit_button.show()
 
-		# Draw the complete list of brush strokes.
-		for coord in self.brushStrokeList:
-			# Draw a rectangle as the brush stroke.
-			glRecti(coord[0]+coord[2], coord[1]-coord[2], coord[0]-coord[2], coord[1]+coord[2])
-
-	def reshape (self, width, height):
-		# At every reshape, reallocate the brush stroke list.
-		# So just resize the window if you need to clear the scene.
-		self.brushStrokeList = None
+	def __quit_cb (self, object):
+		gtk.main_quit()
 		gc.collect()
-		self.brushStrokeList = []
 
-		# Handle the OpenGL viewport resizing.
-		glViewport (0, 0, width, height)
-		glMatrixMode (GL_PROJECTION)
-		glLoadIdentity ()
-		glOrtho (0.0, width, 0.0, height, -1.0, 1.0)
-		glMatrixMode (GL_MODELVIEW)
-		glLoadIdentity ()
+	def __clear_screen (self, widget):
+		self.scene.clear_all_brush_strokes()
+		self.glarea.queue_draw()
 
-
-	# It's necessary to realise that the following methods are
-	# not allowed to call OpenGL commands directly as they don't
-	# hold a valid OpenGL rendering context. These methods are used
-	# to capture user-interaction data only and then the above methods
-	# will do the actual rendering based on the captured data.
-
-	def key_press (self, width, height, event):
-		pass
-
-	def key_release (self, width, height, event):
-		pass
-
-	def button_release (self, width, height, event):
-		pass
-
-	def button_press (self, width, height, event):
-		# On left mouse button click, append one brush stroke
-		# that needs to be drawn.
-		if event.button == 1:
-			point = (event.x, height-event.y, self.thickness)
-			self.brushStrokeList.append(point)
-			self.queue_draw()	# Update/render the scene drawable.
-
-	def motion (self, width, height, event):
-		# Append subsequent strokes to the list due to drag motion.
-		if event.state & gtk.gdk.BUTTON1_MASK:
-			point = (event.x, height-event.y, self.thickness)
-			self.brushStrokeList.append(point)
-			self.queue_draw()	# Update/render the scene drawable.
-
-	def idle (self, width, height):
-		pass
+	def run (self):
+		self.show()
+		gtk.main()
 
 
 if __name__ == '__main__':
 	# Add MODE_DEPTH to the default display mode
 	GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
 
-	glscene = Scribble()
-
-	glapp = GLApplication(glscene)
-	glapp.set_size_request(200, 200)
-	glapp.set_title('Scribble GL')
-
-	#glapp.enable_key_events()
-	glapp.enable_button_events()
-	glapp.enable_button_motion_events()
-	#glapp.enable_pointer_motion_events()
-	#glapp.enable_idle()
-
+	glapp = ScribbleGLDemo()
 	glapp.run()

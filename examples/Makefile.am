@@ -20,6 +20,8 @@ EXTRA_DIST = \
 	NeHe6Multi.py		\
 	scribble-gl.py		\
 	button.py		\
+	scribble.py		\
+	scribbling-worms.py		\
 	Wall.png		\
 	NeHe.png
 

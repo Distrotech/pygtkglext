@@ -1,3 +1,23 @@
+2003-08-4  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* AUTHORS (scribble.py):
+	* examples/Makefile.am (scribble.py):
+	* examples/scribble-gl.py:
+	* examples/scribble.py: The previous example scribble-gl.py
+	has been split into scribble.py and scribble-gl.py to separate
+	out the OpenGL parts from Gtk parts completely. Thus scribble.py
+	is fully modular and can be used in other programs now. The
+	Scribble class resides in scribble.py while the ScribbleGLDemo
+	class resides in scribble-gl.py
+
+	* AUTHORS (scribbling-worms.py)
+	* examples/Makefile.am (scribbling-worms.py):
+	* examples/scribbling-worms.py: New example program to
+	test multi-threading with PyGtkGLExt. Uses the scribble.py
+	module to draw scribble strokes from multiple threads in
+	an autonomous manner and lets the user scribble at the
+	same time too.
+
 2003-08-3  Alif Wahid  <awah005@users.sourceforge.net>
 
 	* configure.in (pygtk_required_version):
