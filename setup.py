@@ -14,7 +14,7 @@ from dsextras import BuildExt, InstallLib, PkgConfigExtension
 from dsextras import Template, TemplateExtension
 
 MAJOR_VERSION = 0
-MINOR_VERSION = 1
+MINOR_VERSION = 99
 MICRO_VERSION = 0
 
 VERSION = "%d.%d.%d" % (MAJOR_VERSION,

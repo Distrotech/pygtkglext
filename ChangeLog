@@ -1,6 +1,8 @@
 2003-05-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
-	* configure.in: Require GtkGLExt 1.0.0.
+	* Version 0.99.0
+
+	* configure.in: Bumped version. Require GtkGLExt 1.0.0.
 
 2003-05-12  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
