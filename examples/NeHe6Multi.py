@@ -1,10 +1,13 @@
 #!/usr/bin/env python2.2
 
-import sys
-
+import pygtk
+pygtk.require('2.0')
 from gtk.gtkgl.apputils import *
+
 from OpenGL.GL.ARB.multitexture import *
+
 from math import *
+import sys
 
 '''
 Ported to PyGtk and PyGtkGLExt by Alif Wahid, 16 March, 2003.

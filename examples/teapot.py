@@ -5,13 +5,15 @@
 # Conversion from gtk.gl module to PyGtkGLExt by Naofumi Yasufuku
 #
 
-import sys
-
+import pygtk
+pygtk.require('2.0')
 import gtk
 import gtk.gtkgl
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
+
+import sys
 
 rotx = 0
 roty = 0

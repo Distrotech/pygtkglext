@@ -58,6 +58,8 @@ Converted to Python 6/2000 by Jason Petrone <jp@demonseed.net>
  */
 '''
 
+import pygtk
+pygtk.require('2.0')
 from gtk.gtkgl.apputils import *
 
 # Implement the GLScene interface

@@ -9,15 +9,15 @@
 #
 # Alif Wahid, March 2003.
 
-import sys
-
+import pygtk
+pygtk.require('2.0')
 import gtk
-import gtk.gdk
 import gtk.gtkgl
-import gtk.gdkgl
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
+
+import sys
 
 class PixmapMixedDemo (object):
 	def __init__ (self):

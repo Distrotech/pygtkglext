@@ -51,6 +51,8 @@ Converted to Python by Jason Petrone(jp@demonseed.net) 8/2000
 
 '''
 
+import pygtk
+pygtk.require('2.0')
 from gtk.gtkgl.apputils import *
 
 # Implement the GLScene interface

@@ -8,14 +8,15 @@
 # A translation of the gears demo that comes with mesa, modified to use
 # a few GtkHScale widgets for the rotation, rather than the keyboard.
 
-import sys
-
-import gobject
+import pygtk
+pygtk.require('2.0')
 import gtk
 import gtk.gtkgl
 
 from OpenGL.GL import *
+
 import math
+import sys
 
 # Draw a gear wheel.  You'll probably want to call this function when
 # building a display list since we do a lot of trig here.

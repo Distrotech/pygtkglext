@@ -6,9 +6,11 @@ Conversion from gtk.gl module to PyGtkGLExt by Naofumi Yasufuku.
 Implemented an object oriented structure by Alif Wahid.
 '''
 
-import sys
-
+import pygtk
+pygtk.require('2.0')
 from gtk.gtkgl.apputils import *
+
+import sys
 
 # Implement the GLScene interface
 # to have a teapot rendered.

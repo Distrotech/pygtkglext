@@ -6,9 +6,9 @@
 #
 # Alif Wahid, March 2003.
 
-import gobject
+import pygtk
+pygtk.require('2.0')
 import pango
-
 from gtk.gtkgl.apputils import *
 
 # Implement the GLScene interface

@@ -1,5 +1,7 @@
 2003-04-27  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* examples/*.py: Check required PyGTK version.
+
 	* examples/gears-func.py: 
 	* examples/gears-darea.py: 
 	* examples/teapot.py: 
