@@ -119,7 +119,7 @@ class LowLevelDemo (object):
 		# We have to realize an OpenGL drawable.
 		self.gldrawable = gtk.gdkgl.window_set_gl_capability(widget.window,
 												   self.glconfig)
-          # Then create an OpenGL rendering context.
+		# Then create an OpenGL rendering context.
 		if not self.glcontext:
 			self.glcontext = gtk.gdkgl.Context(self.gldrawable,
 									     None,
