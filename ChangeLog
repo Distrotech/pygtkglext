@@ -1,4 +1,4 @@
-2003-04-04  Alif Wahid	<awah005@users.sourceforge.net>
+2003-04-13 Alif Wahid	<awah005@users.sourceforge.net>
 
 	* setup.py.in: Win32 build fix to take account of GCC version
 
