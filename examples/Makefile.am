@@ -4,13 +4,13 @@
 EXTRA_DIST = \
 	gears-func.py		\
 	gears-darea.py		\
-	teapot.py		\
+	teapot.py			\
 	SimpleScene.py		\
 	MoveLight.py		\
 	teapot2.py		\
-	Shapes.py		\
-	NeHe6Multi.py	\
-	font.py	\
-	low-level.py	\
+	Shapes.py			\
+	NeHe6Multi.py		\
+	font.py			\
+	low-level.py		\
 	pixmap.py
 
