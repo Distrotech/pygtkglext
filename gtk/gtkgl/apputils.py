@@ -120,6 +120,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         self.glscene.glarea = self;
 
         self.__enable_timeout = gtk.FALSE
+        self.__timeout_interval = self.default_timeout_interval
         self.__timeout_id = 0
 
         self.__enable_idle = gtk.FALSE
@@ -163,8 +164,10 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
     def enable_pointer_motion_events(self):
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
 
-    def enable_timeout(self):
+    def enable_timeout(self, interval=None):
         self.__enable_timeout = gtk.TRUE
+        if interval:
+        	self.__timeout_interval = interval
 
     def enable_idle(self):
         self.__enable_idle = gtk.TRUE
@@ -280,7 +283,9 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """Add timeout function.
         """
         if self.__timeout_id == 0:
-            self.__timeout_id = gtk.timeout_add(self.default_timeout_interval, self.__timeout, self)
+            self.__timeout_id = gtk.timeout_add(self.__timeout_interval,
+			                                    self.__timeout,
+												self)
 
     def timeout_remove(self):
         """Remove timeout function.
@@ -400,9 +405,8 @@ class GLApplication(gtk.Window):
     def enable_idle(self):
         self.glarea.enable_idle()
 
-    def enable_timeout(self, interval=GLArea.default_timeout_interval):
-        GLArea.default_timeout_interval = interval
-        self.glarea.enable_timeout()
+    def enable_timeout(self, interval=None):
+        self.glarea.enable_timeout(interval)
 
     def run(self):
         self.add(self.glarea)

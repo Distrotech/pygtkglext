@@ -136,7 +136,7 @@ class ButtonDemo (gtk.Window):
 		self.glarea.show()
 
         # Enable the timeout callback for animation.
-		self.glarea.enable_timeout()
+		self.glarea.enable_timeout(10)
 
         # A label to accompany the bouncing torus.
 		self.label = gtk.Label('Toggle Animation')
@@ -167,8 +167,5 @@ class ButtonDemo (gtk.Window):
 
 
 if __name__ == '__main__':
-	# override the default timeout interval of GLArea.
-	GLArea.default_timeout_interval = 10
-
 	glapp = ButtonDemo()
 	glapp.run()

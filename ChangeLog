@@ -1,3 +1,13 @@
+2003-08-6  Alif Wahid  <awah005@users.sourceforge.net>
+
+	* gtk/gtkgl/apputils.py: Fixed timeout function management code
+	to ensure per instance timeout intervals for the GLArea class are
+	used as noted by Naofumi. Thanks Naofumi.
+
+	* examples/button.py (ButtonDemo.glarea.enable_timeout):
+	Updated to reflect	the above changes in the
+	gtk.gtkgl.apputils module.
+
 2003-08-5  Alif Wahid  <awah005@users.sourceforge.net>
 
 	* gtk/gtkgl/apputils.py: Added timeout callback facility
