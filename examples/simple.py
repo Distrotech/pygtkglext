@@ -6,6 +6,11 @@
 #
 # Alif Wahid, March 2003.
 
+#
+# Rewritten in object-oriented style.
+# --Naofumi
+#
+
 import sys
 
 import pygtk
@@ -16,145 +21,93 @@ import gtk.gtkgl
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-# Due to the low level nature of this
-# program, I think aggregating Gtk
-# classes is a better idea rather
-# than inheriting. This class is really
-# intended to provide a namespace rather
-# than an object heirarchy.
+# Create OpenGL-capable gtk.DrawingArea by subclassing
+# gtk.gtkgl.Widget mixin.
 
-class SimpleDemo(object):
+class SimpleDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
+    """OpenGL drawing area for simple demo."""
 
-    def __init__(self):
-        self.glconfig = None
-        
-        self.display_mode = gtk.gdkgl.MODE_RGB    | \
-                            gtk.gdkgl.MODE_DEPTH  | \
-                            gtk.gdkgl.MODE_DOUBLE
-        
-        # Query the OpenGL extension version.
-        print "OpenGL extension version - %d.%d\n" % gtk.gdkgl.query_version()
-        
-        # Try to create a double buffered framebuffer,
-        # if not successful then try to create a single
-        # buffered one.
-        try:
-            self.glconfig = gtk.gdkgl.Config(mode=self.display_mode)
-        except gtk.gdkgl.NoMatches:
-            self.display_mode &= ~gtk.gdkgl.MODE_DOUBLE
-            self.glconfig = gtk.gdkgl.Config(mode=self.display_mode)
-        
-        # Create the window for the app.
-        self.win = gtk.Window()
-        self.win.set_title('simple')
-        if sys.platform != 'win32':
-            self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.win.set_reallocate_redraws(gtk.TRUE)
-        self.win.connect('destroy', lambda quit: gtk.main_quit())
-        
-        # VBox to hold everything.
-        self.vbox = gtk.VBox()
-        self.vbox.connect('destroy', self.__print_msg)
-        self.win.add(self.vbox)
-        self.vbox.show()
-        
-        # DrawingArea for OpenGL rendering.
-        self.glarea = gtk.DrawingArea()
-        self.glarea.set_size_request(200, 200)
-        # Set OpenGL capability to the drawing area and
-        # connect to the relevant signals.
-        gtk.gtkgl.widget_set_gl_capability(self.glarea, self.glconfig)
-        self.glarea.connect_after('realize', self.__realize)
-        self.glarea.connect('configure_event', self.__configure_event)
-        self.glarea.connect('expose_event', self.__expose_event)
-        self.glarea.connect('destroy', self.__print_msg)
-        self.vbox.pack_start(self.glarea)
-        self.glarea.show()
-        
-        # A quit button.
-        self.button = gtk.Button('Quit')
-        self.button.connect('clicked', lambda quit: self.win.destroy())
-        self.vbox.pack_start(self.button, expand=gtk.FALSE)
-        self.button.show()
-    
-    def __realize(self, widget):
+    def __init__(self, glconfig):
+        gtk.DrawingArea.__init__(self)
+
+        # Set OpenGL-capability to the drawing area
+        self.set_gl_capability(glconfig)
+
+        # Connect the relevant signals.
+        self.connect_after('realize',   self._on_realize)
+        self.connect('configure_event', self._on_configure_event)
+        self.connect('expose_event',    self._on_expose_event)
+
+    def _on_realize(self, *args):
         # Obtain a reference to the OpenGL drawable
         # and rendering context.
-        gldrawable = gtk.gtkgl.widget_get_gl_drawable(widget)
-        glcontext = gtk.gtkgl.widget_get_gl_context(widget)
-        
-        # Make the rendering context current.
+        gldrawable = self.get_gl_drawable()
+        glcontext = self.get_gl_context()
+
+        # OpenGL begin.
         if not gldrawable.gl_begin(glcontext):
             return
-        
-        # OpenGL begin.
-        
+
         light_diffuse = [1.0, 0.0, 0.0, 1.0]
         light_position = [1.0, 1.0, 1.0, 0.0]
         qobj = gluNewQuadric()
-        
+
         gluQuadricDrawStyle(qobj, GLU_FILL)
         glNewList(1, GL_COMPILE)
         gluSphere(qobj, 1.0, 20, 20)
         glEndList()
-        
+
         glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
         glLightfv(GL_LIGHT0, GL_POSITION, light_position)
-        
+
         glEnable(GL_LIGHTING)
         glEnable(GL_LIGHT0)
         glEnable(GL_DEPTH_TEST)
-        
+
         glClearColor(1.0, 1.0, 1.0, 1.0)
         glClearDepth(1.0)
-        
+
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         gluPerspective(40.0, 1.0, 1.0, 10.0)
-        
+
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
         gluLookAt(0.0, 0.0, 3.0,
                   0.0, 0.0, 0.0,
                   0.0, 1.0, 0.0)
         glTranslatef(0.0, 0.0, -3.0)
-        
+
         # OpenGL end
-        
         gldrawable.gl_end()
-    
-    def __configure_event(self, widget, event):
+
+    def _on_configure_event(self, *args):
         # Obtain a reference to the OpenGL drawable
         # and rendering context.
-        gldrawable = gtk.gtkgl.widget_get_gl_drawable(widget)
-        glcontext = gtk.gtkgl.widget_get_gl_context(widget)
-        
-        # Make the rendering context current.
+        gldrawable = self.get_gl_drawable()
+        glcontext = self.get_gl_context()
+
+        # OpenGL begin
         if not gldrawable.gl_begin(glcontext):
             return gtk.FALSE
-        
-        # OpenGL begin
-        
-        glViewport(0, 0, widget.allocation.width, widget.allocation.height)
-        
+
+        glViewport(0, 0, self.allocation.width, self.allocation.height)
+
         # OpenGL end
-        
         gldrawable.gl_end()
-        
-        return gtk.TRUE
-    
-    def __expose_event(self, widget, event):
+
+        return gtk.FALSE
+
+    def _on_expose_event(self, *args):
         # Obtain a reference to the OpenGL drawable
         # and rendering context.
-        gldrawable = gtk.gtkgl.widget_get_gl_drawable(widget)
-        glcontext = gtk.gtkgl.widget_get_gl_context(widget)
-        
-        # Make the rendering context current.
+        gldrawable = self.get_gl_drawable()
+        glcontext = self.get_gl_context()
+
+        # OpenGL begin
         if not gldrawable.gl_begin(glcontext):
             return gtk.FALSE
-        
-        # OpenGL begin
-        
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glCallList(1)
 
@@ -162,21 +115,75 @@ class SimpleDemo(object):
             gldrawable.swap_buffers()
         else:
             glFlush()
-        
+
         # OpenGL end
-        
         gldrawable.gl_end()
-        
-        return gtk.TRUE
-    
-    def __print_msg(self, widget):
-        print "Destroying %s" % (widget.get_name())
-    
+
+        return gtk.FALSE
+
+
+class SimpleDemo(gtk.Window):
+    """Simple demo application."""
+
+    def __init__(self):
+        gtk.Window.__init__(self)
+
+        self.set_title('simple')
+        if sys.platform != 'win32':
+            self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
+        self.set_reallocate_redraws(gtk.TRUE)
+        self.connect('delete_event', gtk.mainquit)
+
+        # VBox to hold everything.
+        vbox = gtk.VBox()
+        self.add(vbox)
+
+        # Query the OpenGL extension version.
+        print "OpenGL extension version - %d.%d\n" % gtk.gdkgl.query_version()
+
+        # Configure OpenGL framebuffer.
+        # Try to get a double-buffered framebuffer configuration,
+        # if not successful then try to get a single-buffered one.
+        display_mode = (gtk.gdkgl.MODE_RGB    |
+                        gtk.gdkgl.MODE_DEPTH  |
+                        gtk.gdkgl.MODE_DOUBLE)
+        try:
+            glconfig = gtk.gdkgl.Config(mode=display_mode)
+        except gtk.gdkgl.NoMatches:
+            display_mode &= ~gtk.gdkgl.MODE_DOUBLE
+            glconfig = gtk.gdkgl.Config(mode=display_mode)
+
+        print "is RGBA:",                 glconfig.is_rgba()
+        print "is double-buffered:",      glconfig.is_double_buffered()
+        print "is stereo:",               glconfig.is_stereo()
+        print "has alpha:",               glconfig.has_alpha()
+        print "has depth buffer:",        glconfig.has_depth_buffer()
+        print "has stencil buffer:",      glconfig.has_stencil_buffer()
+        print "has accumulation buffer:", glconfig.has_accum_buffer()
+        print
+
+        # SimpleDrawingArea
+        drawing_area = SimpleDrawingArea(glconfig)
+        drawing_area.set_size_request(200, 200)
+        vbox.pack_start(drawing_area)
+
+        # A quit button.
+        button = gtk.Button('Quit')
+        button.connect('clicked', gtk.mainquit)
+        vbox.pack_start(button, expand=gtk.FALSE)
+
+
+class _Main(object):
+    """Simple application driver."""
+
+    def __init__(self, app):
+        self.app = app
+
     def run(self):
-        self.win.show()
+        self.app.show_all()
         gtk.main()
 
 
 if __name__ == '__main__':
-    app = SimpleDemo()
-    app.run()
+    _Main(SimpleDemo()).run()
+
