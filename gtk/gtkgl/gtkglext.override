@@ -1,5 +1,5 @@
 /* -*- Mode: C; c-basic-offset: 4 -*- */
-/* PyGtkGLExt - Python Binding for GtkGLExt
+/* PyGtkGLExt - Python Bindings for GtkGLExt
  * Copyright (C) 2003  Naofumi Yasufuku
  *
  * This library is free software; you can redistribute it and/or
