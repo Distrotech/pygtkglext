@@ -1,3 +1,12 @@
+2003-04-04  Alif Wahid	<awah005@users.sourceforge.net>
+
+	Fixed bug in the font.py example program, however
+	it won't be apparent yet. This is because we're waiting
+	for PyGtk to conform to the default parameter conventions
+	in the Pango API. Once PyGtk has, then some part of
+	the code will be activated manually. So for now it's
+	fixed in the background only.
+
 2003-03-30  Alif Wahid	<awah005@users.sourceforge.net>
 
 	Added new example programs. Another set of straight

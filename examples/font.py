@@ -6,13 +6,6 @@
 #
 # Alif Wahid, March 2003.
 
-# This program is very patchy currently due to couple of problematic
-# function calls that are well identified. So if anyone knows how to 
-# work around or solve those function call problems, you're more than
-# welcome to contribute. Just see the FIXME note inside the Font.init
-# method definition.
-
-
 import gobject
 import pango
 
@@ -40,17 +33,24 @@ class Font (GLScene):
 
 		# FIXME!!
 		#
-		# The get_metrics method insists upon receiving
-		# a proper pango.Language object as the argument.
-		# In C you're allowed to simply pass NULL to make
-		# it load metrics for the entire font. PyGtk does
-		# not allow that for some reason.
+		# UPDATED: 4th April, 2003.
 		#
-		# Without these two function calls we're really
-		# expecting pretty much random results.
+		# As soon as PyGtk updates to the default
+		# parameter API convention of Pango, we
+		# can just uncomment the following bits
+		# of code and then it will work! I'm not
+		# sure though how PyGtk will provide the
+		# essential PANGO_PIXELS and PANGO_SCALE
+		# macros that're available in C. So for
+		# now they are hardcoded in.
 		#
-		# fontMetrics = font.get_metrics(None)
-		# self.fontHeight = fontMetrics.get_ascent() + fontMetrics.get_descent()
+		#fontMetrics = font.get_metrics()
+		#self.fontHeight = fontMetrics.get_ascent() + fontMetrics.get_descent()
+		#scale = 1024
+		#if self.fontHeight >= 0:
+		#	self.fontHeight = (self.fontHeight + (scale / 2)) / scale
+		#else:
+		#	self.fontHeight = (self.fontHeight - (scale / 2)) / scale
 		#
 		# FIXME!!
 
