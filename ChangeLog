@@ -1,3 +1,7 @@
+2003-04-17  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* acinclude.m4 (AM_CHECK_PYTHON_HEADERS): Fixed for Win32.
+
 2003-04-16  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	Now use new versions of GNU autotools.
