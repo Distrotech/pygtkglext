@@ -334,7 +334,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
     def __timeout(self, widget):
         """Timeout callback function.
         This function invokes glscene.timeout().
-        """        
+        """
         # Call glscene.timeout()
         self.glscene.timeout(widget.allocation.width,
                              widget.allocation.height)
@@ -466,10 +466,11 @@ class GLApplication(gtk.Window):
         self.glarea.set_size_request(300, 300)
         # Register glarea's key event handlers
         self.glarea.register_key_events(self)
-
-    def run(self):
+        # Add to window & show
         self.add(self.glarea)
         self.glarea.show()
+
+    def run(self):
         self.show()
         gtk.main()
 
