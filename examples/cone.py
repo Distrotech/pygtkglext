@@ -39,7 +39,10 @@ def redraw(glarea, event=None):
 	glRotatef(roty, 0, 1, 0)
 	gtk.gdkgl.draw_cone(gtk.TRUE, 1, 2, 50, 10)
 	glPopMatrix()
-	gldrawable.swap_buffers()
+	if gldrawable.is_double_buffered():
+		gldrawable.swap_buffers()
+	else:
+		glFlush()
 
 def realise(glarea):
 	global gldrawable, glcontext
@@ -67,9 +70,15 @@ print "GLX version = %d.%d" % (major, minor)
 # configure frame buffer
 
 # use GLUT-style display mode bitmask
-glconfig = gtk.gdkgl.Config(mode = gtk.gdkgl.MODE_RGB    |
-			           gtk.gdkgl.MODE_DOUBLE |
-			           gtk.gdkgl.MODE_DEPTH)
+try:
+	# try double-buffered
+	glconfig = gtk.gdkgl.Config(mode = gtk.gdkgl.MODE_RGB    |
+				           gtk.gdkgl.MODE_DOUBLE |
+				           gtk.gdkgl.MODE_DEPTH)
+except gtk.gdkgl.NoMatches:
+	# try single-buffered
+	glconfig = gtk.gdkgl.Config(mode = gtk.gdkgl.MODE_RGB    |
+				           gtk.gdkgl.MODE_DEPTH)
 
 # use GLX-style attribute list
 #glconfig = gtk.gdkgl.Config(attrib_list = (gtk.gdkgl.RGBA,

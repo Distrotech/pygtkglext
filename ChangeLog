@@ -1,5 +1,8 @@
 2003-03-07  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* examples/*.py: Check gtk.gdkgl.NoMatches exception and try
+	single-buffered frame buffer.
+
 	* gtk/gdkgl/gdkglext.override (_wrap_gdk_gl_config_new): Raises
 	gtk.gdkgl.NoMatches exception if no frame buffer configurations
 	match the specified attributes.

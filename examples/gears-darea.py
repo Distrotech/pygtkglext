@@ -185,7 +185,10 @@ def draw(glarea, event=None):
 
 	glPopMatrix()
 
-	gldrawable.swap_buffers()
+	if gldrawable.is_double_buffered():
+		gldrawable.swap_buffers()
+	else:
+		glFlush()
 
 def idle():
 	global angle
@@ -270,9 +273,15 @@ print "GLX version = %d.%d" % (major, minor)
 # configure frame buffer
 
 # use GLUT-style display mode bitmask
-glconfig = gtk.gdkgl.Config(mode = gtk.gdkgl.MODE_RGB    |
-			           gtk.gdkgl.MODE_DOUBLE |
-			           gtk.gdkgl.MODE_DEPTH)
+try:
+	# try double-buffered
+	glconfig = gtk.gdkgl.Config(mode = gtk.gdkgl.MODE_RGB    |
+				           gtk.gdkgl.MODE_DOUBLE |
+				           gtk.gdkgl.MODE_DEPTH)
+except gtk.gdkgl.NoMatches:
+	# try single-buffered
+	glconfig = gtk.gdkgl.Config(mode = gtk.gdkgl.MODE_RGB    |
+				           gtk.gdkgl.MODE_DEPTH)
 
 # use GLX-style attribute list
 #glconfig = gtk.gdkgl.Config(attrib_list = (gtk.gdkgl.RGBA,
