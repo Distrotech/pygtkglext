@@ -23,6 +23,9 @@ def realize(glarea):
 	
 	# GL calls
 	if not gldrawable.gl_begin(glcontext): return
+
+	glClearColor(0.0, 0.0, 0.0, 0.0)
+	glClearDepth(1.0)
 	
 	glMaterial(GL_FRONT, GL_AMBIENT,   [0.2, 0.2, 0.2, 1.0])
 	glMaterial(GL_FRONT, GL_DIFFUSE,   [0.8, 0.8, 0.8, 1.0])

@@ -1,5 +1,7 @@
 2003-03-19  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* examples/teapot.py (realize): Clear color and depth.
+
 	* setup.py.in: 
 	* gtk/gdkgl/Makefile.am: 
 	* gtk/gtkgl/Makefile.am: Changed extension module file names to
