@@ -9,5 +9,8 @@ EXTRA_DIST = \
 	MoveLight.py		\
 	teapot2.py		\
 	Shapes.py		\
-	NeHe6Multi.py
+	NeHe6Multi.py	\
+	font.py	\
+	low-level.py	\
+	pixmap.py
 

@@ -10,8 +10,12 @@ Contributors
 
 Alif Wahid  <awah005@users.sourceforge.net>
   * Useful example programs.
-    - PyGtkGLTemplate.py
     - SimpleScene.py
     - MoveLight.py
     - teapot2.py
+    - NeHe6Multi.py
+    - Shapes.py
+    - font.py
+    - low-level.py
+    - pixmap.py
 

@@ -1,3 +1,14 @@
+2003-03-22  Alif Wahid	<awah005@users.sourceforge.net>
+
+	Added new example programs. These are a mappings of the
+	programs that Naofumi wrote for GtkGLExt in C. These
+	should test a few more features of PyGtkGLExt before the
+	next release.
+
+	* examples/font.py: *** currently it's quite patchy, needs fixing. ***
+	* examples/low-level.py
+	* examples/pixmap.py
+
 2003-03-21  Alif Wahid	<awah005@users.sourceforge.net>
 
 	Updated remaining example programs that
