@@ -1,3 +1,14 @@
+2003-04-30  Alif Wahid	<awah005@users.sourceforge.net>
+
+	Added new example program color.py, it's a mapping
+	from C to Python of the color.c program written by
+	Naofumi for GtkGLExt. Currently experimental as some
+	necessary exceptions are not handled yet. I'll add
+	those soon.
+
+	* examples/color.py
+	* examples/Makefile.am: Added new example color.py
+
 2003-04-28  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* Version 0.0.3
