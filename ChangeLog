@@ -1,5 +1,9 @@
 2003-05-12  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* gtk/gdkgl/gdkglext.override (_wrap_gdk_gl_context_copy): 
+	* gtk/gdkgl/gdkglext.defs (gdk_gl_context_copy): 
+	Changed src_glcontext -> src.
+
 	* examples/low-level.py (LowLevelDemo.__unrealize): Destroy
 	rendering context explicitly.
 

@@ -177,7 +177,7 @@
   (c-name "gdk_gl_context_copy")
   (return-type "gboolean")
   (parameters
-    '("GdkGLContext*" "src_glcontext")
+    '("GdkGLContext*" "src")
     '("unsigned-long" "mask" (default "GL_ALL_ATTRIB_BITS"))
   )
 )

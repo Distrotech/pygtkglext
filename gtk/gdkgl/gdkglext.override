@@ -173,8 +173,8 @@ override gdk_gl_context_copy kwargs
 static PyObject *
 _wrap_gdk_gl_context_copy(PyGObject *self, PyObject *args, PyObject *kwargs)
 {
-    static char *kwlist[] = { "src_glcontext", "mask", NULL };
-    PyGObject *src_glcontext;
+    static char *kwlist[] = { "src", "mask", NULL };
+    PyGObject *src;
     PyObject *py_mask = NULL, *py_ret;
     int ret;
     unsigned long mask = GL_ALL_ATTRIB_BITS;
@@ -182,7 +182,7 @@ _wrap_gdk_gl_context_copy(PyGObject *self, PyObject *args, PyObject *kwargs)
     if (!PyArg_ParseTupleAndKeywords(args, kwargs,
                                      "O!|O!:GdkGLContext.copy",
                                      kwlist,
-                                     &PyGdkGLContext_Type, &src_glcontext,
+                                     &PyGdkGLContext_Type, &src,
                                      &PyLong_Type, &py_mask))
         return NULL;
 
@@ -190,7 +190,7 @@ _wrap_gdk_gl_context_copy(PyGObject *self, PyObject *args, PyObject *kwargs)
         mask = PyLong_AsUnsignedLong(py_mask);
 
     ret = gdk_gl_context_copy(GDK_GL_CONTEXT(self->obj),
-                              GDK_GL_CONTEXT(src_glcontext->obj),
+                              GDK_GL_CONTEXT(src->obj),
                               mask);
 
     py_ret = ret ? Py_True : Py_False;
