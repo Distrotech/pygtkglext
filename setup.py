@@ -100,7 +100,7 @@ except ImportError:
     raise SystemExit, \
 'Could not find code generator in %s, do you have installed pygtk correctly?'
 
-if sys.platform == 'win32':
+if (sys.platform == 'win32') and ('--compiler=mingw32' in sys.argv):
     # MSVC compatible struct packing is required.
     # Note gcc2 uses -fnative-struct while gcc3 
     # uses -mms-bitfields. Based on the version
