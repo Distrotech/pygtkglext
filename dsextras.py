@@ -95,11 +95,21 @@ class BuildExt(build_ext):
             print 'using MinGW GCC version %s with %s option' % \
                   (gcc_version, msnative_struct[gcc_version[0]])
             self.extra_compile_args.append(msnative_struct[gcc_version[0]])
-        
+    
+    def modify_compiler(self):
+        if sys.platform == 'win32' and \
+           self.compiler.compiler_type == 'mingw32':
+            # Remove '-static' linker option to prevent MinGW ld
+            # from trying to link with MSVC import libraries.
+            if self.compiler.linker_so.count('-static'):
+                self.compiler.linker_so.remove('-static')
+    
     def build_extensions(self):
         # Init self.extra_compile_args
         self.init_extra_compile_args()
-        # invoke base build_extensions()
+        # Modify default compiler settings
+        self.modify_compiler()
+        # Invoke base build_extensions()
         build_ext.build_extensions(self)
         
     def build_extension(self, ext):
@@ -108,7 +118,7 @@ class BuildExt(build_ext):
         # Generate eventual templates before building
         if hasattr(ext, 'generate'):
             ext.generate()
-        # invoke base build_extension()
+        # Invoke base build_extension()
         build_ext.build_extension(self, ext)
 
 class InstallLib(install_lib):

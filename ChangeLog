@@ -1,3 +1,10 @@
+2003-04-28  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* dsextras.py (BuildExt.modify_compiler): Added to modify default
+	compiler settings. Remove -static linker option if mingw32
+	compiler is used on Win32.
+	(BuildExt.build_extensions): Call self.modify_compiler().
+
 2003-04-27  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* examples/*.py: Check required PyGTK version.
