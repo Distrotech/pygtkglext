@@ -13,7 +13,7 @@ Release: %{rel}
 License: LGPL
 Group: Development/Languages
 URL: http://gtkglext.sourceforge.net/
-Source0: ftp://ftp.sourceforge.net/pub/sourceforge/gtkglext/pygtkglext-%{version}.tar.gz
+Source0: ftp://dl.sourceforge.net/pub/sourceforge/gtkglext/pygtkglext-%{version}.tar.gz
 BuildRoot: %{_tmppath}/pygtkglext-%{version}-root
 
 Requires: gtkglext >= %{gtkglext_req_version}
@@ -58,7 +58,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pygtk/2.0/defs/*
 
 %changelog
-* Sun May 11 2003 Naofumi Yasufuku <naofumi@users.sourceforge.net> 
+* Sun Aug 31 2003 Naofumi Yasufuku <naofumi@users.sourceforge.net>
+- Updated source URL.
+
+* Sun May 11 2003 Naofumi Yasufuku <naofumi@users.sourceforge.net>
 - Initial build.
 
 
