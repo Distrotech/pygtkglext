@@ -15,6 +15,8 @@ void pygdkglext_register_classes(PyObject *d);
 void pygdkglext_add_constants(PyObject *module, const gchar *strip_prefix);
 extern PyMethodDef pygdkglext_functions[];
 
+PyObject *pygdkglext_exc_NoMatches;
+
 DL_EXPORT(void)
 init_gdkgl (void)
 {
@@ -24,6 +26,10 @@ init_gdkgl (void)
 
     m = Py_InitModule("_gdkgl", pygdkglext_functions);
     d = PyModule_GetDict(m);
+
+    /* gtk.gdkgl.NoMatches exception */
+    pygdkglext_exc_NoMatches = PyErr_NewException("gtk.gdkgl.NoMatches", NULL, NULL);
+    PyDict_SetItemString(d, "NoMatches", pygdkglext_exc_NoMatches);
 
     pygdkglext_register_classes(d);
     pygdkglext_add_constants(m, "GDK_GL_");

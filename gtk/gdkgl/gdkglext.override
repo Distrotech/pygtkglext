@@ -10,6 +10,10 @@ headers
 #include <gdk/gdkgl.h>
 
 #include <GL/gl.h>
+
+/* NoMatches exception in gdkglmodule.c */
+extern PyObject *pygdkglext_exc_NoMatches;
+
 %%
 modulename gtk.gdkgl
 %%
@@ -114,8 +118,8 @@ _wrap_gdk_gl_config_new(PyGObject *self, PyObject *args, PyObject *kwargs)
     }
 
     if (!self->obj) {
-        PyErr_SetString(PyExc_RuntimeError,
-                        "could not create GdkGLConfig object");
+        PyErr_SetString(pygdkglext_exc_NoMatches,
+                        "no frame buffer configurations match the specified attributes");
         return -1;
     }
 

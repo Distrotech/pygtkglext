@@ -1,3 +1,11 @@
+2003-03-07  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/gdkglext.override (_wrap_gdk_gl_config_new): Raises
+	gtk.gdkgl.NoMatches exception if no frame buffer configurations
+	match the specified attributes.
+
+	* gtk/gdkgl/gdkglmodule.c: Added gtk.gdkgl.NoMatches exception.
+
 2003-03-06  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* Version 0.0.1
