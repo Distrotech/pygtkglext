@@ -15,7 +15,7 @@ from dsextras import Template, TemplateExtension
 
 MAJOR_VERSION = 0
 MINOR_VERSION = 0
-MICRO_VERSION = 2
+MICRO_VERSION = 3
 
 VERSION = "%d.%d.%d" % (MAJOR_VERSION,
                         MINOR_VERSION,
@@ -28,7 +28,7 @@ API_VERSION = "%d.%d" % (API_MAJOR_VERSION,
                          API_MINOR_VERSION)
 
 GTKGLEXT_PKG = 'gtkglext-1.0'
-GTKGLEXT_REQUIRED_VERSION = '0.7.0'
+GTKGLEXT_REQUIRED_VERSION = '0.99.0'
 
 PYGTK_REQUIRED_VERSION = '1.99.16'
 

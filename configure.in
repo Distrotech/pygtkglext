@@ -4,7 +4,7 @@ AC_PREREQ([2.54])
 # PyGtkGLExt version number
 m4_define([pygtkglext_major_version], [0])
 m4_define([pygtkglext_minor_version], [0])
-m4_define([pygtkglext_micro_version], [2])
+m4_define([pygtkglext_micro_version], [3])
 m4_define([pygtkglext_version],
           [pygtkglext_major_version.pygtkglext_minor_version.pygtkglext_micro_version])
 
@@ -30,7 +30,7 @@ m4_define([gtk_required_version], [2.0.0])
 
 # GtkGLExt
 m4_define([gtkglext_pkg], [gtkglext-1.0])
-m4_define([gtkglext_required_version], [0.7.0])
+m4_define([gtkglext_required_version], [0.99.0])
 
 
 # Process this file with autoconf to produce a configure script.
