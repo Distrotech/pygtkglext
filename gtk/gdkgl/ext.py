@@ -18,32 +18,32 @@
 import gtk.gdk
 from _gdkgl import *
 
-pixmap_ext = [ ( 'set_gl_capability',   pixmap_set_gl_capability ),
-               ( 'unset_gl_capability', pixmap_unset_gl_capability ),
-               ( 'is_gl_capable',       pixmap_is_gl_capable ),
-               ( 'get_gl_pixmap',       pixmap_get_gl_pixmap ),
-               ( 'get_gl_drawable',     pixmap_get_gl_drawable ) ]
+_pixmap_ext = [ ( 'set_gl_capability',   pixmap_set_gl_capability ),
+                ( 'unset_gl_capability', pixmap_unset_gl_capability ),
+                ( 'is_gl_capable',       pixmap_is_gl_capable ),
+                ( 'get_gl_pixmap',       pixmap_get_gl_pixmap ),
+                ( 'get_gl_drawable',     pixmap_get_gl_drawable ) ]
 
-window_ext = [ ( 'set_gl_capability',   window_set_gl_capability ),
-               ( 'unset_gl_capability', window_unset_gl_capability ),
-               ( 'is_gl_capable',       window_is_gl_capable ),
-               ( 'get_gl_window',       window_get_gl_window ),
-               ( 'get_gl_drawable',     window_get_gl_drawable ) ]
+_window_ext = [ ( 'set_gl_capability',   window_set_gl_capability ),
+                ( 'unset_gl_capability', window_unset_gl_capability ),
+                ( 'is_gl_capable',       window_is_gl_capable ),
+                ( 'get_gl_window',       window_get_gl_window ),
+                ( 'get_gl_drawable',     window_get_gl_drawable ) ]
 
-def register_method(obj, name, func):
+def _register_method(obj, name, func):
     setattr(obj, name, lambda *args, **keys: apply(func, (obj,)+args, keys))
 
-def register_ext(obj, ext):
+def _register_ext(obj, ext):
     for (name, func) in ext:
-        register_method(obj, name, func)
+        _register_method(obj, name, func)
     return obj
 
 def ext(gdk_object):
     """Adds OpenGL extension API support to the GDK object.
     """
     if isinstance(gdk_object, gtk.gdk.Pixmap):
-        return register_ext(gdk_object, pixmap_ext)
+        return _register_ext(gdk_object, _pixmap_ext)
     elif isinstance(gdk_object, gtk.gdk.Window):
-        return register_ext(gdk_object, window_ext)
+        return _register_ext(gdk_object, _window_ext)
     return gdk_object
 
