@@ -146,6 +146,7 @@ if __name__ == '__main__':
     glscene = Simple()
 
     glapp = GLApplication(glscene)
+    glapp.set_title('SimpleScene')
 
     #glapp.enable_key_events()
     glapp.enable_button_events()

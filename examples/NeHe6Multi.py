@@ -2,7 +2,7 @@
 
 import sys
 
-from PyGtkGLTemplate import *
+from gtk.gtkgl.apputils import *
 from OpenGL.GL.ARB.multitexture import *
 from math import *
 
@@ -42,18 +42,18 @@ BTW, since this is Python make sure you use tabs or spaces to indent, I had nume
 was using editors that were not sensitive to Python.
 '''
 
-# Implement the GLSceneInterface
+# Implement the GLScene interface
 # to have the NeHe6Multi scene rendered.
 
-class NeHe6Multi (GLSceneInterface):
-	def __init__ (self, width=300, height=300):
+class NeHe6Multi (GLScene):
+    def __init__ (self, width=300, height=300):
 		self.rot = 0.0
 		self.deg_rad = pi/180.0
 		self.width = width
 		self.height = height
 		self.has_printed_note = gtk.FALSE
 
-	def __loadTexture (self, fileName):
+    def __loadTexture (self, fileName):
 		# We use gtk.gdk.Pixbuf instead of
 		# the Python Imaging Library (PIL)
 		# to load up the image required
@@ -94,7 +94,7 @@ class NeHe6Multi (GLSceneInterface):
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
-	def realize (self):
+    def init(self):
 		# Check the extension availability.
 		if not glInitMultitextureARB():
 			print "Help!  No GL_ARB_multitexture"
@@ -121,17 +121,7 @@ class NeHe6Multi (GLSceneInterface):
 		gluPerspective(45.0, float(self.width)/float(self.height), 0.1, 100.0)
 		glMatrixMode(GL_MODELVIEW)
 
-	def configure (self, width, height):
-		self.width = width
-		self.height = height
-
-		glViewport(0, 0, width, height)
-		glMatrixMode(GL_PROJECTION)
-		glLoadIdentity()
-		gluPerspective(45.0, float(width)/float(height), 0.1, 100.0)
-		glMatrixMode(GL_MODELVIEW)
-
-	def expose (self, width, height):
+    def display(self, width, height):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		glLoadIdentity()
 		glTranslatef(0.0,0.0,-5.0)
@@ -186,42 +176,55 @@ class NeHe6Multi (GLSceneInterface):
 
 		glEnd();
 
-	def button_press (self, event, width, height):
-		pass
+    def reshape(self, width, height):
+		self.width = width
+		self.height = height
 
-	def motion_notify (self, event, width, height):
-		pass
+		glViewport(0, 0, width, height)
+		glMatrixMode(GL_PROJECTION)
+		glLoadIdentity()
+		gluPerspective(45.0, float(width)/float(height), 0.1, 100.0)
+		glMatrixMode(GL_MODELVIEW)
 
-	def key_press (self, event, width, height):
-		pass
+    def key_press(self, width, height, event):
+        print "key_press (keyval=%d, state=%d)" \
+              % (event.keyval, event.state)
 
-	def visibility_notify (self, event, width, height):
-		pass
+    def key_release(self, width, height, event):
+        print "key_release (keyval=%d, state=%d)" \
+              % (event.keyval, event.state)
+        if event.keyval == gtk.keysyms.i:
+            self.toggle_idle()
+        elif event.keyval == gtk.keysyms.Escape:
+            gtk.main_quit()
 
-# The idle function to animate
-# the scene continually.
-def NeHe6MultiAnimation (glarea):
-	glarea.scene.rot = (glarea.scene.rot + 0.2) % 360
-	glarea.queue_draw()
-	return gtk.TRUE
+    def button_press(self, width, height, event):
+        print "button_press (button=%d, state=%d, x=%d, y=%d)" \
+              % (event.button, event.state, event.x, event.y)
+
+    def button_release(self, width, height, event):
+        print "button_release (button=%d, state=%d, x=%d, y=%d)" \
+              % (event.button, event.state, event.x, event.y)
+
+    def motion(self, width, height, event):
+        print "motion (state=%d, x=%d, y=%d)" \
+              % (event.state, event.x, event.y)
+
+    def idle(self, width, height):
+		self.rot = (self.rot + 0.2) % 360
+		self.queue_draw()
+
 
 if __name__ == '__main__':
-	width=300
-	height=300
+    glscene = NeHe6Multi()
 
-	win = gtk.Window()
-	win.set_title("Jeff Molofee's GL Code Tutorial ... NeHe '99")
-	win.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-	win.connect('destroy', lambda quit: gtk.main_quit())
+    glapp = GLApplication(glscene)
+    glapp.set_title('NeHe6Multi')
 
-	scene = NeHe6Multi(width, height)
-	glarea = GtkGLScene(scene)
-	glarea.set_size_request(width, height)
-	glarea.show()
+    glapp.enable_key_events()
+    #glapp.enable_button_events()
+    #glapp.enable_button_motion_events()
+    #glapp.enable_pointer_motion_events()
+    glapp.enable_idle()
 
-	win.add(glarea)
-	win.show()
-
-	idle = gtk.idle_add(NeHe6MultiAnimation, glarea)
-	gtk.main()
-	gtk.idle_remove(idle)
+    glapp.run()
