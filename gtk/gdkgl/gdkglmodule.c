@@ -37,16 +37,65 @@ PyObject *pygdkglext_exc_NoMatches;
 DL_EXPORT(void)
 init_gdkgl(void)
 {
-    PyObject *m, *d;
+    PyObject *m, *d, *tuple;
+    PyObject *av;
+    int argc, i;
+    char **argv;
 
     /* initialize GObject */
 
     init_pygobject();
 
+    /* initialize GdkGLExt */
+
+    av = PySys_GetObject("argv");
+    if (av != NULL) {
+	argc = PyList_Size(av);
+	argv = g_new(char *, argc);
+	for (i = 0; i < argc; i++)
+	    argv[i] = g_strdup(PyString_AsString(PyList_GetItem(av, i)));
+    } else {
+        argc = 0;
+        argv = NULL;
+    }
+
+    if (!gdk_gl_init_check(&argc, &argv)) {
+	if (argv != NULL) {
+	    for (i = 0; i < argc; i++)
+		g_free(argv[i]);
+	    g_free(argv);
+	}
+	PyErr_SetString(PyExc_RuntimeError, "OpenGL is not supported");
+	return;
+    }
+
+    if (argv != NULL) {
+	PySys_SetArgv(argc, argv);
+	for (i = 0; i < argc; i++)
+	    g_free(argv[i]);
+	g_free(argv);
+    }
+
     /* initialize gtk.gdkgl module */
 
     m = Py_InitModule("_gdkgl", pygdkglext_functions);
     d = PyModule_GetDict(m);
+
+    /* GdkGLExt version */
+    tuple = Py_BuildValue("(iii)",
+                          gdkglext_major_version,
+                          gdkglext_minor_version,
+                          gdkglext_micro_version);
+    PyDict_SetItemString(d, "gdkglext_version", tuple);    
+    Py_DECREF(tuple);
+
+    /* PyGdkGLExt version */
+    tuple = Py_BuildValue("(iii)",
+                          PYGTKGLEXT_MAJOR_VERSION,
+                          PYGTKGLEXT_MINOR_VERSION,
+                          PYGTKGLEXT_MICRO_VERSION);
+    PyDict_SetItemString(d, "pygdkglext_version", tuple);
+    Py_DECREF(tuple);
 
     /* gtk.gdkgl.NoMatches exception */
     pygdkglext_exc_NoMatches = PyErr_NewException("gtk.gdkgl.NoMatches",

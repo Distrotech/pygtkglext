@@ -1,3 +1,10 @@
+2003-04-13  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/low-level.py: Don't import gtk.gtkgl module.
+
+	* gtk/gdkgl/gdkglmodule.c (init_gdkgl): Initialize GdkGLExt
+	library. Added version information.
+
 2003-04-13  Alif Wahid	<awah005@users.sourceforge.net>
 
 	Win32 build fix to take account of GCC version to

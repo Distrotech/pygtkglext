@@ -102,7 +102,7 @@ except ImportError:
 
 if sys.platform == 'win32':
     # MSVC compatible struct packing is required.
-    # Note gcc2 uses -fnative-struct while gcc3
+    # Note gcc2 uses -fnative-struct while gcc3 
     # uses -mms-bitfields. Based on the version
     # the proper flag is used below.
     flag_dict = { '2' : '-fnative-struct', '3' : '-mms-bitfields' }

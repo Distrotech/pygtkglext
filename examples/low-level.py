@@ -8,7 +8,6 @@
 
 import gtk
 import gtk.gdk
-import gtk.gtkgl
 import gtk.gdkgl
 
 from OpenGL.GL import *
