@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.2
 
-# This is a mapping between the pixmap_mixed.c program written
+# This is a mapping between the pixmap-mixed.c program written
 # by Naofumi for GtkGLExt. I've changed that to Python in an
 # OO manner. It's a simple test that mixes OpenGL and GDK drawing
 # calls using a GdkPixmap. In the end we end up with a black 
