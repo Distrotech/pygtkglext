@@ -100,18 +100,6 @@ except ImportError:
     raise SystemExit, \
 'Could not find code generator in %s, do you have installed pygtk correctly?'
 
-if (sys.platform == 'win32') and ('--compiler=mingw32' in sys.argv):
-    # MSVC compatible struct packing is required.
-    # Note gcc2 uses -fnative-struct while gcc3
-    # uses -mms-bitfields. Based on the version
-    # the proper flag is used below.
-    flag_dict = { '2' : '-fnative-struct', '3' : '-mms-bitfields' }
-    gcc_version = getoutput('gcc -dumpversion')
-    extra_compile_args = [ flag_dict[gcc_version[0]] ]
-    print 'Using GCC version %s with the %s flag' % (gcc_version, flag_dict[gcc_version[0]])
-else:
-    extra_compile_args = None
-
 gdkglext = TemplateExtension(name='gdkglext',
                              pkc_name=GTKGLEXT_PKG,
                              pkc_version=GTKGLEXT_REQUIRED_VERSION,
@@ -120,8 +108,7 @@ gdkglext = TemplateExtension(name='gdkglext',
                              sources=['gtk/gdkgl/gdkglmodule.c',
                                       'gtk/gdkgl/gdkglext.c'],
                              register=GTKDEFS,
-                             override='gtk/gdkgl/gdkglext.override',
-                             extra_compile_args=extra_compile_args)
+                             override='gtk/gdkgl/gdkglext.override')
 
 gtkglext = TemplateExtension(name='gtkglext',
                              pkc_name=GTKGLEXT_PKG,
@@ -131,8 +118,7 @@ gtkglext = TemplateExtension(name='gtkglext',
                              sources=['gtk/gtkgl/gtkglmodule.c',
                                       'gtk/gtkgl/gtkglext.c'],
                              register=GTKDEFS + ['gtk/gdkgl/gdkglext-types.defs'],
-                             override='gtk/gtkgl/gtkglext.override',
-                             extra_compile_args=extra_compile_args)
+                             override='gtk/gtkgl/gtkglext.override')
 
 data_files = []
 ext_modules = []

@@ -1,3 +1,11 @@
+2003-04-14  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* dsextras.py (BuildExt.init_extra_compile_args) 
+	(BuildExt.build_extensions, BuildExt.build_extension): Now MSVC
+	compatible struct GCC option is automatically added by BuildExt.
+
+	* setup.py.in: extra_compile_args parameter is no longer needed.
+
 2003-04-13  Alif Wahid	<awah005@users.sourceforge.net>
 
 	* setup.py.in

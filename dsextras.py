@@ -81,10 +81,34 @@ def pkgc_version_check(name, longname, req_version):
         return 0
 
 class BuildExt(build_ext):
+    def init_extra_compile_args(self):
+        self.extra_compile_args = []
+        if sys.platform == 'win32' and \
+           self.compiler.compiler_type == 'mingw32':
+            # MSVC compatible struct packing is required.
+            # Note gcc2 uses -fnative-struct while gcc3 
+            # uses -mms-bitfields. Based on the version
+            # the proper flag is used below.
+            msnative_struct = { '2' : '-fnative-struct',
+                                '3' : '-mms-bitfields' }
+            gcc_version = getoutput('gcc -dumpversion')
+            print 'using MinGW GCC version %s with %s option' % \
+                  (gcc_version, msnative_struct[gcc_version[0]])
+            self.extra_compile_args.append(msnative_struct[gcc_version[0]])
+        
+    def build_extensions(self):
+        # Init self.extra_compile_args
+        self.init_extra_compile_args()
+        # invoke base build_extensions()
+        build_ext.build_extensions(self)
+        
     def build_extension(self, ext):
+        # Add self.extra_compile_args to ext.extra_compile_args
+        ext.extra_compile_args += self.extra_compile_args
         # Generate eventual templates before building
         if hasattr(ext, 'generate'):
             ext.generate()
+        # invoke base build_extension()
         build_ext.build_extension(self, ext)
 
 class InstallLib(install_lib):
