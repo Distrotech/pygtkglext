@@ -1,3 +1,9 @@
+2003-09-06  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/ext.py: 
+	* gtk/gtkgl/widget.py: 
+	* gtk/gtkgl/apputils.py: Added __all__ module attribute.
+
 2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* gtk/gdkgl/ext.py (_pixmap_ext, _window_ext, _register_method) 

@@ -18,11 +18,12 @@
 import gtk
 from _gtkgl import *
 
+__all__ = ["Widget", "DrawingArea"]
+
 ### Mixin class for OpenGL-capable widgets
 
 class Widget(object):
-    """Mixin class for OpenGL-capable widgets.
-    """
+    """Mixin class for OpenGL-capable widgets. """
     
     def __init__(self):
         raise NotImplementedError, \
@@ -55,8 +56,7 @@ class Widget(object):
 ### OpenGL-capable gtk.DrawingArea
 
 class DrawingArea(gtk.DrawingArea, Widget):
-    """OpenGL-capable gtk.DrawingArea.
-    """
+    """OpenGL-capable gtk.DrawingArea."""
     
     def __init__(self, glconfig=None, share_list=None, direct=gtk.TRUE,
                  render_type=gtk.gdkgl.RGBA_TYPE):
