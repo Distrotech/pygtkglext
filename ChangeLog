@@ -1,3 +1,12 @@
+2003-05-01  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* examples/teapot2.py (TeapotWindow.__init__): 
+	* examples/Shapes.py (ShapesWindow.__init__): 
+	* examples/SimpleScene.py: 
+	* examples/MoveLight.py: 
+	* examples/NeHe6Multi.py: Add gtk.gdkgl.MODE_DEPTH to the default
+	display mode.
+
 2003-05-01  Alif Wahid  <awah005@users.sourceforge.net>
 
 	* gtk/gtkgl/apputils.py (GLApplication.__init__): Don't set

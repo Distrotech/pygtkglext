@@ -118,6 +118,7 @@ class TeapotWindow (gtk.Window):
 		# GLArea widget to
 		# display it.
 		self.teapot = Teapot()
+		GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
 		self.glarea = GLArea(self.teapot)
 		self.glarea.set_size_request(300,300)
 		self.glarea.show()

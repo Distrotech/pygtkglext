@@ -135,6 +135,9 @@ class Simple (GLScene):
 
 
 if __name__ == '__main__':
+	# add MODE_DEPTH to the default display mode
+	GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
+    
 	glscene = Simple()
 
 	glapp = GLApplication(glscene)

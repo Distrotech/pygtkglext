@@ -244,6 +244,7 @@ class ShapesWindow (gtk.Window):
 		# GLArea widget to
 		# display it.
 		self.shape = Shapes()
+		GLArea.default_display_mode |= gtk.gdkgl.MODE_DEPTH
 		self.glarea = GLArea(self.shape)
 		self.glarea.set_size_request(300,300)
 		self.glarea.show()
