@@ -29,16 +29,16 @@ class PixmapDemo(object):
         self.glcontext = None
         self.gldrawable = None
         self.pixmap = None
-	
+        
         self.initialised = gtk.FALSE
-	
+        
         self.display_mode = gtk.gdkgl.MODE_RGB    | \
                             gtk.gdkgl.MODE_DEPTH  | \
                             gtk.gdkgl.MODE_SINGLE
-	
+        
         # Query the OpenGL extension version.
         print "OpenGL extension version - %d.%d\n" % gtk.gdkgl.query_version()
-	
+        
         # Try to create a single buffered framebuffer,
         # if not successful then exit.
         try:
@@ -51,8 +51,8 @@ class PixmapDemo(object):
         self.win.set_title('pixmap')
         self.win.set_colormap(self.glconfig.get_colormap())
         if sys.platform != 'win32':
-	    self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-	self.win.set_reallocate_redraws(gtk.TRUE)
+            self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
+        self.win.set_reallocate_redraws(gtk.TRUE)
         
         # In the pixmap.c program you'll find that the
         # toplevel window is connected to the 'delete_event'

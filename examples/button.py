@@ -91,7 +91,7 @@ class ButtonDemo (object):
 
         # OpenGL begin.
         if not gldrawable.gl_begin(glcontext):
-	    return
+            return
 
         # Lighting properties.
         light_ambient = [0.0, 0.0, 0.0, 1.0]
