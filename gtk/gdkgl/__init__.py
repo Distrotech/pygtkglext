@@ -19,4 +19,5 @@ import gobject
 del gobject
 
 from _gdkgl import *
+from ext import *
 

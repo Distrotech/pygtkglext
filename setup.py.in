@@ -128,7 +128,7 @@ if gdkglext.can_build():
     ext_modules.append(gdkglext)
     data_files.append((DEFS_DIR, ('gtk/gdkgl/gdkglext.defs',
                                   'gtk/gdkgl/gdkglext-types.defs')))
-    py_modules += ['gtk.gdkgl.__init__']
+    py_modules += ['gtk.gdkgl.__init__', 'gtk.gdkgl.ext']
 
 if gtkglext.can_build():
     ext_modules.append(gtkglext)

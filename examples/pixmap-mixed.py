@@ -112,10 +112,11 @@ class PixmapMixedDemo(object):
     def __configure_event(self, widget, event):
         # We have to realize an offscreen OpenGL drawable.
         width, height = widget.window.get_size()
-        self.pixmap = gtk.gdk.Pixmap(widget.window, width, height,
-                                     self.glconfig.get_depth())
-        self.gldrawable = gtk.gdkgl.pixmap_set_gl_capability(self.pixmap,
-                                                             self.glconfig)
+        # Create gtk.gdk.Pixmap with OpenGL extension API support.
+        self.pixmap = gtk.gdkgl.ext(gtk.gdk.Pixmap(widget.window,
+                                                   width, height,
+                                                   self.glconfig.get_depth()))
+        self.gldrawable = self.pixmap.set_gl_capability(self.glconfig)
         
         # Then create an indirect OpenGL rendering context.
         if not self.glcontext:

@@ -19,7 +19,7 @@ else
 common_ldflags = -module -avoid-version
 endif
 
-pygdkgl_PYTHON = __init__.py
+pygdkgl_PYTHON = __init__.py ext.py
 
 pygdkglexec_LTLIBRARIES = _gdkgl.la
 

@@ -1,3 +1,20 @@
+2003-09-03  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
+
+	* gtk/gdkgl/ext.py: New gtk.gdkgl.ext() function to add OpenGL
+	extension API support to the Gdk object.
+	e.g. pixmap = gtk.gdkgl.ext(gtk.gdkgl.Pixmap(...))
+	     glpixmap = pixmap.set_gl_capability(glconfig)
+	     pixmap.is_gl_capable()
+
+	* gtk/gdkgl/__init__.py: Import ext module.
+
+	* setup.py.in: 
+	* gtk/gdkgl/Makefile.am (pygdkgl_PYTHON): Added ext.py.
+
+	* examples/pixmap-mixed.py (PixmapMixedDemo.__configure_event): 
+	* examples/pixmap.py (PixmapDemo.__configure_event): Use
+	gtk.gdkgl.ext().
+
 2003-08-23  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
 	* Version 0.99.1
