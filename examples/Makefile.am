@@ -12,5 +12,6 @@ EXTRA_DIST = \
 	NeHe6Multi.py		\
 	font.py			\
 	low-level.py		\
-	pixmap.py
+	pixmap.py		\
+	pixmap-mixed.py
 

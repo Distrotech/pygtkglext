@@ -18,4 +18,5 @@ Alif Wahid  <awah005@users.sourceforge.net>
     - font.py
     - low-level.py
     - pixmap.py
+    - pixmap-mixed.py
 
