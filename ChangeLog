@@ -1,6 +1,10 @@
+2003-04-04  Alif Wahid	<awah005@users.sourceforge.net>
+
+	* setup.py.in: Win32 build fix to take account of GCC version
+
 2003-04-12  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
-	* dsextras.py: 
+	* dsextras.py:
 	* setup.py.in: Win32 build fix.
 
 2003-04-04  Alif Wahid	<awah005@users.sourceforge.net>
