@@ -106,7 +106,7 @@ if sys.platform == 'win32':
     # uses -mms-bitfields. Based on the version
     # the proper flag is used below.
     flag_dict = { '2' : '-fnative-struct', '3' : '-mms-bitfields' }
-    gcc_version = getoutput('gcc --version')
+    gcc_version = getoutput('gcc -dumpversion')
     extra_compile_args = [ flag_dict[gcc_version[0]] ]
     print 'Using GCC version %s with the %s flag' % (gcc_version, flag_dict[gcc_version[0]])
 else:

@@ -1,5 +1,7 @@
 2003-04-13  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* setup.py.in: Changed 'gcc --version' to 'gcc -dumpversion'.
+
 	* examples/low-level.py: Don't import gtk.gtkgl module.
 
 	* gtk/gdkgl/gdkglmodule.c (init_gdkgl): Initialize GdkGLExt
