@@ -1,5 +1,7 @@
 2003-09-06  Naofumi Yasufuku  <naofumi@users.sourceforge.net>
 
+	* gtk/gtkgl/apputils.py: Import pygtk.
+
 	* gtk/gdkgl/ext.py: 
 	* gtk/gtkgl/widget.py: Added __all__ module attribute.
 
