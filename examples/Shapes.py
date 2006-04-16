@@ -69,7 +69,7 @@ class Shapes(GLScene,
         self.colourFg = [1.0, 0.0, 0.0]
         self.colourBg = self.guiBg
         
-        self.is_solid = gtk.FALSE
+        self.is_solid = False
         
         self.__drawShape = { 'Helicoid'     : self.__draw_helicoid,
                              'Teapot'       : self.__draw_teapot,
@@ -209,10 +209,10 @@ class Shapes(GLScene,
         pass
     
     def button_motion(self, width, height, event):
-        if event.state & gtk.gdk.BUTTON1_MASK:
+        if event.state == gtk.gdk.BUTTON1_MASK:
             self.rotx = self.rotx + ((event.y-self.beginy)/width)*360.0
             self.roty = self.roty + ((event.x-self.beginx)/height)*360.0
-        elif event.state & gtk.gdk.BUTTON2_MASK:
+        elif event.state == gtk.gdk.BUTTON2_MASK:
             self.depth = self.depth - ((event.y-self.beginy)/(height))*50.0;
         
         if self.depth > 130.0: self.depth = 130.0;
@@ -240,7 +240,7 @@ class ShapesWindow(gtk.Window):
         self.connect('destroy', lambda quit: gtk.main_quit())
         if sys.platform != 'win32':
             self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.set_reallocate_redraws(gtk.TRUE)
+        self.set_reallocate_redraws(True)
         
         # Create the table that will hold everything.
         self.table = gtk.Table(3, 3)
@@ -306,7 +306,7 @@ class ShapesWindow(gtk.Window):
                           xoptions=gtk.FILL, yoptions=gtk.FILL)
         
         # A box to hold some control interface stuff.
-        self.cbox = gtk.HBox(gtk.TRUE, spacing=10)
+        self.cbox = gtk.HBox(True, spacing=10)
         self.cbox.show()
         self.table.attach(self.cbox, 1, 2, 2, 3,
                           xoptions=gtk.FILL, yoptions=gtk.FILL)
@@ -324,12 +324,12 @@ class ShapesWindow(gtk.Window):
         self.colourButtonFg = gtk.Button('Foreground')
         self.colourButtonFg.connect('clicked', self.changeColourFg)
         self.colourButtonFg.show()
-        self.fbox1.pack_start(self.colourButtonFg, expand=gtk.TRUE, padding=5)
+        self.fbox1.pack_start(self.colourButtonFg, expand=True, padding=5)
         
         self.colourButtonBg = gtk.Button('Background')
         self.colourButtonBg.connect('clicked', self.changeColourBg)
         self.colourButtonBg.show()
-        self.fbox1.pack_start(self.colourButtonBg, expand=gtk.TRUE, padding=5)
+        self.fbox1.pack_start(self.colourButtonBg, expand=True, padding=5)
         
         # A frame holding menu and checkbutton for
         # changing the current shape attributes.
@@ -341,29 +341,23 @@ class ShapesWindow(gtk.Window):
         self.fbox2.set_border_width(10)
         self.fbox2.show()
         self.shapeFrame.add(self.fbox2)
-        
         # This is the option menu that lets the
         # user change the shape.
-        self.shapeMenu = gtk.Menu()
+        self.shapeOptions = gtk.combo_box_new_text()
         for shape in self.shape.availableShapes:
-            item = gtk.MenuItem(shape)
-            item.show()
-            self.shapeMenu.append(item)
-        self.shapeOptions = gtk.OptionMenu()
-        self.shapeOptions.set_menu(self.shapeMenu)
-        self.shapeOptions.set_history(0)
-        self.shape.currentShape = self.shape.availableShapes[0]
+            self.shapeOptions.append_text(shape)
         self.shapeOptions.connect('changed', self.shapeChanged)
+        self.shapeOptions.set_active(0)
         self.shapeOptions.show()
-        self.fbox2.pack_start(self.shapeOptions, expand=gtk.TRUE, padding=5)
+        self.fbox2.pack_start(self.shapeOptions, expand=True, padding=5)
         
         self.solidButton = gtk.CheckButton('Solid Shape')
         self.solidButton.connect('toggled', self.shapeSolidityToggled)
         self.solidButton.show()
-        self.fbox2.pack_start(self.solidButton, expand=gtk.TRUE, padding=5)
+        self.fbox2.pack_start(self.solidButton, expand=True, padding=5)
     
     def shapeChanged(self, option):
-        self.shape.currentShape = self.shape.availableShapes[option.get_history()]
+        self.shape.currentShape = self.shape.availableShapes[self.shapeOptions.get_active()]
         self.glarea.queue_draw()
     
     def shapeSolidityToggled(self, button):
@@ -375,7 +369,7 @@ class ShapesWindow(gtk.Window):
         dialog.set_transient_for(self)
         
         colorsel = dialog.colorsel
-        colorsel.set_has_palette(gtk.TRUE)
+        colorsel.set_has_palette(True)
         
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
@@ -390,7 +384,7 @@ class ShapesWindow(gtk.Window):
         dialog.set_transient_for(self)
         
         colorsel = dialog.colorsel
-        colorsel.set_has_palette(gtk.TRUE)
+        colorsel.set_has_palette(True)
         
         response = dialog.run()
         if response == gtk.RESPONSE_OK:

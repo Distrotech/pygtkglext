@@ -97,11 +97,11 @@ class MoveLight(GLScene,
         glTranslated(0.0, 0.0, 1.5)
         glDisable(GL_LIGHTING)
         glColor3f(0.0, 1.0, 1.0)
-        gtk.gdkgl.draw_cube(gtk.FALSE, 0.1)
+        gtk.gdkgl.draw_cube(False, 0.1)
         glEnable(GL_LIGHTING)
         glPopMatrix()
         
-        gtk.gdkgl.draw_torus(gtk.TRUE, 0.275, 0.85, 8, 15)
+        gtk.gdkgl.draw_torus(True, 0.275, 0.85, 8, 15)
         glPopMatrix()
 
     def reshape(self, width, height):

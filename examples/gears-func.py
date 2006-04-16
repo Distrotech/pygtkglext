@@ -14,6 +14,7 @@ import sys
 import pygtk
 pygtk.require('2.0')
 import gtk
+import gobject
 import gtk.gtkgl
 
 from OpenGL.GL import *
@@ -179,7 +180,7 @@ def draw(glarea, event):
     
     gldrawable.gl_end()
     
-    return gtk.TRUE
+    return True
 
 def reshape(glarea, event):
     # get GLContext and GLDrawable
@@ -207,7 +208,7 @@ def reshape(glarea, event):
     
     gldrawable.gl_end()
     
-    return gtk.TRUE
+    return True
 
 def init(glarea):
     # get GLContext and GLDrawable
@@ -257,14 +258,14 @@ def idle(glarea):
     global angle
     angle = angle + 2.0
     # Invalidate whole window.
-    glarea.window.invalidate_rect(glarea.allocation, gtk.FALSE)
+    glarea.window.invalidate_rect(glarea.allocation, False)
     # Update window synchronously (fast).
-    glarea.window.process_updates(gtk.FALSE)
-    return gtk.TRUE
+    glarea.window.process_updates(False)
+    return True
 
 def map(glarea, event):
-    gtk.idle_add(idle, glarea)
-    return gtk.TRUE
+    gobject.idle_add(idle, glarea)
+    return True
 
 def xchange(adj):
     global view_rotx
@@ -329,9 +330,9 @@ win.set_title("Gears")
 
 if sys.platform != 'win32':
     win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-win.set_reallocate_redraws(gtk.TRUE)
+win.set_reallocate_redraws(True)
 
-win.connect('destroy', gtk.mainquit)
+win.connect('destroy', gtk.main_quit)
 
 #
 # gtk.Table
@@ -383,5 +384,5 @@ for row, label, start, cb in ((1, "X Rotation", view_rotx, xchange),
 
 win.show()
 
-gtk.mainloop()
+gtk.main()
 

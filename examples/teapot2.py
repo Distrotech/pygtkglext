@@ -28,7 +28,7 @@ class Teapot(GLScene,
         self.rotx = 0
         self.roty = 0
         
-        self.is_solid = gtk.FALSE
+        self.is_solid = False
         
         self.beginx = 0
         self.beginy = 0
@@ -103,7 +103,7 @@ class TeapotWindow(gtk.Window):
         self.set_title('Teapot')
         if sys.platform != 'win32':
             self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.set_reallocate_redraws(gtk.TRUE)
+        self.set_reallocate_redraws(True)
         self.connect('destroy', lambda quit: gtk.main_quit())
         
         # Create the table.
@@ -147,15 +147,15 @@ class TeapotWindow(gtk.Window):
     
     def vchanged(self, vadj):
         self.teapot.rotx = vadj.value
-        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
+        self.glarea.window.invalidate_rect(self.glarea.allocation, False)
     
     def hchanged(self, hadj):
         self.teapot.roty = hadj.value
-        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
+        self.glarea.window.invalidate_rect(self.glarea.allocation, False)
     
     def toggled(self, button):
         self.teapot.is_solid = not self.teapot.is_solid
-        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
+        self.glarea.window.invalidate_rect(self.glarea.allocation, False)
     
     def run(self):
         self.show()

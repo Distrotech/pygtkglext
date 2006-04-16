@@ -43,16 +43,16 @@ class ColorManagementDemo(object):
             # Try to allocate non-writeable and perfect match colours.
             try:
                 colormap = self.glconfig.get_colormap()
-                self.BLACK = colormap.alloc_color(0x0, 0x0, 0x0, gtk.FALSE, gtk.FALSE)
-                self.RED = colormap.alloc_color(0xffff, 0x0, 0x0, gtk.FALSE, gtk.FALSE)
+                self.BLACK = colormap.alloc_color(0x0, 0x0, 0x0, False, False)
+                self.RED = colormap.alloc_color(0xffff, 0x0, 0x0, False, False)
                 # Raise this dummy exception for testing to
                 # see if switching to RGB mode occurs
                 # properly. Currently commented out, but
                 # uncomment if necessary for testing.
                 #
                 #raise RuntimeError
-                self.GREEN = colormap.alloc_color(0x0, 0xffff, 0x0, gtk.FALSE, gtk.FALSE)
-                self.BLUE = colormap.alloc_color(0x0, 0x0, 0xffff, gtk.FALSE, gtk.FALSE)
+                self.GREEN = colormap.alloc_color(0x0, 0xffff, 0x0, False, False)
+                self.BLUE = colormap.alloc_color(0x0, 0x0, 0xffff, False, False)
                 self.render_type = gtk.gdkgl.COLOR_INDEX_TYPE
             except RuntimeError:
                 print 'Could not allocate colours in Index mode.'
@@ -70,7 +70,7 @@ class ColorManagementDemo(object):
         self.win.set_title('color')
         if sys.platform != 'win32':
             self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.win.set_reallocate_redraws(gtk.TRUE)
+        self.win.set_reallocate_redraws(True)
         self.win.connect('destroy', lambda quit: gtk.main_quit())
 
         # VBox to hold everything.
@@ -91,7 +91,7 @@ class ColorManagementDemo(object):
         # A quit button.
         button = gtk.Button('Quit')
         button.connect('clicked', lambda quit: self.win.destroy())
-        vbox.pack_start(button, expand=gtk.FALSE)
+        vbox.pack_start(button, expand=False)
         button.show()
 
     def __create_Color_objects (self):
@@ -130,7 +130,7 @@ class ColorManagementDemo(object):
         # OpenGL end
         gldrawable.gl_end()
         
-        return gtk.TRUE
+        return True
     
     def __expose_event(self, widget, event):
         # Get GLContext and GLDrawable
@@ -164,7 +164,7 @@ class ColorManagementDemo(object):
         # OpenGL end
         gldrawable.gl_end()
         
-        return gtk.TRUE
+        return True
     
     def run(self):
         self.win.show()

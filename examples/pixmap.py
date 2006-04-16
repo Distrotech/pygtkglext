@@ -86,21 +86,21 @@ class PixmapDrawingArea(gtk.DrawingArea):
         # Then create an indirect OpenGL rendering context.
         if not self.glcontext:
             self.glcontext = gtk.gdkgl.Context(gldrawable,
-                                               direct=gtk.FALSE)
+                                               direct=False)
             if not self.glcontext:
                 raise SystemExit, "** Cannot create OpenGL rendering context!"
             print "OpenGL rendering context is created."
             # Init flag.
-            self.glcontext.is_initialized = gtk.FALSE
+            self.glcontext.is_initialized = False
 
         # OpenGL begin
         if not gldrawable.gl_begin(self.glcontext):
-            return gtk.FALSE
+            return False
 
         if not self.glcontext.is_initialized:
             print "Initialize OpenGL rendering context."
             self._init_gl()
-            self.glcontext.is_initialized = gtk.TRUE
+            self.glcontext.is_initialized = True
 
         glViewport(0, 0, self.allocation.width, self.allocation.height)
 
@@ -112,7 +112,7 @@ class PixmapDrawingArea(gtk.DrawingArea):
         # OpenGL end
         gldrawable.gl_end()
 
-        return gtk.FALSE
+        return False
 
     def _on_expose_event(self, widget, event):
         # The expose function is rather trivial
@@ -122,7 +122,7 @@ class PixmapDrawingArea(gtk.DrawingArea):
         gc = widget.get_style().fg_gc[gtk.STATE_NORMAL]
         self.window.draw_drawable(gc, self.pixmap, x, y, x, y, width, height)
         
-        return gtk.FALSE
+        return False
 
     def _on_unrealize(self, *args):
         print "Unref pixmap and glcontext."
@@ -138,7 +138,7 @@ class PixmapDemo(gtk.Window):
         gtk.Window.__init__(self)
 
         self.set_title('pixmap')
-        self.connect('delete_event', gtk.mainquit)
+        self.connect('delete_event', gtk.main_quit)
 
         # VBox to hold everything.
         vbox = gtk.VBox()
@@ -176,8 +176,8 @@ class PixmapDemo(gtk.Window):
 
         # A quit button.
         button = gtk.Button('Quit')
-        button.connect('clicked', gtk.mainquit)
-        vbox.pack_start(button, expand=gtk.FALSE)
+        button.connect('clicked', gtk.main_quit)
+        vbox.pack_start(button, expand=False)
 
     def _on_quit(self, drawing_area):
         # Unrealize drawing_area to destroy the rendering context explicitly.

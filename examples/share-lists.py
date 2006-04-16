@@ -44,7 +44,7 @@ class ShareListsDemo(object):
         self.win.set_title('share-lists')
         if sys.platform != 'win32':
             self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.win.set_reallocate_redraws(gtk.TRUE)
+        self.win.set_reallocate_redraws(True)
         self.win.set_border_width(10)
         self.win.connect('destroy', lambda quit: gtk.main_quit())
 
@@ -62,7 +62,7 @@ class ShareListsDemo(object):
         glarea.connect_after('realize', self.__realize_main, red)
         glarea.connect('configure_event', self.__configure_event)
         glarea.connect('expose_event', self.__expose_event)
-        vbox.pack_start(glarea, expand=gtk.TRUE, fill=gtk.TRUE, padding=5)
+        vbox.pack_start(glarea, expand=True, fill=True, padding=5)
         glarea.show()
 
         # Get OpenGL context.
@@ -78,7 +78,7 @@ class ShareListsDemo(object):
         glarea.connect_after('realize', self.__realize, green)
         glarea.connect('configure_event', self.__configure_event)
         glarea.connect('expose_event', self.__expose_event)
-        vbox.pack_start(glarea, expand=gtk.TRUE, fill=gtk.TRUE, padding=5)
+        vbox.pack_start(glarea, expand=True, fill=True, padding=5)
         glarea.show()
 
         # DrawingArea-3 for OpenGL rendering (sub: shares display list).
@@ -90,13 +90,13 @@ class ShareListsDemo(object):
         glarea.connect_after('realize', self.__realize, blue)
         glarea.connect('configure_event', self.__configure_event)
         glarea.connect('expose_event', self.__expose_event)
-        vbox.pack_start(glarea, expand=gtk.TRUE, fill=gtk.TRUE, padding=5)
+        vbox.pack_start(glarea, expand=True, fill=True, padding=5)
         glarea.show()
 
         # A quit button.
         button = gtk.Button('Quit')
         button.connect('clicked', lambda quit: self.win.destroy())
-        vbox.pack_start(button, expand=gtk.FALSE, fill=gtk.FALSE, padding=5)
+        vbox.pack_start(button, expand=False, fill=False, padding=5)
         button.show()
 
     def __init_gl (self, light_diffuse):
@@ -174,7 +174,7 @@ class ShareListsDemo(object):
         # OpenGL end
         gldrawable.gl_end()
         
-        return gtk.TRUE
+        return True
 
     def __expose_event(self, widget, event):
         # Get GLContext and GLDrawable
@@ -197,7 +197,7 @@ class ShareListsDemo(object):
         # OpenGL end
         gldrawable.gl_end()
 
-        return gtk.TRUE
+        return True
 
     def run(self):
         self.win.show()

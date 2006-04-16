@@ -33,7 +33,7 @@ class LowLevelDrawingArea(gtk.DrawingArea):
         # Set colormap for OpenGL visual.
         self.set_colormap(glconfig.get_colormap())
         # Disable gtk.Widget's double-buffering feature.
-        self.set_double_buffered(gtk.FALSE)
+        self.set_double_buffered(False)
 
         self.glconfig = glconfig
         self.gldrawable = None
@@ -111,25 +111,25 @@ class LowLevelDrawingArea(gtk.DrawingArea):
         # GtkDrawingArea sends a configure event
         # when it's being realized. So we'll
         # wait till it's been fully realized.
-        if not self.gldrawable: return gtk.FALSE
+        if not self.gldrawable: return False
 
         # OpenGL begin
         if not self.gldrawable.gl_begin(self.glcontext):
-            return gtk.FALSE
+            return False
 
         glViewport(0, 0, self.allocation.width, self.allocation.height)
 
         # OpenGL end
         self.gldrawable.gl_end()
 
-        return gtk.FALSE
+        return False
 
     def _on_expose_event(self, *args):
         print "_on_expose_event()"
 
         # OpenGL begin
         if not self.gldrawable.gl_begin(self.glcontext):
-            return gtk.FALSE
+            return False
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glCallList(1)
@@ -142,7 +142,7 @@ class LowLevelDrawingArea(gtk.DrawingArea):
         # OpenGL end
         self.gldrawable.gl_end()
 
-        return gtk.FALSE
+        return False
 
     def _on_unrealize(self, *args):
         print "_on_unrealize()"
@@ -164,8 +164,8 @@ class LowLevelDemo(gtk.Window):
         self.set_title('low-level')
         if sys.platform != 'win32':
             self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.set_reallocate_redraws(gtk.TRUE)
-        self.connect('delete_event', gtk.mainquit)
+        self.set_reallocate_redraws(True)
+        self.connect('delete_event', gtk.main_quit)
 
         # VBox to hold everything.
         vbox = gtk.VBox()
@@ -206,8 +206,8 @@ class LowLevelDemo(gtk.Window):
         # A quit button.
         button = gtk.Button('Quit')
         # Destroy window on quit explicitly.
-        button.connect('clicked', gtk.mainquit)
-        vbox.pack_start(button, expand=gtk.FALSE)
+        button.connect('clicked', gtk.main_quit)
+        vbox.pack_start(button, expand=False)
 
     def _on_quit(self, drawing_area):
         print "_on_quit()"

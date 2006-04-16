@@ -18,7 +18,7 @@ from OpenGL.GLU import *
 rotx = 0
 roty = 0
 
-is_solid = gtk.FALSE
+is_solid = False
 
 def realize(glarea):
     # get GLContext and GLDrawable
@@ -76,7 +76,7 @@ def configure_event(glarea, event):
     
     gldrawable.gl_end()
     
-    return gtk.TRUE
+    return True
 
 
 def expose_event(glarea, event):
@@ -105,25 +105,25 @@ def expose_event(glarea, event):
     
     gldrawable.gl_end()
     
-    return gtk.TRUE
+    return True
 
 
 def vchanged(vadj, glarea):
     global rotx
     rotx = vadj.value
-    glarea.window.invalidate_rect(glarea.allocation, gtk.FALSE)
+    glarea.window.invalidate_rect(glarea.allocation, False)
 
 
 def hchanged(hadj, glarea):
     global roty
     roty = hadj.value
-    glarea.window.invalidate_rect(glarea.allocation, gtk.FALSE)
+    glarea.window.invalidate_rect(glarea.allocation, False)
 
 
 def toggled(button, glarea):
     global is_solid
     is_solid = not is_solid
-    glarea.window.invalidate_rect(glarea.allocation, gtk.FALSE)
+    glarea.window.invalidate_rect(glarea.allocation, False)
 
 
 #
@@ -177,9 +177,9 @@ win.set_title("Teapot")
 
 if sys.platform != 'win32':
     win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-win.set_reallocate_redraws(gtk.TRUE)
+win.set_reallocate_redraws(True)
 
-win.connect('destroy', gtk.mainquit)
+win.connect('destroy', gtk.main_quit)
 
 #
 # gtk.Table
@@ -239,5 +239,5 @@ button.show()
 
 win.show()
 
-gtk.mainloop()
+gtk.main()
 

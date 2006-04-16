@@ -14,6 +14,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.gtkgl
+import gobject
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -41,7 +42,7 @@ class ButtonDemo (object):
         self.win.set_title('Button with Bouncing Torus')
         if sys.platform != 'win32':
             self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.win.set_reallocate_redraws(gtk.TRUE)
+        self.win.set_reallocate_redraws(True)
         self.win.set_border_width(10)
         self.win.connect('destroy', lambda quit: gtk.main_quit())
 
@@ -66,7 +67,7 @@ class ButtonDemo (object):
         self.vbox = gtk.VBox()
         self.vbox.set_border_width(10)
         self.vbox.pack_start(self.glarea)
-        self.vbox.pack_start(self.label, gtk.FALSE, gtk.FALSE, 10)
+        self.vbox.pack_start(self.label, False, False, 10)
         self.vbox.show()
 
         # The toggle button itself.
@@ -81,7 +82,7 @@ class ButtonDemo (object):
         self.angle = 0.0
         self.pos_y = 0.0
 
-        self.__enable_timeout = gtk.TRUE
+        self.__enable_timeout = True
         self.__timeout_interval = 10
         self.__timeout_id = 0
 
@@ -171,7 +172,7 @@ class ButtonDemo (object):
         glMaterialfv (GL_FRONT, GL_DIFFUSE, mat_diffuse)
         glMaterialfv (GL_FRONT, GL_SPECULAR, mat_specular)
         glMaterialf (GL_FRONT, GL_SHININESS, mat_shininess)
-        gtk.gdkgl.draw_torus (gtk.TRUE, 0.3, 0.6, 30, 30)
+        gtk.gdkgl.draw_torus (True, 0.3, 0.6, 30, 30)
         glPopMatrix ()
 
         if gldrawable.is_double_buffered():
@@ -194,31 +195,31 @@ class ButtonDemo (object):
         self.pos_y = 2.0 * (math.sin (t) + 0.4 * math.sin (3.0*t)) - 1.0
 
         # Invalidate whole window.
-        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
+        self.glarea.window.invalidate_rect(self.glarea.allocation, False)
         # Update window synchronously (fast).
-        self.glarea.window.process_updates(gtk.FALSE)
+        self.glarea.window.process_updates(False)
 
-        return gtk.TRUE
+        return True
 
     def __timeout_add(self):
         if self.__timeout_id == 0:
-            self.__timeout_id = gtk.timeout_add(self.__timeout_interval,
+            self.__timeout_id = gobject.timeout_add(self.__timeout_interval,
                                                 self.__timeout,
                                                 self.glarea)
 
     def __timeout_remove(self):
         if self.__timeout_id != 0:
-            gtk.timeout_remove(self.__timeout_id)
+            gobject.source_remove(self.__timeout_id)
             self.__timeout_id = 0
 
     def __map_event(self, widget, event):
         if self.__enable_timeout:
             self.__timeout_add()
-        return gtk.TRUE
+        return True
 
     def __unmap_event(self, widget, event):
         self.__timeout_remove()
-        return gtk.TRUE
+        return True
 
     def __visibility_notify_event(self, widget, event):
         if self.__enable_timeout:
@@ -226,7 +227,7 @@ class ButtonDemo (object):
                 self.__timeout_remove()
             else:
                 self.__timeout_add()
-        return gtk.TRUE
+        return True
 
     def toggle_animation(self, widget):
         self.__enable_timeout = not self.__enable_timeout;
@@ -235,7 +236,7 @@ class ButtonDemo (object):
         else:
             self.__timeout_remove()
             self.glarea.window.invalidate_rect(self.glarea.allocation,
-                                               gtk.FALSE)
+                                               False)
 
     def run (self):
         self.win.show()

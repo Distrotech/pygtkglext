@@ -94,18 +94,18 @@ class Simple(GLScene):
         glPushMatrix()
         glTranslatef(-0.75, 0.5, 0.0);
         glRotatef(90.0, 1.0, 0.0, 0.0)
-        gtk.gdkgl.draw_torus(gtk.TRUE, 0.275, 0.85, 15, 15)
+        gtk.gdkgl.draw_torus(True, 0.275, 0.85, 15, 15)
         glPopMatrix()
         
         glPushMatrix()
         glTranslatef(-0.75, -0.5, 0.0);
         glRotatef(270.0, 1.0, 0.0, 0.0)
-        gtk.gdkgl.draw_cone(gtk.TRUE, 1.0, 2.0, 15, 15)
+        gtk.gdkgl.draw_cone(True, 1.0, 2.0, 15, 15)
         glPopMatrix()
         
         glPushMatrix()
         glTranslatef(0.75, 0.0, -1.0)
-        gtk.gdkgl.draw_sphere(gtk.TRUE, 1.0, 15, 15)
+        gtk.gdkgl.draw_sphere(True, 1.0, 15, 15)
         glPopMatrix()
         glPopMatrix()
     

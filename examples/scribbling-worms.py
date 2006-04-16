@@ -49,7 +49,7 @@ try:
 except:
     # Show a message dialog before exiting.
     dlg = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Threading enabled PyGtk required")
-    dlg.set_resizable(gtk.FALSE)
+    dlg.set_resizable(False)
     dlg.set_position(gtk.WIN_POS_CENTER)
     dlg.run()
     raise SystemExit
@@ -194,11 +194,11 @@ class ScribblingWormsDemo (gtk.Window, Thread):
         # A frame containing new worm properties.
         self.prop_frame = gtk.Frame("New Worm Properties")
         self.prop_frame.set_label_align(0.02, 0.5)
-        self.vbox.pack_start(self.prop_frame, expand=gtk.FALSE, fill=gtk.FALSE, padding=5)
+        self.vbox.pack_start(self.prop_frame, expand=False, fill=False, padding=5)
         self.prop_frame.show()
 
         # A table inside the frame.
-        self.prop_table = gtk.Table(2,2, gtk.TRUE)
+        self.prop_table = gtk.Table(2,2, True)
         self.prop_table.set_border_width(5)
         self.prop_table.set_col_spacings(3)
         self.prop_frame.add(self.prop_table)
@@ -226,13 +226,13 @@ class ScribblingWormsDemo (gtk.Window, Thread):
 
         # A button for clearing the screen.
         self.cls_button = gtk.Button("Clear Screen")
-        self.vbox.pack_start(self.cls_button, expand=gtk.FALSE, fill=gtk.FALSE)
+        self.vbox.pack_start(self.cls_button, expand=False, fill=False)
         self.cls_button.connect("clicked", self.__clear_screen)
         self.cls_button.show()
 
         # A button to let the user create new worms.
         self.new_button = gtk.Button("Create New Worm")
-        self.vbox.pack_start(self.new_button, expand=gtk.FALSE, fill=gtk.FALSE)
+        self.vbox.pack_start(self.new_button, expand=False, fill=False)
         self.new_button.connect("clicked", self.__start_new_thread)
         self.new_button.show()
 

@@ -92,14 +92,14 @@ class SimpleMixedDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
 
         # OpenGL begin
         if not gldrawable.gl_begin(glcontext):
-            return gtk.FALSE
+            return False
 
         glViewport(0, 0, self.allocation.width, self.allocation.height)
 
         # OpenGL end
         gldrawable.gl_end()
 
-        return gtk.FALSE
+        return False
 
     def _on_expose_event(self, *args):
         # Obtain a reference to the OpenGL drawable
@@ -109,7 +109,7 @@ class SimpleMixedDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
 
         # OpenGL begin
         if not gldrawable.gl_begin(glcontext):
-            return gtk.FALSE
+            return False
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -118,7 +118,7 @@ class SimpleMixedDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
 
         # Draw a black rectangle using GDK.
         width, height = gldrawable.get_size()
-        gldrawable.draw_rectangle(self.get_style().black_gc, gtk.TRUE,
+        gldrawable.draw_rectangle(self.get_style().black_gc, True,
                                   width/10, height/10,
                                   width*8/10, height*8/10)
 
@@ -138,7 +138,7 @@ class SimpleMixedDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         # OpenGL end
         gldrawable.gl_end()
 
-        return gtk.FALSE
+        return False
 
 
 class SimpleMixedDemo(gtk.Window):
@@ -150,8 +150,8 @@ class SimpleMixedDemo(gtk.Window):
         self.set_title('simple-mixed')
         if sys.platform != 'win32':
             self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.set_reallocate_redraws(gtk.TRUE)
-        self.connect('delete_event', gtk.mainquit)
+        self.set_reallocate_redraws(True)
+        self.connect('delete_event', gtk.main_quit)
 
         # VBox to hold everything.
         vbox = gtk.VBox()
@@ -186,8 +186,8 @@ class SimpleMixedDemo(gtk.Window):
 
         # A quit button.
         button = gtk.Button('Quit')
-        button.connect('clicked', gtk.mainquit)
-        vbox.pack_start(button, expand=gtk.FALSE)
+        button.connect('clicked', gtk.main_quit)
+        vbox.pack_start(button, expand=False)
 
 
 class _Main(object):

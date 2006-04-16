@@ -48,13 +48,13 @@ class ScribbleGLDemo (gtk.Window):
 
         # A button for clearing the screen.
         self.cls_button = gtk.Button("Clear Screen")
-        self.vbox.pack_start(self.cls_button, expand=gtk.FALSE, fill=gtk.FALSE)
+        self.vbox.pack_start(self.cls_button, expand=False, fill=False)
         self.cls_button.connect("clicked", self.__clear_screen)
         self.cls_button.show()
 
         # A quit button.
         self.quit_button = gtk.Button("Quit")
-        self.vbox.pack_start(self.quit_button, expand=gtk.FALSE, fill=gtk.FALSE)
+        self.vbox.pack_start(self.quit_button, expand=False, fill=False)
         self.quit_button.connect("clicked", lambda quit: self.destroy())
         self.quit_button.show()
 

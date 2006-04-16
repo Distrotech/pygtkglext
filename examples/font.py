@@ -38,7 +38,7 @@ class FontDemo(object):
         self.win.set_title('simple')
         if sys.platform != 'win32':
             self.win.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.win.set_reallocate_redraws(gtk.TRUE)
+        self.win.set_reallocate_redraws(True)
         self.win.connect('destroy', lambda quit: gtk.main_quit())
 
         # VBox to hold everything.
@@ -59,7 +59,7 @@ class FontDemo(object):
         # A quit button.
         self.button = gtk.Button('Quit')
         self.button.connect('clicked', lambda quit: self.win.destroy())
-        self.vbox.pack_start(self.button, expand=gtk.FALSE)
+        self.vbox.pack_start(self.button, expand=False)
         self.button.show()
 
         self.fontString = 'courier 12'

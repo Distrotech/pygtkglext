@@ -23,6 +23,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.gtkgl
+import gobject
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -40,10 +41,10 @@ class GLSceneBase(object):
         self.glarea.queue_draw()
 
     def invalidate(self):
-        self.glarea.window.invalidate_rect(self.glarea.allocation, gtk.FALSE)
+        self.glarea.window.invalidate_rect(self.glarea.allocation, False)
 
     def update(self):
-        self.glarea.window.process_updates(gtk.FALSE)
+        self.glarea.window.process_updates(False)
 
     def timeout_is_enabled(self):
         return self.glarea.timeout_is_enabled()
@@ -162,7 +163,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
     """OpenGL drawing area widget."""
 
     def __init__(self, glscene, glconfig=None, share_list=None,
-                 direct=gtk.TRUE, render_type=gtk.gdkgl.RGBA_TYPE):
+                 direct=True, render_type=gtk.gdkgl.RGBA_TYPE):
         gtk.DrawingArea.__init__(self)
 
         assert isinstance(glscene, GLScene), "glscene must be GLScene"
@@ -202,18 +203,18 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
 
         # Enable timeout
         if isinstance(self.glscene, GLSceneTimeout):
-            self.__enable_timeout = gtk.TRUE
+            self.__enable_timeout = True
             self.__timeout_interval = self.glscene.timeout_interval
         else:
-            self.__enable_timeout = gtk.FALSE
+            self.__enable_timeout = False
             self.__timeout_interval = 30
         self.__timeout_id = 0
 
         # Enable idle
         if isinstance(self.glscene, GLSceneIdle):
-            self.__enable_idle = gtk.TRUE
+            self.__enable_idle = True
         else:
-            self.__enable_idle = gtk.FALSE
+            self.__enable_idle = False
         self.__idle_id = 0
 
         self.connect('map_event',               self.__map_event)
@@ -241,7 +242,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         # Call glscene.init()
         self.glscene.init()
         gldrawable.gl_end()
-        return gtk.TRUE
+        return True
 
     def __configure_event(self, widget, event):
         """'configure_event' signal handler.
@@ -254,7 +255,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         self.glscene.reshape(widget.allocation.width,
                              widget.allocation.height)
         gldrawable.gl_end()
-        return gtk.TRUE
+        return True
 
     def __expose_event(self, widget, event):
         """'expose_event' signal handler.
@@ -272,7 +273,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         else:
             glFlush()
         gldrawable.gl_end()
-        return gtk.TRUE
+        return True
 
     def __key_press_event(self, widget, event):
         """'key_press_event' signal handler.
@@ -282,7 +283,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         self.glscene.key_press(widget.allocation.width,
                                widget.allocation.height,
                                event)
-        return gtk.TRUE
+        return True
 
     def __key_release_event(self, widget, event):
         """'key_release_event' signal handler.
@@ -292,7 +293,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         self.glscene.key_release(widget.allocation.width,
                                  widget.allocation.height,
                                  event)
-        return gtk.TRUE
+        return True
 
     def __button_press_event(self, widget, event):
         """'button_press_event' signal handler.
@@ -306,7 +307,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
                                   widget.allocation.height,
                                   event)
         gldrawable.gl_end()
-        return gtk.TRUE
+        return True
 
     def __button_release_event(self, widget, event):
         """'button_release_event' signal handler.
@@ -320,7 +321,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
                                     widget.allocation.height,
                                     event)
         gldrawable.gl_end()
-        return gtk.TRUE
+        return True
 
     def __motion_notify_event(self, widget, event):
         """'motion_notify_event' signal handler.
@@ -342,7 +343,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
             self.glscene.pointer_motion(widget.allocation.width,
                                         widget.allocation.height,
                                         event)
-        return gtk.TRUE
+        return True
 
     ## Timeout function management
 
@@ -353,14 +354,14 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         # Call glscene.timeout()
         self.glscene.timeout(widget.allocation.width,
                              widget.allocation.height)
-        return gtk.TRUE
+        return True
 
     def __timeout_add(self):
         """Add timeout function.
         """
         if isinstance(self.glscene, GLSceneTimeout):
             if self.__timeout_id == 0:
-                self.__timeout_id = gtk.timeout_add(self.__timeout_interval,
+                self.__timeout_id = gobject.timeout_add(self.__timeout_interval,
                                                     self.__timeout,
                                                     self)
 
@@ -368,7 +369,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         """Remove timeout function.
         """
         if self.__timeout_id != 0:
-            gtk.timeout_remove(self.__timeout_id)
+            gobject.source_remove(self.__timeout_id)
             self.__timeout_id = 0
 
     def timeout_is_enabled(self):
@@ -395,20 +396,20 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         # Call glscene.idle()
         self.glscene.idle(widget.allocation.width,
                           widget.allocation.height)
-        return gtk.TRUE
+        return True
 
     def __idle_add(self):
         """Add idle function.
         """
         if isinstance(self.glscene, GLSceneIdle):
             if self.__idle_id == 0:
-                self.__idle_id = gtk.idle_add(self.__idle, self)
+                self.__idle_id = gobject.idle_add(self.__idle, self)
 
     def __idle_remove(self):
         """Remove idle function.
         """
         if self.__idle_id != 0:
-            gtk.idle_remove(self.__idle_id)
+            gobject.source_remove(self.__idle_id)
             self.__idle_id = 0
 
     def idle_is_enabled(self):
@@ -437,14 +438,14 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         if self.__enable_idle:
             self.__idle_add()
 
-        return gtk.TRUE
+        return True
 
     def __unmap_event(self, widget, event):
         """'unmap_event' signal handler.
         """
         self.__timeout_remove()
         self.__idle_remove()
-        return gtk.TRUE
+        return True
 
     def __visibility_notify_event(self, widget, event):
         """'visibility_notify_event' signal handler.
@@ -461,7 +462,7 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
             else:
                 self.__idle_add()
 
-        return gtk.TRUE
+        return True
 
 
 ### Simple OpenGL application driver
@@ -474,8 +475,8 @@ class GLApplication(gtk.Window):
         self.set_title(name)
         if sys.platform != 'win32':
             self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
-        self.set_reallocate_redraws(gtk.TRUE)
-        self.connect('destroy', gtk.mainquit)
+        self.set_reallocate_redraws(True)
+        self.connect('destroy', gtk.main_quit)
 
         self.glarea = GLArea(glscene)
         self.glarea.set_size_request(300, 300)

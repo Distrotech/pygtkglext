@@ -29,7 +29,7 @@ class Widget(object):
         raise NotImplementedError, \
               "%s is an abstract base class" % (self.__class__)
     
-    def set_gl_capability(self, glconfig, share_list=None, direct=gtk.TRUE,
+    def set_gl_capability(self, glconfig, share_list=None, direct=True,
                           render_type=gtk.gdkgl.RGBA_TYPE):
         return widget_set_gl_capability(self, glconfig, share_list,
                                         direct, render_type)
@@ -40,7 +40,7 @@ class Widget(object):
     def get_gl_config(self):
         return widget_get_gl_config(self)
     
-    def create_gl_context(self, share_list=None, direct=gtk.TRUE,
+    def create_gl_context(self, share_list=None, direct=True,
                           render_type=gtk.gdkgl.RGBA_TYPE):
         return widget_create_gl_context(self, share_list, direct, render_type)
     
@@ -58,7 +58,7 @@ class Widget(object):
 class DrawingArea(gtk.DrawingArea, Widget):
     """OpenGL-capable gtk.DrawingArea."""
     
-    def __init__(self, glconfig=None, share_list=None, direct=gtk.TRUE,
+    def __init__(self, glconfig=None, share_list=None, direct=True,
                  render_type=gtk.gdkgl.RGBA_TYPE):
         gtk.DrawingArea.__init__(self)
         if glconfig:
