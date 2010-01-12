@@ -117,6 +117,12 @@ class GLSceneButton(object):
         """
         raise NotImplementedError, "must be implemented."
 
+    def button_scroll(self, width, height, event):
+        """Process button scroll event.
+        This function is invoked on 'scroll_event' signal.
+        """
+        raise NotImplementedError, "must be implemented."
+
 
 class GLSceneButtonMotion(object):
     """Button motion event interface mixin."""
@@ -188,8 +194,10 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         if isinstance(self.glscene, GLSceneButton):
             self.connect('button_press_event',   self.__button_press_event)
             self.connect('button_release_event', self.__button_release_event)
+            self.connect('scroll_event', self.__button_scroll_event)
             self.add_events(gtk.gdk.BUTTON_PRESS_MASK   |
-                            gtk.gdk.BUTTON_RELEASE_MASK)
+                            gtk.gdk.BUTTON_RELEASE_MASK |
+                            gtk.gdk.SCROLL_MASK)
 
         # Add motion events
         self.__motion_events = 0
@@ -320,6 +328,20 @@ class GLArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         self.glscene.button_release(widget.allocation.width,
                                     widget.allocation.height,
                                     event)
+        gldrawable.gl_end()
+        return True
+
+    def __button_scroll_event(self, widget, event):
+        """'button_scroll_event' signal handler.
+        This function invokes glscene.button_scroll().
+        """
+        glcontext = widget.get_gl_context()
+        gldrawable = widget.get_gl_drawable()
+        if not gldrawable.gl_begin(glcontext): return
+        # Call glscene.button_scroll()
+        self.glscene.button_scroll(widget.allocation.width,
+                                   widget.allocation.height,
+                                   event)
         gldrawable.gl_end()
         return True
 
@@ -535,6 +557,10 @@ class EmptyScene(GLScene,
     def button_release(self, width, height, event):
         print "button_release (button=%d, state=%d, x=%d, y=%d)" \
               % (event.button, event.state, event.x, event.y)
+
+    def button_scroll(self, width, height, event):
+        print "button_scroll (direction=%d, state=%d, x=%d, y=%d)" \
+              % (event.direction, event.state, event.x, event.y)
 
     def button_motion(self, width, height, event):
         print "button_motion (state=%d, x=%d, y=%d)" \
